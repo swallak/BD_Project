@@ -1,0 +1,37 @@
+Proprietes elementaires :
+pseudo, nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance (connecte, joue) ?
+idPartie, dateDemarrage, joueur1, joueur2, vainqueur (null si partie non terminée ?)
+idBateau, taille, pivot, orientation, PV
+idAction, tourAction, typeMouvement (divise en quatre types), idActionTir, idActionDepl, cibleTir
+nomBateau
+
+Dependances fonctionnelles :
+pseudo -> (nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance)
+idPartie ->  (dateDemarrage, joueur1, joueur2, vainqueur)
+nomBateau ->  taille
+(idPartie, idBateau) -> (nomBateau, pivot, orientation, PV, pseudo)
+(idPartie, idAction) -> (tourAction, idBateau)
+(idPartie, idActionDepl) ->  (tourAction, typeMouvement, idBateau)
+(idPartie, idActionTir) -> (tourAction, cibleTir, idBateau) 
+
+Contraintes de valeur :
+dateDemarrage >= une certaine date credible (date de creation de l'appli)
+dateNaissance >= une date credible 
+numero >= 0
+codePostal > 0
+taille = 2 ou 3
+PV >= 0
+typeMouvement € {droite, gauche, avancer, reculer}
+pivot, orientation et taille => bateau dans la grille.
+vainqueur = joueur1 ou joueur2
+
+Contraintes de multiplicite :
+Un joueur a un destoyer
+Un joueur a 1 ou 2 escorteurs
+un joueur ne peut jouer qu'une partie à la fois
+un joueur ne peut observer qu'une partie à la fois
+chaque partie a 0(partie non terminée) ou un vainqueur (partie terminée)
+
+Autres contraintes :
+un joueur ne peut pas observer et joueur en même temps
+deux bateaux ne peuvent pas se superposer.
