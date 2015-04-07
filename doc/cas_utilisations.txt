@@ -1,0 +1,61 @@
+S'inscrire :
+        L'utilisateur entre l'ensemble des informations nécessaire à son inscription.
+        S'il n'y a pas de problèmes, l'utilisateur est crée.
+        Si le pseudo choisi existe déjà, on invite l'utilisateur à choisir un
+        autre pseudo.
+
+S'identifier :
+        L'utilisateur entre son pseudo puis sa date de naissance. Si les informations
+        correspondent à un joueur inscrit, l'utilisateur est connecté et arrive
+        sur l'écran d'acceuil de l'application.
+        S'il y a une erreur, l'utilisateur en est informé.
+
+Demander à jouer :
+        A partir de l'écran d'acceuil, l'utilisateu peut indiquer qu'il souhaite joueur. Dès
+        qu'un joueur a été selectionné pour jouer avec lui, le joueur arrive sur l'écran de jeu.
+
+Jouer :
+        Correspond à la phase de jeu de l'application. Chaque joueur joue chacun son tour.
+        Chaque tour dispose d'un nombre d'actions limité.
+
+Choisir bateaux :
+        Avant le début de la partie le joueur doit selectionner les bateaux avec lesquels il
+        souhaite jouer.
+
+Placer bateaux :
+        Une fois les bateaux choisis, le joueur doit les placer sur sa carte. Il indique ensuite
+        qu'il est pret.
+
+Deplacer bateaux :
+        Lors de son tour de jeu, le joueur peut choisir de déplacer un bateau. Il selectionne
+        alors le bateau souhaité puis choisi l'action. Il peut avancer, tourner à droite, à gauche
+        ou reculer.
+        Le mouvement doit être réalisable.
+        Cela compte comme une action dans le tour courant et ne peut pas être réalisé si ce nombre
+        est atteint.
+
+Tirer :
+        Lors de son tour de jeu, le joueur peut choisir de tirer. Il selectionne alors le bateau
+        avec lequel il souhaite tirer puis sa cible sur la carte adverse. 
+        Cela compte comme une action dans le tour courant et ne peut pas être réalisé si ce nombre
+        est atteint.
+
+Abandonner :
+        Lorsqu'il est sur une partie, un joueur peut décider d'abandoner.
+        La partie est terminée et son adversaire est déclaré vainqueur.
+
+Rafraîchir :
+        Lorsque ce n'est pas son tour de jeu, le joueur peut rafraichir. Si son adversaire a terminé toutes ses actions, le joueur les reçoit et c'est alors à lui de jouer.
+
+Observer :
+        A partir de l'écran d'acceuil un utilisateur voit la liste des parties en cours et peut
+        choisir d'en observer une.
+
+Voir coup suivant :
+        Lorsqu'il observe une partie, l'utilisateur peut voir le coup suivant en cliquant
+        sur le bouton correspondant. S'il n'y a pas eu de coup entre temps, rien ne se passe.
+
+
+Voir replay :
+        Lorsqu'il observe une partie, l'utilisateur peut consulter les actions précédentes
+        en utilisant un bouton début et suivant.
