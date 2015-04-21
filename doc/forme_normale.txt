@@ -1,0 +1,2 @@
+Le schéma est en 1ère forme normale parce que tous les attributs sont de type atomique, i.e. il n'y a pas de liste.
+
