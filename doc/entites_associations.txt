@@ -1,0 +1,24 @@
+Schéma Entités/Associations
+
+1. Introduction 
+
+Introduction ici
+
+Schéma ici
+
+2. Explication du schéma
+
+Chaque bateau a un type, identifié par son nom. Les bateaux de même type ont toujours la même taille. Le type est représenté par l'entité TypeBateau, liée aux bateaux par l'association aPourType.
+
+Une action d'un bateau peut être soit une action de déplacement, soit une action de tir. Ces deux possibilités sont representées par les sous-types ActionDeplacement et ActionTir de l'entité Action, avec les contraintes adéquates sur l'héritage ({Obligatoire, Ou} pour partionner l'ensemble d'actions).
+
+Comme les bateaux et les actions doivent forcement être associés à une partie pour exister, ils sont représentés par les entités faibles Bateau et Action liées à Partie. 
+
+3. Contraintes non représentées
+
+Le schéma Entités/Associations ne représente pas toutes les contraintes identifiées dans l'analyse statique. Les contraintes de valeur ne sont pas considerées dans cette partie de la conception de la base de données. La pluspart des contraintes de multiplicités sont traduites en associations dans le schéma. Cependant, certain d'entre eux ne sont pas représentées, telles que :
+
+    * la vérification du nombre de bateaux de chaque type (destroyers et escorteurs) qui appartient à un joueur dans une partie;
+    * la validité des actions et des positions des bateaux (deux bateaux ne peuvent pas se superposer et un bateau ne peut pas tirer en dehors de la grille, par exemple).
+
+Ces contraintes seront prises en compte plus tard dans la conception de la base de données.
