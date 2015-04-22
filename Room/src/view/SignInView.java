@@ -5,7 +5,6 @@
  */
 package view;
 
-import controller.LogInController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -14,13 +13,15 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+import controller.LogInController;
+import javax.swing.JPanel;
 
 /**
  *
  * @author swallak
  */
+
 public class SignInView extends JPanel {
     
 
@@ -83,22 +84,13 @@ public class SignInView extends JPanel {
         //gc.anchor=GridBagConstraints.PAGE_END;
         gc.anchor=GridBagConstraints.CENTER;
         gc.gridwidth=GridBagConstraints.REMAINDER;
-        //gc.fill= GridBagConstraints.HORIZONTAL;
-               
-        
-
-        
-        
-        
-        
-        
+        //gc.fill= GridBagConstraints.HORIZONTAL;   
         add(connectButton,gc);
-        
+
         gc.gridy=3;
         gc.weighty=10;
         gc.anchor=GridBagConstraints.PAGE_START;
         add(createAccountButton,gc);
       
     }
-
 }

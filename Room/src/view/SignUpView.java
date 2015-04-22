@@ -6,12 +6,14 @@
 package view;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author swallak
  */
-public class SignUpView {
+public class SignUpView extends JPanel{
+
     
     private final JLabel pseudoLabel = new JLabel ("Pseudo  ");
     private final JLabel birthdayLabel = new JLabel("Birthday  ");

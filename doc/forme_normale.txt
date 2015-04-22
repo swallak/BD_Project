@@ -1,2 +1,110 @@
-Le schéma est en 1ère forme normale parce que tous les attributs sont de type atomique, i.e. il n'y a pas de liste.
+Formes Normales
 
+Pour chaque relation obtenue à partir du schéma entité-association, on vérifie sa forme normale en regardant les dépendances fonctionnelles associées à elle. Pour être plus concis, nous disons ici qu'elles sont toutes en 1ère forme normale parce que tous ses attributs sont de type atomique.
+
+## Bateau
+
+Bateau:
+idBateau(pk)
+idPartie(pk)
+pseudo(fk)
+taille
+pivot
+orientation
+pointVie
+
+(idPartie, idBateau) -> taille
+(idPartie, idBateau) -> pivot
+(idPartie, idBateau) -> orientation
+(idPartie, idBateau) -> pointVie
+(idPartie, idBateau) -> pseudo
+
+Attributs clefs : idPartie, idBateau
+Attributs non-clefs : taille, pivot, orientation, pointVie, pseudo
+
+Chaque attribut non-clef est pleinement dépendant de la clef {idPartie, idBateau}, alors la relation est en 2ème forme normale (2FN).
+Chaque attribut non-clef ne dépend que des attributs clefs, alors la relation est en 3ème forme normale (3FN).
+Toutes les dépendances fonctionnelles contiennent la clef {idPartie, idBateau} en partie gauche, alors la relation est en forme normale de Boyce-Codd-Kent (3FNBCK).
+
+## Partie
+
+Partie:
+idPartie(pk)
+dateDemarage
+
+idPartie -> dateDemarrage
+
+## Joueur
+
+Joueur:
+pseudo(pk)
+nom
+prenom
+dateNaissance
+adrRue
+adrNumero
+adrCodePostal
+adrCodePostal
+adrVille
+
+pseudo -> nom
+pseudo -> prenom 
+pseudo -> mail
+pseudo -> numero
+pseudo -> rue
+pseudo -> codePostal
+pseudo -> ville
+pseudo -> dateNaissance
+
+## Action
+
+Action:
+idAction(clef primaire)
+idPartie(clef primaire)
+idBateau(clef étrangère)
+pseudo(clef étrangère)
+tour
+
+(idPartie, idAction) -> tourAction
+(idPartie, idAction) -> idBateau
+(idPartie, idAction) -> pseudo
+
+# ActionDeplacement
+
+ActionDeplacement:
+idAction(clef primaire)
+idPartie(clef primaire)
+tour
+typeDeplacement
+
+(idPartie, idAction) -> tour
+(idPartie, idAction) -> typeMouvement
+(idPartie, idAction) -> idBateau
+
+# ActionTir
+
+ActionTir:
+idAction(clef primaire)
+idPartie(clef primaire)
+tour
+cibleTir
+
+(idPartie, idActionTir) -> tour
+(idPartie, idActionTir) -> cibleTir
+(idPartie, idActionTir) -> idBateau
+
+# Vainqueurs
+
+Vainqueurs:
+idPartie(clef primaire)
+pseudo(clef étrangère)
+
+Pas de dépendance fonctionnelle
+
+# JoueursParPartie
+
+JouersParPartie:
+pseudo(clef primaire)
+idPartie(clef primaire)
+
+Pas de dépendance fonctionnelle
