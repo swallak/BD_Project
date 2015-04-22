@@ -1,19 +1,19 @@
 ---------------------------------------------------------------------------------
 Bateau:
-idBateau(clef)
-idPartie(clef)
-pseudo(clef)
+idBateau(clef primaire)
+idPartie(clef primaire)
+pseudo(clef étrangère)
 taille
 pivot
 orientation
 pointVie
 ---------------------------------------------------------------------------------
 Partie:
-idPartie(clef)
+idPartie(clef primaire)
 dateDemarage
 ---------------------------------------------------------------------------------
 Joueur:
-pseudo(clef)
+pseudo(clef primaire)
 nom
 prenom
 dateNaissance
@@ -24,27 +24,27 @@ adrCodePostal
 adrVille
 ---------------------------------------------------------------------------------
 Action:
-idAction(clef)
-idPartie(clef)
-idBateau(clef)
+idAction(clef primaire)
+idPartie(clef primaire)
+idBateau(clef étrangère)
 tour
 ---------------------------------------------------------------------------------
 ActionDeplacement:
-idAction(clef)
-idPartie(clef)
+idAction(clef primaire)
+idPartie(clef primaire)
 tour
 typeDeplacement
 ---------------------------------------------------------------------------------
 ActionTir:
-idAction(clef)
-idPartie(clef)
+idAction(clef primaire)
+idPartie(clef primaire)
 tour
 cibleTir
 ---------------------------------------------------------------------------------
 Vainqueurs:
-idPartie(clef)
-pseudo
+idPartie(clef primaire)
+pseudo(clef étrangère)
 ---------------------------------------------------------------------------------
 JouersParPartie:
-pseudo(clef)
-idPartie(clef)
+pseudo(clef primaire)
+idPartie(clef primaire)
