@@ -3,16 +3,16 @@ Propriétés élémentaires :
 	pseudo, nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance
 	idPartie, dateDemarrage
 	idBateau, pivotX, pivotY, orientation, PV, taille
-	idAction, tourAction, typeMouvement, idActionTir, idActionDepl, cibleTirX, cibleTirY
+	idAction, tour, typeMouvement, idActionTir, idActionDepl, cibleTirX, cibleTirY
 
 Dépendances fonctionnelles :
 
 	pseudo -> (nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance)
 	idPartie -> (dateDemarrage)
 	(idPartie, idBateau) -> (taille, pivotX, pivotY, orientation, pointVie, pseudo)
-	(idPartie, idAction) -> (tourAction, idBateau)
-	(idPartie, idActionDepl) -> (tourAction, typeMouvement, idBateau)
-	(idPartie, idActionTir) -> (tourAction, cibleTirX, cibleTirY, idBateau) 
+	(idPartie, idAction) -> (tour, idBateau, idJoueur)
+	(idPartie, idActionDepl) -> (tour, typeMouvement, idBateau)
+	(idPartie, idActionTir) -> (tour, cibleTirX, cibleTirY, idBateau) 
 
 Contraintes de valeur :
 
@@ -26,6 +26,7 @@ Contraintes de valeur :
 	orientation € {nord, sud, est, ouest}
 	pivot, orientation, taille => bateau dans la grille.
 	cibleTir => dans la grille
+	tour > 0
 
 Contraintes de multiplicité :
 
