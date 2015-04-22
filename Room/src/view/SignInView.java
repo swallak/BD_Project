@@ -8,6 +8,8 @@ package view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -35,12 +37,12 @@ public class SignInView extends JPanel {
         
         //SignInView components
         
-        JLabel pseudoLabel = new JLabel("Pseudo");
-        JLabel birthdayLabel = new JLabel("Birthday");
+        JLabel pseudoLabel = new JLabel("Pseudo  ");
+        JLabel birthdayLabel = new JLabel("Birthday  ");
         JTextField pseudoField = new JTextField(WIDTH);
         JTextField birthdayField = new JTextField(WIDTH);
         JButton connectButton = new JButton("Connect");
-        
+        JButton createAccountButton = new JButton("Create an account");
         //Placing Components
         
         gc.weightx=1;
@@ -48,7 +50,7 @@ public class SignInView extends JPanel {
         
         //First Columns
         gc.gridx=0;
-        gc.anchor= GridBagConstraints.LINE_START;
+        gc.anchor= GridBagConstraints.LINE_END;
         
         gc.gridy=0;
         add(pseudoLabel,gc);
@@ -59,21 +61,48 @@ public class SignInView extends JPanel {
         //Second Column
         
         gc.gridx=1;
+        gc.anchor= GridBagConstraints.LINE_START;
         
         add(birthdayField,gc);
         
         gc.gridy=0;
         add(pseudoField,gc);
         
-        //Last row
+        //Last  2 rows
         
         gc.gridy=2;
         gc.gridx=0;
-        gc.weighty=10;
-        gc.anchor=GridBagConstraints.PAGE_START;
+        gc.weighty=1;
+        //gc.anchor=GridBagConstraints.PAGE_END;
+        gc.anchor=GridBagConstraints.CENTER;
         gc.gridwidth=GridBagConstraints.REMAINDER;
         //gc.fill= GridBagConstraints.HORIZONTAL;
         add(connectButton,gc);
+        
+        gc.gridy=3;
+        gc.weighty=10;
+        gc.anchor=GridBagConstraints.PAGE_START;
+        add(createAccountButton,gc);
+        
+        
+        // Buttons action
+        
+        connectButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                throw new UnsupportedOperationException("Needs Database Access"); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
+        
+        
+        createAccountButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
         
         
         
