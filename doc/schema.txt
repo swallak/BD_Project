@@ -27,6 +27,7 @@ Action:
 idAction(clef primaire)
 idPartie(clef primaire)
 idBateau(clef étrangère)
+pseudo(clef étrangère)
 tour
 ---------------------------------------------------------------------------------
 ActionDeplacement:
