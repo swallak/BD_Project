@@ -4,13 +4,14 @@ idBateau(clef primaire)
 idPartie(clef primaire)
 pseudo(clef étrangère)
 taille
-pivot
+pivotX
+pivotY
 orientation
 pointVie
 ---------------------------------------------------------------------------------
 Partie:
 idPartie(clef primaire)
-dateDemarage
+dateDemarrage
 ---------------------------------------------------------------------------------
 Joueur:
 pseudo(clef primaire)
@@ -27,6 +28,7 @@ Action:
 idAction(clef primaire)
 idPartie(clef primaire)
 idBateau(clef étrangère)
+pseudo(clef étrangère)
 tour
 ---------------------------------------------------------------------------------
 ActionDeplacement:
@@ -39,12 +41,13 @@ ActionTir:
 idAction(clef primaire)
 idPartie(clef primaire)
 tour
-cibleTir
+cibleTirX
+cibleTirY
 ---------------------------------------------------------------------------------
 Vainqueurs:
 idPartie(clef primaire)
 pseudo(clef étrangère)
 ---------------------------------------------------------------------------------
-JouersParPartie:
+JoueursParPartie:
 pseudo(clef primaire)
 idPartie(clef primaire)
