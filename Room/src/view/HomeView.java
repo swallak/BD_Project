@@ -9,6 +9,10 @@ package view;
  *
  * @author swallak
  */
-public class HomeView {
+public class HomeView extends ApplicationView{
+
+	public HomeView(MainFrame parent) {
+		super(parent);
+	}
     
 }
