@@ -1,24 +1,15 @@
 package controller;
 
+import view.SignInView;
+
 public class LogInController {
+	private SignInView signInView;
 
-    private String pseudo;
-    private String birthday;
+	public LogInController(SignInView view) {
+		this.signInView = view;
+	}
 
-    public LogInController(String pseudo, String birthday) {
-        this.pseudo = pseudo;
-        this.birthday = birthday;
-        connect();
-    }
+	public void logIn(String pseudo, String dateTxt) {
 
-    /**
-     * Verify database and connect the user to the his room's home page
-     *
-     * @return true if connection succeded.
-     */
-    private boolean connect() {
-
-        System.out.println("Connecting " + pseudo +"...");
-        return true;
-    }
+	}
 }

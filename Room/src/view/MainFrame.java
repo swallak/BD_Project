@@ -8,32 +8,41 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author swallak
  */
 public class MainFrame extends JFrame {
-    private Dimension size = new Dimension(600, 600);
-    public MainFrame(String title){
-         
-        super(title);
-        
-        //Set Layout
-        setLayout(new BorderLayout());
-        setPreferredSize(size);
-        
-        
-        //Create component
-        SignInView signIn = new SignInView();
-        
-        
-        //add component
-        Container container = getContentPane();
-        container.add(signIn, BorderLayout.CENTER);
-        
-        //Handle events
-    }
-    
+	
+	private Dimension size = new Dimension(600, 480);
+	private Container container;
+
+	public MainFrame(String title) {
+
+		super(title);
+
+		// Set Layout
+		setLayout(new BorderLayout());
+		setMinimumSize(size);
+
+		// Create component
+		SignInView signIn = new SignInView(this);
+
+		// add component
+		container = getContentPane();
+		container.add(signIn, BorderLayout.CENTER);
+		setVisible(true);
+
+		// Handle events
+	}
+
+	public void changeContentPanel(JPanel newPan) {
+		container.removeAll();
+		container.add(newPan, BorderLayout.CENTER);
+	}
+
 }

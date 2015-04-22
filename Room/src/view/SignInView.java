@@ -5,31 +5,32 @@
  */
 package view;
 
-import controller.LogInController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import controller.LogInController;
 
 /**
  *
  * @author swallak
  */
-public class SignInView extends JPanel {
+public class SignInView extends ApplicationView {
     
 
     private final int  WIDTH = 10;
     private Dimension size = new Dimension(500, 500);
     private LogInController logincontroller;
     
-    protected SignInView() {
-
+    protected SignInView(MainFrame parent) {
+    	super(parent);
         setPreferredSize(size);
         
         //set border and Layout
@@ -105,14 +106,7 @@ public class SignInView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        
-        
-        
-        
-        
-    }
-
+			}
+		});
+	}
 }
