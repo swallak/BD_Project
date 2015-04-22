@@ -8,7 +8,6 @@ public class LogInController {
     public LogInController(String pseudo, String birthday) {
         this.pseudo = pseudo;
         this.birthday = birthday;
-        connect();
     }
 
     /**
@@ -16,7 +15,7 @@ public class LogInController {
      *
      * @return true if connection succeded.
      */
-    private boolean connect() {
+    public boolean connect() {
 
         System.out.println("Connecting " + pseudo +"...");
         return true;

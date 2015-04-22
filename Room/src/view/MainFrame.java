@@ -48,7 +48,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //throw new UnsupportedOperationException("Needs Database Access");
-                new LogInController(signIn.pseudoField.getText(), signIn.birthdayField.getText());
+                new LogInController(signIn.pseudoField.getText(), signIn.birthdayField.getText()).connect();
             }
         });
         

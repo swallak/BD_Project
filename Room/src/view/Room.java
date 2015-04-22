@@ -18,7 +18,7 @@ public class Room {
 
             @Override
             public void run() {
-                JFrame frame = new MainFrame("SignIn");
+                JFrame frame = new MainFrame("GameRoom");
                 frame.setSize(500, 500);
                 frame.setLocation(500, 150);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
