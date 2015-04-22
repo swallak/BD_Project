@@ -1,0 +1,13 @@
+Contraintes implementées
+
+taille = 2 ou 3
+orientation € {nord, sud, est, ouest}
+pivot, orientation et taille => bateau dans la grille.
+PV >= 0
+dateDemarrage >= une certaine date credible (date de creation de l'appli)
+dateNaissance >= une date credible 
+numero >= 0
+codePostal > 0
+
+Contraintes non implementées
+
