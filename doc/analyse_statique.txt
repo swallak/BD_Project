@@ -18,7 +18,7 @@ Contraintes de valeur :
 
 	dateDemarrage >= une certaine date credible (date de creation de l'appli)
 	dateNaissance >= une date credible 
-	numero >= 0
+	numero > 0
 	codePostal > 0
 	taille = 2 ou 3
 	PV >= 0
