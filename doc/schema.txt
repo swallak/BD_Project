@@ -1,12 +1,9 @@
-TypeBateau:
-nomBateau(clef)
-taille
 ---------------------------------------------------------------------------------
 Bateau:
 idBateau(clef)
 idPartie(clef)
 pseudo(clef)
-nomBateau(clef)
+taille
 pivot
 orientation
 pointVie

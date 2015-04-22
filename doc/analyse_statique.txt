@@ -2,16 +2,14 @@ Propriétés élémentaires :
 
 	pseudo, nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance
 	idPartie, dateDemarrage
-	idBateau, pivot, orientation, PV
-	nomBateau, taille
+	idBateau, pivot, orientation, PV, taille
 	idAction, tourAction, typeMouvement, idActionTir, idActionDepl, cibleTir
 
 Dépendances fonctionnelles :
 
 	pseudo -> (nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance)
 	idPartie -> (dateDemarrage)
-	(idPartie, idBateau) -> (nomBateau, pivot, orientation, pointVie, pseudo)
-	nomBateau -> taille
+	(idPartie, idBateau) -> (taille, pivot, orientation, pointVie, pseudo)
 	(idPartie, idAction) -> (tourAction, idBateau)
 	(idPartie, idActionDepl) -> (tourAction, typeMouvement, idBateau)
 	(idPartie, idActionTir) -> (tourAction, cibleTir, idBateau) 
