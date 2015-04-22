@@ -26,7 +26,15 @@ public class SignInView extends JPanel {
 
     private final int  WIDTH = 10;
     private Dimension size = new Dimension(500, 500);
+    
+    
     private LogInController logincontroller;
+    private final JLabel pseudoLabel = new JLabel("Pseudo  ");
+    private final JLabel birthdayLabel = new JLabel("Birthday  ");
+    protected final JTextField pseudoField = new JTextField(WIDTH);
+    protected final JTextField birthdayField = new JTextField(WIDTH);
+    protected final JButton connectButton = new JButton("Connect");
+    protected final JButton createAccountButton = new JButton("Create an account");    
     
     protected SignInView() {
 
@@ -40,12 +48,8 @@ public class SignInView extends JPanel {
         
         //SignInView components
         
-        JLabel pseudoLabel = new JLabel("Pseudo  ");
-        JLabel birthdayLabel = new JLabel("Birthday  ");
-        JTextField pseudoField = new JTextField(WIDTH);
-        JTextField birthdayField = new JTextField(WIDTH);
-        JButton connectButton = new JButton("Connect");
-        JButton createAccountButton = new JButton("Create an account");
+
+
         //Placing Components
         
         gc.weightx=1;
@@ -80,39 +84,21 @@ public class SignInView extends JPanel {
         gc.anchor=GridBagConstraints.CENTER;
         gc.gridwidth=GridBagConstraints.REMAINDER;
         //gc.fill= GridBagConstraints.HORIZONTAL;
+               
+        
+
+        
+        
+        
+        
+        
         add(connectButton,gc);
         
         gc.gridy=3;
         gc.weighty=10;
         gc.anchor=GridBagConstraints.PAGE_START;
         add(createAccountButton,gc);
-        
-        
-        // Buttons action
-        
-        connectButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //throw new UnsupportedOperationException("Needs Database Access");
-                new LogInController(pseudoField.getText(), birthdayField.getText());
-            }
-        });
-        
-        
-        createAccountButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });
-        
-        
-        
-        
-        
-        
+      
     }
 
 }

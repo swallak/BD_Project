@@ -5,9 +5,12 @@
  */
 package view;
 
+import controller.LogInController;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
@@ -32,8 +35,31 @@ public class MainFrame extends JFrame {
         //add component
         Container container = getContentPane();
         container.add(signIn, BorderLayout.CENTER);
+        //container.remove(signIn);
+        
+        
         
         //Handle events
+        
+                // Buttons action
+        
+        signIn.connectButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //throw new UnsupportedOperationException("Needs Database Access");
+                new LogInController(signIn.pseudoField.getText(), signIn.birthdayField.getText());
+            }
+        });
+        
+        
+        signIn.createAccountButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });
     }
     
 }
