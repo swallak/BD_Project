@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.LogInController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,6 +26,8 @@ public class SignInView extends JPanel {
 
     private final int  WIDTH = 10;
     private Dimension size = new Dimension(500, 500);
+    private LogInController logincontroller;
+    
     protected SignInView() {
 
         setPreferredSize(size);
@@ -91,7 +94,8 @@ public class SignInView extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Needs Database Access"); //To change body of generated methods, choose Tools | Templates.
+                //throw new UnsupportedOperationException("Needs Database Access");
+                new LogInController(pseudoField.getText(), birthdayField.getText());
             }
         });
         
