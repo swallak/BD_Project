@@ -12,11 +12,14 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.ApplicationController;
+
 /**
  *
  * @author swallak
  */
 public class MainFrame extends JFrame {
+	private ApplicationController applicationController;
 	
 	private Dimension size = new Dimension(600, 480);
 	private Container container;
@@ -43,6 +46,11 @@ public class MainFrame extends JFrame {
 	public void changeContentPanel(JPanel newPan) {
 		container.removeAll();
 		container.add(newPan, BorderLayout.CENTER);
+		container.revalidate();
+	}
+	
+	public ApplicationController getApplicationController() {
+		return applicationController;
 	}
 
 }
