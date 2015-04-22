@@ -1,12 +1,12 @@
 TypeBateau:
 nomBateau(clef)
-idBateau(clef)
 taille
 ---------------------------------------------------------------------------------
 Bateau:
 idBateau(clef)
 idPartie(clef)
-idJoueur(clef)
+pseudo(clef)
+nomBateau(clef)
 pivot
 orientation
 pointVie
