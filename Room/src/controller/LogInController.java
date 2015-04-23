@@ -12,10 +12,8 @@ import dao.jdbc.UserDAO_JDBC;
 
 public class LogInController {
 
-	private DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	private SignInView signInView;
-
-<<<<<<< HEAD
+    private String pseudo;
+    private String birthday; 
     public LogInController(String pseudo, String birthday) {
         this.pseudo = pseudo;
         this.birthday = birthday;
@@ -27,31 +25,10 @@ public class LogInController {
      * @return true if connection succeded.
      */
     public boolean connect() {
-=======
-	public LogInController(SignInView view) {
-		this.signInView = view;
-	}
-
-	public void logIn(String pseudo, String dateTxt) {
-		User user = null;
-		UserDAO_JDBC dao = new UserDAO_JDBC();
-		try {
-			user = dao.findUser(pseudo, formatter.parse(dateTxt));
-		} catch (UserNotExistException e) {
-			e.printStackTrace();
-			// TODO dialog d'erreur de connexion.
-		} catch (ParseException e) {
-			// TODO dialog d'erreur sur la date.
-			e.printStackTrace();
-		}
->>>>>>> d0f3aa272ec85ac1568196d2aa6d533ecae8d97f
-
-		if (user != null) {
-			signInView.getParent().getApplicationController()
-					.setCurrentUser(user);
-			// TODO Changement de vue.
-			signInView.getParent().setContentPane(
-					new HomeView(signInView.getParent()));
-		}
-	}
+        System.out.println("connecting..."+pseudo);
+        return false;
+    
+    }
 }
+
+

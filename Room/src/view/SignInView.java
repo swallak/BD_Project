@@ -46,10 +46,6 @@ public class SignInView extends JPanel {
         setBorder(BorderFactory.createTitledBorder("SignIn"));
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
-        
-        //SignInView components
-        
-
 
         //Placing Components
         

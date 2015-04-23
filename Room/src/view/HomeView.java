@@ -5,14 +5,16 @@
  */
 package view;
 
+import javax.swing.JPanel;
+
 /**
  *
  * @author swallak
  */
-public class HomeView extends ApplicationView{
+public class HomeView extends JPanel{
 
-	public HomeView(MainFrame parent) {
-		super(parent);
+	public HomeView() {
+		
 	}
     
 }

@@ -32,11 +32,13 @@ public class MainFrame extends JFrame {
         
         //Create component
         SignInView signIn = new SignInView();
+        SignUpView signUp = new SignUpView();
         
         
         //add component
         Container container = getContentPane();
         container.add(signIn, BorderLayout.CENTER);
+        //ontainer.add(signUp, BorderLayout.CENTER);
         //container.remove(signIn);
         
         
@@ -59,9 +61,11 @@ public class MainFrame extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
             }
         });
+        
+        
     }
 }
     
