@@ -5,68 +5,33 @@
  */
 package view;
 
-import controller.LogInController;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import controller.ApplicationController;
 
 /**
  *
  * @author swallak
  */
-public class MainFrame extends JFrame {
-    private Dimension size = new Dimension(600, 600);
-    public MainFrame(String title){
-         
-        super(title);
-        
-        //Set Layout
-        setLayout(new BorderLayout());
-        setPreferredSize(size);
-        
-        
-        //Create component
-        SignInView signIn = new SignInView();
-        SignUpView signUp = new SignUpView();
-        
-        
-        //add component
-        Container container = getContentPane();
-        container.add(signIn, BorderLayout.CENTER);
-        //ontainer.add(signUp, BorderLayout.CENTER);
-        //container.remove(signIn);
-        
-        
-        
-        //Handle events
-        
-                // Buttons action
-        
-        signIn.connectButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //throw new UnsupportedOperationException("Needs Database Access");
-                new LogInController(signIn.pseudoField.getText(), signIn.birthdayField.getText()).connect();
-            }
-        });
-        
-        
-        signIn.createAccountButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        });
-        
-        
-    }
-}
+public class MainFrame extends JFrame{
     
-
+        protected MainFrame switchToFrame;
+        
+        public MainFrame (String title)
+        {
+            super(title);
+//            switchToFrame.setVisible(false);
+        }
+        protected void switchFrame (MainFrame jframe)
+        {
+            jframe.setVisible(true);
+            this.setVisible(false);
+        }
+        
+        protected void setSwitchToFrame(MainFrame frame)
+        {
+            
+            this.switchToFrame=frame;
+            this.switchToFrame.setVisible(false);
+            
+        }
+    
+}

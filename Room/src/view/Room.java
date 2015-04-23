@@ -13,19 +13,35 @@ import javax.swing.SwingUtilities;
  * @author swallak
  */
 public class Room {
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
+        MainFrame SignInFrame = new SignInViewFrame("GameRoom");
+        MainFrame SignUpFrame = new SignUpViewFrame("GameRoom");
+
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                JFrame frame = new MainFrame("GameRoom");
-                frame.setSize(500, 500);
-                frame.setLocation(500, 150);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
+                SignInFrame.setLocation(0, 150);
+                SignInFrame.setSize(500, 500);
+                SignInFrame.setSwitchToFrame(SignUpFrame);
+                SignInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                SignInFrame.setVisible(true);
+            }
+        });
+
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+
+                SignUpFrame.setSize(500, 500);
+                SignUpFrame.setLocation(0, 500);
+                SignUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                SignUpFrame.setVisible(false);
             }
 
         });
     }
-    
+
 }

@@ -22,7 +22,7 @@ import javax.swing.JPanel;
  * @author swallak
  */
 
-public class SignInView extends JPanel {
+public class SignInViewPanel extends JPanel {
     
 
     private final int  WIDTH = 10;
@@ -37,7 +37,7 @@ public class SignInView extends JPanel {
     protected final JButton connectButton = new JButton("Connect");
     protected final JButton createAccountButton = new JButton("Create an account");    
     
-    protected SignInView() {
+    protected SignInViewPanel() {
 
         setPreferredSize(size);
         

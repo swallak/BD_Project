@@ -1,6 +1,6 @@
 package controller;
 
-import view.SignUpView;
+import view.SignUpViewPanel;
 
 public class SignUpController {
     
@@ -13,7 +13,7 @@ public class SignUpController {
     private String city;
     private String zipCode;
     
-    public SignUpController(SignUpView signUp)
+    public SignUpController(SignUpViewPanel signUp)
     {
         pseudo=signUp.getPseudo();
         birthday=signUp.getBirthday();

@@ -18,7 +18,7 @@ import javax.swing.JTextField;
  *
  * @author swallak
  */
-public class SignUpView extends JPanel{
+public class SignUpViewPanel extends JPanel{
 
     private final int  WIDTH = 10;
     private final Dimension size = new Dimension(500, 500);
@@ -44,7 +44,7 @@ public class SignUpView extends JPanel{
     protected final JButton createButton = new JButton("Create");
     protected final JButton alreadyButton = new JButton("Already an account?");
     
-    public SignUpView(){
+    public SignUpViewPanel(){
         
         //Set Layout
         setBorder(BorderFactory.createTitledBorder("SignUp"));

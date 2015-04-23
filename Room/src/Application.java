@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
-import view.MainFrame;
-import view.SignInView;
+import view.SignUpViewFrame;
+import view.SignInViewPanel;
 
 public class Application extends JFrame{
 
@@ -10,6 +10,6 @@ public class Application extends JFrame{
 	public static void main(String args[]) {
 		// Enregistrement du driver JDBC.
 		
-		MainFrame frame = new MainFrame(APPLICATION_TITLE);
+		SignUpViewFrame frame = new SignUpViewFrame(APPLICATION_TITLE);
 	}
 }
