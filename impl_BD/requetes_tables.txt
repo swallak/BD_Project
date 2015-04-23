@@ -1,1 +1,40 @@
-INSERT
+--ACESS
+
+--Get the nom of all the players
+
+SELECT nom, prenom from Joueur
+
+--Get all the boats in a match
+
+SELECT idBateau from Bateau where idPartie = idPartie --(desired)
+
+--Get the name of a determined boat in a determined match
+
+SELECT nom, prenom from Bateau NATURAL JOIN Joueur where idBateau = x and idPartie = y
+
+--Get all the action of a match
+
+SELECT idAction from Action natural join ActionDeplacement natural join ActionTir where idPartie = x
+
+--Get the actions of a turn
+
+SELECT idAction from Action natural join ActionDeplacement natural join ActionTir where idPartie = x and tour = y
+
+-- Find the winner of a match
+
+SELECT pseudo from Vainqueurs WHERE idPartie = x
+
+-- Find all the matches played by a player
+
+SELECT idPartie from JoueursParPartie
+
+-- Find the two players of a match
+
+SELECT pseudo from JoueursParPartie where IdPartie = x 
+
+-- 
+
+
+
+
+-- INSERTION
