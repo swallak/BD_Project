@@ -20,9 +20,9 @@ public class MainFrame extends JFrame{
             super(title);
 //            switchToFrame.setVisible(false);
         }
-        protected void switchFrame (MainFrame jframe)
+        protected void switchFrame ()
         {
-            jframe.setVisible(true);
+            switchToFrame.setVisible(true);
             this.setVisible(false);
         }
         
@@ -30,7 +30,7 @@ public class MainFrame extends JFrame{
         {
             
             this.switchToFrame=frame;
-            this.switchToFrame.setVisible(false);
+            //this.switchToFrame.setVisible(false);
             
         }
     

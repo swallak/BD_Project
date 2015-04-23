@@ -36,7 +36,8 @@ public class Room {
             public void run() {
 
                 SignUpFrame.setSize(500, 500);
-                SignUpFrame.setLocation(0, 500);
+                SignUpFrame.setLocation(0, 150);
+                SignUpFrame.setSwitchToFrame(SignInFrame);
                 SignUpFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 SignUpFrame.setVisible(false);
             }

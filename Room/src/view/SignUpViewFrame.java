@@ -14,13 +14,17 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import controller.ApplicationController;
+import controller.SignUpController;
 
 /**
  *
  * @author swallak
  */
 public class SignUpViewFrame extends MainFrame {
+    
     private Dimension size = new Dimension(600, 600);
+    
+    
     public SignUpViewFrame(String title){
          
         super(title);
@@ -39,14 +43,30 @@ public class SignUpViewFrame extends MainFrame {
         container.add(signUp, BorderLayout.CENTER);
         //container.add(signUp, BorderLayout.CENTER,1);
               
-        
-        
-        
-        
         //Handle events
         
                 // Buttons action
+        signUp.createButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUpController(signUp).createAccount();
+                
+                // Still needs to be finished
+                
+            
+            }
         
+        });
+        
+        signUp.alreadyButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchFrame();
+            
+            }
+        });
         
         
         

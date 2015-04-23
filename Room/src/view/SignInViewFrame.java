@@ -63,7 +63,7 @@ public class SignInViewFrame extends MainFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                switchFrame(switchToFrame);
+                switchFrame();
                 
             }
         });
