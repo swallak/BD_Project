@@ -22,6 +22,8 @@ public class MainFrame extends JFrame{
         }
         protected void switchFrame ()
         {
+            switchToFrame.setLocation(this.getLocation());
+            switchToFrame.setSize(this.getSize());
             switchToFrame.setVisible(true);
             this.setVisible(false);
         }
