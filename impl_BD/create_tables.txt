@@ -82,6 +82,7 @@ idAction INT,
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
 idBateau INT FOREIGN KEY REFERENCES Bateau(idBateau),
 tour INT,
+numAction INT,
 CONSTRAINT Action_pk PRIMARY KEY (idAction,idPartie)
 );
 
@@ -118,9 +119,9 @@ CREATE TABLE JoueursParPartie
 (
 pseudo VARCHAR(255) FOREIGN KEY REFERENCES Joueur(pseudo),
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-nbJoueur,
+numJoueur,
 CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo)
-), CONSTRAINT Nb_Joueur (nbJoueur = 1 OR nbJoueur = 2);
+), CONSTRAINT NumJoueur (nbJoueur = 1 OR nbJoueur = 2);
 
 
 
