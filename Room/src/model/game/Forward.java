@@ -2,7 +2,7 @@ package model.game;
 
 public final class Forward extends MoveAction {
 
-	private final static String TYPE = "avancer";
+	public final static String TYPE = "avancer";
 
 	public Forward(Turn turn, Boat boat, int numAction) {
 		super(turn, boat, numAction);

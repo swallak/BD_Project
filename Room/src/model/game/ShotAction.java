@@ -8,8 +8,9 @@ public final class ShotAction extends Action {
 		return target;
 	}
 
-	public ShotAction(Turn turn, Boat boat, int numAction) {
+	public ShotAction(Turn turn, Boat boat, int numAction, Position target) {
 		super(turn, boat, numAction);
+		this.target = target;
 	}
 
 	@Override

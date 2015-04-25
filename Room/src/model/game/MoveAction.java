@@ -6,5 +6,5 @@ public abstract class MoveAction extends Action {
 		super(turn, boat, numAction);
 	}
 
-	public abstract String getType();
+	public abstract  String getType();
 }

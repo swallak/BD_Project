@@ -2,7 +2,7 @@ package model.game;
 
 public final class Right extends MoveAction {
 
-	private final static String TYPE = "droite";
+	public final static String TYPE = "droite";
 
 	public Right(Turn turn, Boat boat, int numAction) {
 		super(turn, boat, numAction);

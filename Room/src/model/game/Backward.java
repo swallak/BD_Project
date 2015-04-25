@@ -2,7 +2,7 @@ package model.game;
 
 public final class Backward extends MoveAction {
 
-	private final static String TYPE = "reculer";
+	public final static String TYPE = "reculer";
 
 	public Backward(Turn turn, Boat boat, int numAction) {
 		super(turn, boat, numAction);
