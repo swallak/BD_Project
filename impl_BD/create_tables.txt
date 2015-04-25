@@ -58,7 +58,7 @@ CREATE TABLE Partie
 idPartie INT,
 dateDemarage DATE,
 CONSTRAINT Partie_pk PRIMARY KEY (idPartie),
-CONSTRAINT Partie_chk CHECK(dateDemarage > '01-01-2015') --it's gonna blow
+CONSTRAINT Partie_chk CHECK(dateDemarage > '01-JAN-2015') --it's gonna blow
 );
 
 CREATE TABLE Joueur
@@ -72,7 +72,7 @@ adrNumero INT,
 adrCodePostal INT,
 adrVille VARCHAR(255),
 CONSTRAINT Joueur_pk PRIMARY KEY (pseudo),
-CONSTRAINT Joueur_chk CHECK(dateNaissance > 01-01-1900 AND adrNumero > 0 AND adrCodePostal > 0)
+CONSTRAINT Joueur_chk CHECK(dateNaissance > 01-JAN-1900 AND adrNumero > 0 AND adrCodePostal > 0)
 );
 
 CREATE TABLE Action
