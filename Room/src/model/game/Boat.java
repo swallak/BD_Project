@@ -2,17 +2,23 @@ package model.game;
 
 public class Boat {
 
+	private int id;
+
 	private int size;
 	private int hp;
 
 	private Orientation orientation;
 	private Position position;
 
-	public Boat(int size, Orientation orientation, Position position) {
+	public Boat(int id, int size, Orientation orientation, Position position) {
 		this.size = size;
 		this.hp = size;
 		this.orientation = orientation;
 		this.position = position;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public int getSize() {
