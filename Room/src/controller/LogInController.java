@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import model.user.User;
-import view.HomeView;
+import view.HomeViewFrame;
 import view.SignInViewPanel;
 import dao.UserDAO.UserNotExistException;
 import dao.jdbc.UserDAO_JDBC;

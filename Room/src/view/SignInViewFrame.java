@@ -21,7 +21,7 @@ import controller.ApplicationController;
  */
 public class SignInViewFrame extends MainFrame {
     
-    private Dimension size = new Dimension(600, 600);
+    private Dimension size = new Dimension(500, 500);
     
     
     public SignInViewFrame(String title){
@@ -40,11 +40,7 @@ public class SignInViewFrame extends MainFrame {
         Container container = getContentPane();
         container.add(signIn, BorderLayout.CENTER);
         //container.add(signUp, BorderLayout.CENTER,1);
-              
-        
-        
-        
-        
+
         //Handle events
         
                 // Buttons action

@@ -21,56 +21,48 @@ import controller.SignUpController;
  * @author swallak
  */
 public class SignUpViewFrame extends MainFrame {
+
+    private Dimension size = new Dimension(500, 500);
     
-    private Dimension size = new Dimension(600, 600);
     
-    
-    public SignUpViewFrame(String title){
-         
+    public SignUpViewFrame(String title) {
+
         super(title);
-        
+
         //Set Layout
         setLayout(new BorderLayout());
         setPreferredSize(size);
-        
-        
+
         //Create component
         SignUpViewPanel signUp = new SignUpViewPanel();
-        
-        
+
         //add component
         Container container = getContentPane();
         container.add(signUp, BorderLayout.CENTER);
         //container.add(signUp, BorderLayout.CENTER,1);
-              
+
         //Handle events
-        
-                // Buttons action
+        // Buttons action
         signUp.createButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 new SignUpController(signUp).createAccount();
-                
+
                 // Still needs to be finished
-                
-            
             }
-        
+
         });
-        
+
         signUp.alreadyButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchFrame();
-            
+
             }
         });
-        
-        
-        
     }
-}
-    
 
+
+}

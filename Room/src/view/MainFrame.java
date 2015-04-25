@@ -11,29 +11,43 @@ import javax.swing.JFrame;
  *
  * @author swallak
  */
-public class MainFrame extends JFrame{
-    
-        protected MainFrame switchToFrame;
-        
-        public MainFrame (String title)
-        {
-            super(title);
+public class MainFrame extends JFrame {
+
+    protected MainFrame switchToFrame;
+    protected MainFrame switchToFrame2;
+
+    public MainFrame(String title) {
+        super(title);
 //            switchToFrame.setVisible(false);
-        }
-        protected void switchFrame ()
-        {
-            switchToFrame.setLocation(this.getLocation());
-            switchToFrame.setSize(this.getSize());
-            switchToFrame.setVisible(true);
-            this.setVisible(false);
-        }
-        
-        protected void setSwitchToFrame(MainFrame frame)
-        {
-            
-            this.switchToFrame=frame;
+    }
+
+    protected void switchFrame() {
+        switchToFrame.setLocation(this.getLocation());
+        switchToFrame.setSize(this.getSize());
+        switchToFrame.setVisible(true);
+        this.setVisible(false);
+    }
+
+    protected void setSwitchToFrame(MainFrame frame) {
+
+        this.switchToFrame = frame;
             //this.switchToFrame.setVisible(false);
-            
-        }
-    
+
+    }
+
+    /**
+     *
+     * @param frame
+     */
+    protected void setSwitchToFrame2(MainFrame frame) {
+        this.switchToFrame2 = frame;
+    }
+
+    protected void swichToFrame2() {
+        switchToFrame2.setLocation(this.getLocation());
+        switchToFrame2.setSize(this.getSize());
+        switchToFrame2.setVisible(true);
+        this.setVisible(false);
+    }
+
 }

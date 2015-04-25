@@ -9,6 +9,6 @@ package view;
  *
  * @author swallak
  */
-public class MatchView {
+public class MatchViewFrame {
     
 }
