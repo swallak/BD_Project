@@ -2,23 +2,18 @@ package model.game;
 
 import java.util.List;
 
-import model.user.AbstractUser;
-
 public class Turn implements Comparable<Turn> {
 
 	private int nbTurn;
 	private int actionIndex;
 
 	private ActionState state;
-
 	private Match match;
-	private AbstractUser player;
 
 	private List<Action> actionList;
 
-	public Turn(Match match, AbstractUser player, int nbTurn) {
+	public Turn(Match match, int nbTurn) {
 		this.match = match;
-		this.player = player;
 		this.nbTurn = nbTurn;
 		this.state = ActionState.NOT_DONE;
 	}
@@ -54,12 +49,13 @@ public class Turn implements Comparable<Turn> {
 		return match;
 	}
 
-	public AbstractUser getPlayer() {
-		return player;
-	}
-
 	public void addAction(Action action) {
 		actionList.add(action);
 		actionIndex++;
+	}
+	
+	public void setActionList(List<Action> actions) {
+		actionList = actions;
+		actionIndex = actionList.size();
 	}
 }

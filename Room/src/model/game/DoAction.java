@@ -1,6 +1,6 @@
 package model.game;
 
-import java.util.List;
+import java.util.Map;
 
 import model.game.Boat.Orientation;
 
@@ -67,11 +67,11 @@ public class DoAction {
 	}
 
 	public void apply(ShotAction shot) {
-		List<Boat> boatList = (shot.getTurn().getNbTurn() % 2 == 0 ? shot
+		Map<Integer, Boat> boatMap = (shot.getTurn().getNbTurn() % 2 == 0 ? shot
 				.getTurn().getMatch().getPlayerTwoBoats() : shot.getTurn()
 				.getMatch().getPlayerOneBoats());
 
-		for (Boat boat : boatList) {
+		for (Boat boat : boatMap.values()) {
 			if (boat.isTouchBy(shot.getTarget()))
 				boat.setHp(boat.getHp() - 1);
 		}

@@ -1,8 +1,8 @@
 package model.game;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import model.user.AbstractUser;
 
@@ -16,8 +16,8 @@ public class Match {
 	private AbstractUser playerOne;
 	private AbstractUser playerTwo;
 	
-	private List<Boat> playerOneBoats;
-	private List<Boat> playerTwoBoats;
+	private Map<Integer, Boat> playerOneBoats;
+	private Map<Integer, Boat> playerTwoBoats;
 
 	private AbstractUser winner;
 
@@ -32,11 +32,11 @@ public class Match {
 		this.startDate = date;
 	}
 
-	public List<Boat> getPlayerOneBoats() {
+	public Map<Integer, Boat> getPlayerOneBoats() {
 		return playerOneBoats;
 	}
 
-	public List<Boat> getPlayerTwoBoats() {
+	public Map<Integer, Boat> getPlayerTwoBoats() {
 		return playerTwoBoats;
 	}
 
