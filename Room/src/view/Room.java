@@ -5,7 +5,14 @@
  */
 package view;
 
+import controller.LogInController;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -13,19 +20,39 @@ import javax.swing.SwingUtilities;
  * @author swallak
  */
 public class Room {
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
+        MainFrame SignInFrame = new SignInViewFrame("GameRoom-SignIn");
+        MainFrame SignUpFrame = new SignUpViewFrame("GameRoom-SignUp");
+        
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                JFrame frame = new MainFrame("SignIn");
-                frame.setSize(500, 500);
-                frame.setLocation(500, 150);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);
+                //Frames linking
+                SignUpFrame.setSwitchToFrame(SignInFrame);
+                SignInFrame.setSwitchToFrame(SignUpFrame);
+                
+                //SignIn Frame location and size
+                SignInFrame.setLocation(0, 150);
+                SignInFrame.setSize(500, 500);
+                SignInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                SignInFrame.setVisible(true);
+            }
+        });
+
+       SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+  
             }
 
         });
     }
     
+    private void linkFrames(/*Add params*/){
+        // To be completed
+    }
+
 }

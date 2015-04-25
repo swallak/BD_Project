@@ -5,52 +5,49 @@
  */
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import controller.ApplicationController;
 
 /**
  *
  * @author swallak
  */
 public class MainFrame extends JFrame {
-	private ApplicationController applicationController;
-	
-	private Dimension size = new Dimension(600, 480);
-	private Container container;
 
-	public MainFrame(String title) {
+    protected MainFrame switchToFrame;
+    protected MainFrame switchToFrame2;
 
-		super(title);
+    public MainFrame(String title) {
+        super(title);
+//            switchToFrame.setVisible(false);
+    }
 
-		// Set Layout
-		setLayout(new BorderLayout());
-		setMinimumSize(size);
+    protected void switchFrame() {
+        switchToFrame.setLocation(this.getLocation());
+        switchToFrame.setSize(this.getSize());
+        switchToFrame.setVisible(true);
+        this.setVisible(false);
+    }
 
-		// Create component
-		SignInView signIn = new SignInView(this);
+    protected void setSwitchToFrame(MainFrame frame) {
 
-		// add component
-		container = getContentPane();
-		container.add(signIn, BorderLayout.CENTER);
-		setVisible(true);
+        this.switchToFrame = frame;
+            //this.switchToFrame.setVisible(false);
 
-		// Handle events
-	}
+    }
 
-	public void changeContentPanel(JPanel newPan) {
-		container.removeAll();
-		container.add(newPan, BorderLayout.CENTER);
-		container.revalidate();
-	}
-	
-	public ApplicationController getApplicationController() {
-		return applicationController;
-	}
+    /**
+     *
+     * @param frame
+     */
+    protected void setSwitchToFrame2(MainFrame frame) {
+        this.switchToFrame2 = frame;
+    }
+
+    protected void switchFrame2() {
+        switchToFrame2.setLocation(this.getLocation());
+        switchToFrame2.setSize(this.getSize());
+        switchToFrame2.setVisible(true);
+        this.setVisible(false);
+    }
 
 }

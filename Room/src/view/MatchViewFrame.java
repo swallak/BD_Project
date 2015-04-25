@@ -9,10 +9,6 @@ package view;
  *
  * @author swallak
  */
-public class SignUpView extends ApplicationView{
-
-	public SignUpView(MainFrame parent) {
-		super(parent);
-	}
+public class MatchViewFrame {
     
 }

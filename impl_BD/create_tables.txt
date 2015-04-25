@@ -66,6 +66,7 @@ CREATE TABLE Joueur
 pseudo VARCHAR(255),
 nom VARCHAR(255),
 prenom VARCHAR(255),
+mail VARCHAR(255),
 dateNaissance DATE,
 adrRue VARCHAR(255),
 adrNumero INT,
@@ -81,6 +82,7 @@ idAction INT,
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
 idBateau INT FOREIGN KEY REFERENCES Bateau(idBateau),
 tour INT,
+numAction INT,
 CONSTRAINT Action_pk PRIMARY KEY (idAction,idPartie)
 );
 
@@ -117,8 +119,9 @@ CREATE TABLE JoueursParPartie
 (
 pseudo VARCHAR(255) FOREIGN KEY REFERENCES Joueur(pseudo),
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
+numJoueur,
 CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo)
-);
+), CONSTRAINT NumJoueur (nbJoueur = 1 OR nbJoueur = 2);
 
 
 
