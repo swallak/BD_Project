@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class User extends AbstractUser {
 
-	private Date birthday;
-	private String mail;
 	private String firstName;
 	private String lastName;
+	private Date birthday;
+	private String mail;
 
 	private UserState state;
 
