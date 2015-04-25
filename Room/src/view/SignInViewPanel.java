@@ -89,4 +89,14 @@ public class SignInViewPanel extends JPanel {
         add(createAccountButton,gc);
       
     }
+    
+    public String getPseudo()
+    {
+        return this.pseudoField.getText();
+    }
+    
+    public String getBirthday()
+    {
+        return this.birthdayField.getText();
+    }
 }

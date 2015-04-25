@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
         this.switchToFrame2 = frame;
     }
 
-    protected void swichToFrame2() {
+    protected void switchFrame2() {
         switchToFrame2.setLocation(this.getLocation());
         switchToFrame2.setSize(this.getSize());
         switchToFrame2.setVisible(true);

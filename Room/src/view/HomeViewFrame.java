@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import model.user.User;
+import sun.awt.AWTAccessor;
 
 /**
  *
@@ -25,12 +27,19 @@ public class HomeViewFrame extends MainFrame{
     private Dimension size = new Dimension(WIDTH, HEIGHT);
     private Dimension infoPanelSize = new Dimension(WIDTH/5, HEIGHT);
     private Dimension mainPanelSize = new Dimension(WIDTH*4/5, HEIGHT);
+    
+    private User user;
 
-	public HomeViewFrame(String title) {
+	public HomeViewFrame(String title, User user) {
             
             super(title);
+            
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.user=user;
+            
             //set Layout & size
             setSize(size);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
             setLayout(new BorderLayout());
             
             //Components

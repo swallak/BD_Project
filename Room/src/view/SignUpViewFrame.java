@@ -28,6 +28,8 @@ public class SignUpViewFrame extends MainFrame {
     public SignUpViewFrame(String title) {
 
         super(title);
+        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Set Layout
         setLayout(new BorderLayout());
