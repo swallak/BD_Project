@@ -2,8 +2,10 @@ package model.game;
 
 public final class Left extends MoveAction {
 
-	public Left(Turn turn, Boat boat) {
-		super(turn, boat);
+	private final static String TYPE = "gauche";
+	
+	public Left(Turn turn, Boat boat, int numAction) {
+		super(turn, boat, numAction);
 	}
 
 	@Override
@@ -14,5 +16,10 @@ public final class Left extends MoveAction {
 	@Override
 	public void undo() {
 		UndoAction.getInstance().undo(this);
+	}
+
+	@Override
+	public String getType() {
+		return TYPE;
 	}
 }

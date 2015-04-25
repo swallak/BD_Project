@@ -1,15 +1,15 @@
 package model.game;
 
-public class ShotAction extends Action {
+public final class ShotAction extends Action {
 
 	private Position target;
-	
+
 	public Position getTarget() {
 		return target;
 	}
 
-	public ShotAction(Turn turn) {
-		super(turn);
+	public ShotAction(Turn turn, Boat boat, int numAction) {
+		super(turn, boat, numAction);
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package model.game;
 
-public class Backward extends MoveAction {
+public final class Backward extends MoveAction {
 
-	public Backward(Turn turn, Boat boat) {
-		super(turn, boat);
+	private final static String TYPE = "reculer";
+
+	public Backward(Turn turn, Boat boat, int numAction) {
+		super(turn, boat, numAction);
 	}
 
 	@Override
@@ -14,5 +16,10 @@ public class Backward extends MoveAction {
 	@Override
 	public void undo() {
 		UndoAction.getInstance().undo(this);
+	}
+
+	@Override
+	public String getType() {
+		return TYPE;
 	}
 }
