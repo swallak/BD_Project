@@ -301,4 +301,51 @@ public class MatchDAO_JDBC extends MatchDAO {
 			}
 		}
 	}
+
+	@Override
+	public void addWinner(Connection con, boolean withCommit, Match match)
+			throws MatchStateNotSave {
+		PreparedStatement stmt = null;
+
+		try {
+
+			con.setSavepoint();
+
+			/*
+			 * INSERT INTO Partie (idPartie, idJoueur, tour) values (?, ?, ?)
+			 */
+			stmt = con.prepareStatement("insert into "
+					+ DataBaseConstant.WINNER_TABLE_NAME + "("
+					+ DataBaseConstant.WINNER_MATCH_ID + ", "
+					+ DataBaseConstant.WINNER_PLAYER + ", "
+					+ DataBaseConstant.WINNER_TURN + ") values (?, ?, ?)");
+
+			stmt.setInt(1, match.getId());
+			stmt.setString(2, match.getWinner().getPseudo());
+			stmt.setInt(3, match.getHistoric().size());
+
+			stmt.executeUpdate();
+
+			if (withCommit)
+				con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			throw new MatchStateNotSave();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

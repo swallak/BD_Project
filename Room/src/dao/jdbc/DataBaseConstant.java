@@ -57,4 +57,10 @@ public class DataBaseConstant {
 	protected final static String BOAT_POS_Y = "pivotY";
 	protected final static String BOAT_ORIENTATION = "orientation";
 	protected final static String BOAT_HP = "pointVie";
+
+	/* Table Vainqueur */
+	protected final static String WINNER_TABLE_NAME = "vainqueur";
+	protected final static String WINNER_MATCH_ID = "idPartie";
+	protected final static String WINNER_PLAYER = "pseudo";
+	protected final static String WINNER_TURN = "turn";
 }

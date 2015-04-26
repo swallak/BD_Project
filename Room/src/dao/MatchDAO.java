@@ -12,13 +12,17 @@ public abstract class MatchDAO {
 			boolean withCommit, User currentUser);
 
 	public abstract void getCurrentMatchInfo(Connection con,
-			boolean withCommit, Match match) throws ReadMatchException, MatchNotExistsException;
+			boolean withCommit, Match match) throws ReadMatchException,
+			MatchNotExistsException;
 
 	public abstract List<Match> getPlayableMatchHeader(Connection con,
 			boolean withCommit, User currentUser);
 
 	public abstract void createMatch(Connection con, boolean withCommit,
-			Match match) throws MatchNotCreatedException;
+			Match match) throws MatchNotCreatedException, MatchStateNotSave;
+
+	public abstract void addWinner(Connection con, boolean withCommit,
+			Match match) throws MatchStateNotSave;
 
 	public class ReadMatchException extends Exception {
 		private static final long serialVersionUID = -3467985904450291349L;
@@ -30,5 +34,9 @@ public abstract class MatchDAO {
 
 	public class MatchNotExistsException extends Exception {
 		private static final long serialVersionUID = 5331107150378400158L;
+	}
+
+	public class MatchStateNotSave extends Exception {
+		private static final long serialVersionUID = 3647389126664459701L;
 	}
 }
