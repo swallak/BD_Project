@@ -35,7 +35,11 @@ public class UserDAO_JDBC extends UserDAO {
 			user = new User(rs.getString(DataBaseConstant.PLAYER_PSEUDO),
 					rs.getString(DataBaseConstant.PLAYER_MAIL),
 					rs.getString(DataBaseConstant.PLAYER_FIRSTNAME),
-					rs.getString(DataBaseConstant.PLAYER_LASTNAME), date);
+					rs.getString(DataBaseConstant.PLAYER_LASTNAME), date,
+					rs.getInt(DataBaseConstant.PLAYER_ADDRESS_NUMBER),
+					rs.getString(DataBaseConstant.PLAYER_ADDRESS_STREET),
+					rs.getInt(DataBaseConstant.PLAYER_ADDRESS_POSTAL_CODE),
+					rs.getString(DataBaseConstant.PLAYER_ADDRESS_CITY));
 
 			/*
 			 * Verifie si l'utilisateur a des partie en cours pour determiner
