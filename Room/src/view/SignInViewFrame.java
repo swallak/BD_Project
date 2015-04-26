@@ -31,14 +31,15 @@ import model.user.User;
 public class SignInViewFrame extends MainFrame {
 
     private Dimension size = new Dimension(500, 500);
+    public final static Point DEFAULT_LOCATION = new Point(50,50);
 
     public SignInViewFrame(String title) {
 
         super(title);
-        final Point location = this.getLocation();
+        
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-         
+        setLocation(DEFAULT_LOCATION);
         //Set Layout
         setLayout(new BorderLayout());
         setPreferredSize(size);
@@ -53,6 +54,7 @@ public class SignInViewFrame extends MainFrame {
 
         //Handle events
                 // Buttons action
+        final Point location = this.getLocation();
         signIn.connectButton.addActionListener(new ActionListener() {
 
             @Override

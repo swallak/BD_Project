@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import controller.LogInController;
+import java.awt.Point;
 import javax.swing.JPanel;
 
 /**
@@ -27,7 +28,7 @@ public class SignInViewPanel extends JPanel {
 
     private final int  WIDTH = 10;
     private Dimension size = new Dimension(500, 500);
-    
+
     
     private LogInController logincontroller;
     private final JLabel pseudoLabel = new JLabel("Pseudo  ");

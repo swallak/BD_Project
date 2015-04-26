@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import controller.ApplicationController;
 import controller.SignUpController;
+import java.awt.Point;
 
 /**
  *
@@ -23,17 +24,18 @@ import controller.SignUpController;
 public class SignUpViewFrame extends MainFrame {
 
     private Dimension size = new Dimension(500, 500);
-    
+    public final static Point DEFAULT_LOCATION = new Point(50,50);
     
     public SignUpViewFrame(String title) {
 
         super(title);
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        setLocation(DEFAULT_LOCATION);
+        setSize(size);
         //Set Layout
         setLayout(new BorderLayout());
-        setPreferredSize(size);
+
 
         //Create component
         SignUpViewPanel signUp = new SignUpViewPanel();
