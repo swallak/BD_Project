@@ -5,7 +5,15 @@
  */
 package view;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JRootPane;
 
 /**
  *
@@ -47,5 +55,49 @@ public class MainFrame extends JFrame {
         switchToFrame2.setVisible(true);
         this.setVisible(false);
     }
+    
+        
+    public void popErrorDialog(String message) {
+    	//Pop window
+        final JFrame accountNotFoundFrame = new JFrame("ERROR");
+        JButton closeButton = new JButton("Close");
+        JLabel msgLabel = new JLabel(message);
+        Point location = this.getLocation();
+        location.setLocation(location.x+(this.getWidth()-400)/2, location.y+this.getHeight()/2-40);
+        
+        accountNotFoundFrame.setUndecorated(true);
+        accountNotFoundFrame.getRootPane().setWindowDecorationStyle(JRootPane.ERROR_DIALOG);
+        accountNotFoundFrame.setSize(400, 80);
+        accountNotFoundFrame.setLocation(location);
+        accountNotFoundFrame.setLayout(new GridBagLayout());
+        accountNotFoundFrame.setResizable(false);
+
+        GridBagConstraints gc = new GridBagConstraints();
+
+        gc.gridx = 0;
+        gc.weighty = 1;
+        gc.weightx = 1;
+
+        gc.gridy = 0;
+        gc.anchor = GridBagConstraints.FIRST_LINE_START;
+        accountNotFoundFrame.add(msgLabel, gc);
+
+        gc.gridy = 1;
+        gc.anchor = GridBagConstraints.LAST_LINE_END;
+        accountNotFoundFrame.add(closeButton, gc);
+        
+        accountNotFoundFrame.setVisible(true);
+        //Windows Behaviour
+        
+        closeButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //close pop window
+                accountNotFoundFrame.dispose();
+            }
+        });
+    }
+    
 
 }

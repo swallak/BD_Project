@@ -8,6 +8,12 @@ package view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.LayoutManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,6 +26,8 @@ import javax.swing.JTextField;
  */
 public class SignUpViewPanel extends JPanel{
 
+
+    
     private final int  WIDTH = 10;
     private final Dimension size = new Dimension(500, 500);
     
@@ -142,8 +150,7 @@ public class SignUpViewPanel extends JPanel{
     }
     public String getBirthday()
     {
-        return birthdayField.getText();
-        
+        return this.birthdayField.getText();
     }
     
     public String getStreetNumber()
@@ -164,6 +171,18 @@ public class SignUpViewPanel extends JPanel{
     public String getZipCode()
     {
         return zipcodeField.getText();
+    }
+    
+    public void addLabel(String labelText, int column, int row)
+    {
+        GridBagLayout layout = (GridBagLayout)this.getLayout();
+        GridBagConstraints gc = layout.getConstraints(this);
+        
+        gc.gridx=column;
+        gc.gridy=row;
+        
+        this.add(new JLabel(labelText), gc);
+        return;
     }
             
             

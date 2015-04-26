@@ -1,40 +1,107 @@
 package controller;
 
+import dao.UserDAO;
+import dao.jdbc.JDBCConnection;
+import dao.jdbc.UserDAO_JDBC;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.user.User;
+import view.SignUpViewFrame;
 import view.SignUpViewPanel;
 
 public class SignUpController {
-    
-    private String pseudo;
-    private String birthday;
+
+    private final String DATE_PATTERN = "yyyy/MM/dd";
+    private SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_PATTERN);
+    public static final String ALREADY_EXISTS_ERROR = "The pseudo you entered is not available";
+
     private String firstName;
     private String lastName;
-    private String streetNumber;
-    private String streetName;
-    private String city;
-    private String zipCode;
-    
-    public SignUpController(SignUpViewPanel signUp)
-    {
-        pseudo=signUp.getPseudo();
-        birthday=signUp.getBirthday();
-        firstName=signUp.getFirstName();
-        lastName=signUp.getLastName();
-        streetName=signUp.getStreetName();
-        streetNumber=signUp.getStreetNumber();
-        city=signUp.getCity();
-        zipCode=signUp.getZipCode();
-    }
-    
-    /**
-     * 
-     * @return true if account creation succeeded 
-     */
-    public boolean  createAccount (){
+    private String pseudo;
+
+    private Date birthday;
+    private String mail;
+
+    private String addrCity;
+    private int addrNumber;
+    private int addrPostalCode;
+    private String addrStreet;
+
+    public SignUpController(SignUpViewFrame signUpViewFrame) {
         
-        System.out.println("creating...\n"+"pseudo:"+pseudo+"\nbirthday:"+birthday+"\nfirstName:"
-                +firstName+"\nlastName:"+lastName+"\nstreetName:"+streetName+"\nstreetnumbe:"+streetNumber
-        +"\ncity:"+city+"\nzipcode:"+zipCode);
-        return false;
+        SignUpViewPanel signUp = signUpViewFrame.getSignUpViewPanel();
+        boolean validFields = true;
+        pseudo = signUp.getPseudo();
+        try {
+            birthday = dateFormat.parse(signUp.getBirthday());
+        } catch (ParseException ex) {
+            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+            validFields=false;
+            
+        }
+        firstName = signUp.getFirstName();
+        lastName = signUp.getLastName();
+        addrStreet = (signUp.getStreetName());
+        try{
+        addrNumber = Integer.parseInt(signUp.getStreetNumber());
+        }catch(NumberFormatException ex)
+        {
+            //signUp.addLabel("error", 2, 5);
+            validFields=false;
+        }
+        
+        addrCity = signUp.getCity();
+        try{
+            addrPostalCode = Integer.parseInt(signUp.getZipCode());
+
+        }catch(NumberFormatException ex)
+        {
+            //signUp.addLabel("error", 2, 6);
+            validFields=false;
+        }
+        
+        if(!validFields)
+            signUpViewFrame.popErrorDialog("The infos you entered is not correct");     
     }
 
+    /**
+     *
+     * @return true if account creation succeeded
+     */
+    public void createAccount(SignUpViewFrame signUpViewFrame){
+
+
+
+        /*User = new User(pseudo, mail, firstName, lastName,
+                birthday, addrNumber, addrStreet,
+                addrPostalCode, addrCity);*/
+        System.out.println("connecting..." + pseudo);
+		UserDAO user = new UserDAO_JDBC();
+
+		Connection con = null;
+		try {
+			con = JDBCConnection.openConnection();
+			user.createUser(con, true, createUser());
+		} catch (SQLException e) {
+			e.printStackTrace();
+                        signUpViewFrame.popErrorDialog("Connection Problem");
+		} catch (UserDAO.UserAlreadyExistException ex) { 
+            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
+            
+            signUpViewFrame.popErrorDialog(ex.getMessage());
+        } 
+
+    }
+
+        public User createUser()
+        {
+            return new User( pseudo,  mail,  firstName,  lastName,
+			 birthday,  addrNumber,  addrStreet,
+			 addrPostalCode,  addrCity);
+        }
 }

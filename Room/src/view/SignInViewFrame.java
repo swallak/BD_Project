@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import model.user.User;
 import controller.LogInController;
 import java.awt.Point;
+import javax.swing.JRootPane;
 
 /**
  *
@@ -29,7 +30,8 @@ public class SignInViewFrame extends MainFrame {
 
     private Dimension size = new Dimension(500, 500);
     public final static Point DEFAULT_LOCATION = new Point(50,50);
-
+    SignInViewPanel signIn = new SignInViewPanel();
+    
     public SignInViewFrame(String title) {
 
         super(title);
@@ -37,12 +39,13 @@ public class SignInViewFrame extends MainFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(DEFAULT_LOCATION);
+        setResizable(false);
         //Set Layout
         setLayout(new BorderLayout());
         setSize(size);
 
         //Create component
-        SignInViewPanel signIn = new SignInViewPanel();
+        signIn = new SignInViewPanel();
 
         //add component
         Container container = getContentPane();
@@ -78,43 +81,10 @@ public class SignInViewFrame extends MainFrame {
             }
         });
     }
-    
-    public void popErrorDialog(String message) {
-    	//Pop window
-        final JFrame accountNotFoundFrame = new JFrame(message);
-        JButton closeButton = new JButton("Close");
-        JLabel msgLabel = new JLabel(LogInController.NOT_FOUND_ERROR_MSG);
-        
-        accountNotFoundFrame.setUndecorated(true);
-        accountNotFoundFrame.setSize(400, 80);
-        accountNotFoundFrame.setLocation(this.getLocation());
-        accountNotFoundFrame.setLayout(new GridBagLayout());
 
-        GridBagConstraints gc = new GridBagConstraints();
-
-        gc.gridx = 0;
-        gc.weighty = 1;
-        gc.weightx = 1;
-
-        gc.gridy = 0;
-        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-        accountNotFoundFrame.add(msgLabel, gc);
-
-        gc.gridy = 1;
-        gc.anchor = GridBagConstraints.LAST_LINE_END;
-        accountNotFoundFrame.add(closeButton, gc);
-        
-        accountNotFoundFrame.setVisible(true);
-        //Windows Behaviour
-        
-        closeButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //close pop window
-                accountNotFoundFrame.dispose();
-            }
-        });
+    public SignInViewPanel getSignInViewPanel()
+    {
+        return this.signIn;
     }
 
 }
