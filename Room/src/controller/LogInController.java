@@ -1,6 +1,9 @@
 package controller;
 
 import dao.UserDAO;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +12,9 @@ import model.user.User;
 import view.HomeViewFrame;
 import view.SignInViewPanel;
 import dao.UserDAO.UserNotExistException;
+import dao.jdbc.JDBCConnection;
 import dao.jdbc.UserDAO_JDBC;
+
 import java.util.Date;
 
 public class LogInController {
@@ -41,12 +46,17 @@ public class LogInController {
      * @return true if connection succeded.
      */
     public User connect() throws UserNotExistException {
-        System.out.println("connecting..."+pseudo);
-        UserDAO user = new UserDAO_JDBC();
-        return user.findUser(pseudo, birthday);
-        
-        
-    
+		System.out.println("connecting..." + pseudo);
+		UserDAO user = new UserDAO_JDBC();
+
+		Connection con = null;
+		try {
+			con = JDBCConnection.openConnection();
+			return user.findUser(con, true, pseudo, birthday);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
     }
 }
 

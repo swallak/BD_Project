@@ -12,19 +12,17 @@ import dao.UserDAO;
 public class UserDAO_JDBC extends UserDAO {
 
 	@Override
-	public User findUser(String pseudo, Date date) throws UserNotExistException {
+	public User findUser(Connection con, boolean withCommit, String pseudo,
+			Date date) throws UserNotExistException {
 		User user = null;
-		Connection con = null;
 		PreparedStatement stmtUser = null;
 		ResultSet rs = null;
 		try {
-			con = JDBCConnection.openConnection();
-
 			/* Verifie si l'utilisateur existe */
 			stmtUser = con.prepareStatement("select * into "
-					+ DataBaseConstant.USER_TABLE_NAME + " where "
-					+ DataBaseConstant.USER_PSEUDO + "= ? AND "
-					+ DataBaseConstant.USER_BIRTHDAY + "= ?");
+					+ DataBaseConstant.PLAYER_TABLE_NAME + " where "
+					+ DataBaseConstant.PLAYER_PSEUDO + "= ? AND "
+					+ DataBaseConstant.PLAYER_BIRTHDAY + "= ?");
 
 			stmtUser.setString(1, pseudo);
 			stmtUser.setDate(2, new java.sql.Date(date.getTime()));
@@ -34,10 +32,10 @@ public class UserDAO_JDBC extends UserDAO {
 			if (!rs.next())
 				throw new UserNotExistException(pseudo);
 
-			user = new User(rs.getString(DataBaseConstant.USER_PSEUDO),
-					rs.getString(DataBaseConstant.USER_MAIL),
-					rs.getString(DataBaseConstant.USER_FIRSTNAME),
-					rs.getString(DataBaseConstant.USER_LASTNAME), date);
+			user = new User(rs.getString(DataBaseConstant.PLAYER_PSEUDO),
+					rs.getString(DataBaseConstant.PLAYER_MAIL),
+					rs.getString(DataBaseConstant.PLAYER_FIRSTNAME),
+					rs.getString(DataBaseConstant.PLAYER_LASTNAME), date);
 
 			/*
 			 * Verifie si l'utilisateur a des partie en cours pour determiner
@@ -46,7 +44,8 @@ public class UserDAO_JDBC extends UserDAO {
 
 			// TODO
 
-			con.commit();
+			if (withCommit)
+				con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -64,59 +63,58 @@ public class UserDAO_JDBC extends UserDAO {
 					e.printStackTrace();
 				}
 			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		return user;
 	}
 
 	@Override
-	public void createUser(String pseudo, String mail, String firstName,
-			String lastName, Date date) throws UserAlreadyExistException {
-		Connection con = null;
+	public void createUser(Connection con, boolean withCommit, User user)
+			throws UserAlreadyExistException {
 		PreparedStatement stmt = null;
 		try {
-			con = JDBCConnection.openConnection();
-			stmt = con
-					.prepareStatement("insert into "
-							+ DataBaseConstant.USER_TABLE_NAME + "("
-							+ DataBaseConstant.USER_PSEUDO + ","
-							+ DataBaseConstant.USER_FIRSTNAME + ","
-							+ DataBaseConstant.USER_LASTNAME + ","
-							+ DataBaseConstant.USER_MAIL + ","
-							+ DataBaseConstant.USER_BIRTHDAY
-							+ ") values (?,?,?,?,?)");
 
-			stmt.setString(1, pseudo);
-			stmt.setString(2, mail);
-			stmt.setString(3, firstName);
-			stmt.setString(4, lastName);
-			stmt.setString(5, mail);
-			stmt.setDate(6, new java.sql.Date(date.getTime()));
-			
+			/*
+			 * INSERT INTO Player (pseudo, prenom, nom, mail, dateNaissance,
+			 * adrNumero, adrRue , adrCodePostal, adrVille) values ( ?, ?, ?, ?,
+			 * ?, ?, ?, ?, ? )
+			 */
+			stmt = con.prepareStatement("insert into "
+					+ DataBaseConstant.PLAYER_TABLE_NAME + "("
+					+ DataBaseConstant.PLAYER_PSEUDO + ", "
+					+ DataBaseConstant.PLAYER_FIRSTNAME + ", "
+					+ DataBaseConstant.PLAYER_LASTNAME + ", "
+					+ DataBaseConstant.PLAYER_MAIL + ", "
+					+ DataBaseConstant.PLAYER_BIRTHDAY + ", "
+					+ DataBaseConstant.PLAYER_ADDRESS_NUMBER + ", "
+					+ DataBaseConstant.PLAYER_ADDRESS_STREET + ", "
+					+ DataBaseConstant.PLAYER_ADDRESS_POSTAL_CODE + ", "
+					+ DataBaseConstant.PLAYER_ADDRESS_CITY
+					+ ") values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+			stmt.setString(1, user.getPseudo());
+			stmt.setString(2, user.getMail());
+			stmt.setString(3, user.getFirstName());
+			stmt.setString(4, user.getLastName());
+			stmt.setString(5, user.getMail());
+			stmt.setDate(6, new java.sql.Date(user.getBirthday().getTime()));
+			stmt.setInt(7, user.getAddrNumber());
+			stmt.setString(8, user.getAddrStreet());
+			stmt.setInt(9, user.getAddrPostalCode());
+			stmt.setString(10, user.getAddrCity());
+
 			stmt.executeUpdate();
 
+			if (withCommit)
+				con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			if(JDBCConnection.isConstraintViolation(e)) {
-				throw new UserAlreadyExistException(pseudo);
+			if (JDBCConnection.isConstraintViolation(e)) {
+				throw new UserAlreadyExistException(user.getPseudo());
 			}
 		} finally {
-			if(stmt != null) {
+			if (stmt != null) {
 				try {
 					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
