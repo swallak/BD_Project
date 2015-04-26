@@ -32,9 +32,25 @@ SELECT idPartie from JoueursParPartie
 
 SELECT pseudo from JoueursParPartie where IdPartie = x 
 
--- 
+-- Get all observable match header 
+
+SELECT Partie.idPartie, Date, joueur1.pseudo, joueur2.pseudo
+FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
+WHERE joueur1.pseudo <> userPseudo
+AND joueur2.pseudo <> userPseudo
+AND joueur1.idPartie = joueur2.idPartie
+AND joueur1.idPartie = Partie
 
 
 
 
 -- INSERTION
+
+-- Create new match :
+
+    First step :
+        INSERT INTO Partie (idPartie, dateDemarage) values (?,?);
+    Second step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+    Third step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);

@@ -78,19 +78,18 @@ CONSTRAINT Joueur_chk CHECK(dateNaissance > 01-JAN-1900 AND adrNumero > 0 AND ad
 
 CREATE TABLE Action
 (
-idAction INT,
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
 idBateau INT FOREIGN KEY REFERENCES Bateau(idBateau),
 tour INT,
 numAction INT,
-CONSTRAINT Action_pk PRIMARY KEY (idAction,idPartie)
+CONSTRAINT Action_pk PRIMARY KEY (idPartie, tour, numAction)
 );
 
 CREATE TABLE ActionDeplacement
 (
-idAction INT,
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
 tour INT,
+numAction INT,
 typeDeplacement VARCHAR(255),
 CONSTRAINT ActionDepl_pk PRIMARY KEY (idAction,idPartie),
 CONSTRAINT ActionDepl_chk CHECK ((typeDeplacement='droite' OR typeDeplacement='gauche' OR typeDeplacement='avancer' OR typeDeplacement='reculer')
@@ -98,9 +97,9 @@ CONSTRAINT ActionDepl_chk CHECK ((typeDeplacement='droite' OR typeDeplacement='g
 
 CREATE TABLE ActionTir
 (
-idAction INT,
 idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
 tour INT,
+numAction INT,
 cibleTirX INT,
 cibleTirY INT,
 CONSTRAINT ActionTir_pk PRIMARY KEY (idAction,idPartie)
