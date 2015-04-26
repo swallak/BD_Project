@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.util.Date;
 
 import model.user.User;
@@ -15,12 +16,11 @@ public abstract class UserDAO {
 	 *            date used as a password.
 	 * @return User create from data base.
 	 */
-	public abstract User findUser(String pseudo, Date date)
-			throws UserNotExistException;
+	public abstract User findUser(Connection con, boolean withCommit,
+			String pseudo, Date date) throws UserNotExistException;
 
-	public abstract void createUser(String pseudo, String mail,
-			String firstName, String lastName, Date date)
-			throws UserAlreadyExistException;
+	public abstract void createUser(Connection con, boolean withCommit,
+			User user) throws UserAlreadyExistException;
 
 	public class UserNotExistException extends Exception {
 		private static final long serialVersionUID = 6305537615090513026L;
