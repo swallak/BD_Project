@@ -45,4 +45,15 @@ public class DataBaseConstant {
 	protected final static String ACTION_SHOT_NUM_ACTION = "numAction";
 	protected final static String ACTION_SHOT_TARGET_X = "cibleTirX";
 	protected final static String ACTION_SHOT_TARGET_Y = "cibleTirY";
+
+	/* Table Bateau */
+	protected final static String BOAT_TABLE_NAME = "bateau";
+	protected final static String BOAT_MATCH_ID = "idPartie";
+	protected final static String BOAT_ID = "idBateau";
+	protected final static String BOAT_OWNER = "pseudo";
+	protected final static String BOAT_SIZE = "taille";
+	protected final static String BOAT_POS_X = "pivotX";
+	protected final static String BOAT_POS_Y = "pivotY";
+	protected final static String BOAT_ORIENTATION = "orientation";
+	protected final static String BOAT_HP = "pointVie";
 }

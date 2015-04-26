@@ -1,8 +1,13 @@
 package model.game;
 
+import model.user.AbstractUser;
+
 public class Boat {
 
 	private int id;
+
+	private Match match;
+	private AbstractUser owner;
 
 	private int size;
 	private int hp;
@@ -10,9 +15,10 @@ public class Boat {
 	private Orientation orientation;
 	private Position position;
 
-	public Boat(int id, int size, Orientation orientation, Position position) {
+	public Boat(Match match, AbstractUser owner, int id, int size, int hp,
+			Orientation orientation, Position position) {
 		this.size = size;
-		this.hp = size;
+		this.hp = hp;
 		this.orientation = orientation;
 		this.position = position;
 	}
@@ -43,6 +49,14 @@ public class Boat {
 
 	public Position getPosition() {
 		return position;
+	}
+
+	public Match getMatch() {
+		return match;
+	}
+
+	public AbstractUser getOwner() {
+		return owner;
 	}
 
 	public boolean isTouchBy(Position shot) {
@@ -80,12 +94,14 @@ public class Boat {
 	}
 
 	public enum Orientation {
-		TOP(0), LEFT(1), BOTTOM(2), RIGHT(3);
+		TOP(0, "nord"), LEFT(1, "ouest"), BOTTOM(2, "sud"), RIGHT(3, "est");
 
 		private final int value;
+		private final String strValue;
 
-		private Orientation(int value) {
+		private Orientation(int value, String strValue) {
 			this.value = value;
+			this.strValue = strValue;
 		}
 
 		public int getValue() {
@@ -106,6 +122,24 @@ public class Boat {
 				return RIGHT;
 			}
 			return null;
+		}
+
+		public static Orientation fromString(String str) {
+			if (str.equals(TOP.getStringValue())) {
+				return TOP;
+			} else if (str.equals(BOTTOM.getStringValue())) {
+				return BOTTOM;
+			} else if (str.equals(LEFT.getStringValue())) {
+				return LEFT;
+			} else if (str.equals(RIGHT.getStringValue())) {
+				return RIGHT;
+			} else {
+				return null;
+			}
+		}
+
+		public String getStringValue() {
+			return strValue;
 		}
 	}
 }
