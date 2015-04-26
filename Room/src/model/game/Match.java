@@ -15,7 +15,7 @@ public class Match {
 
 	private AbstractUser playerOne;
 	private AbstractUser playerTwo;
-	
+
 	private Map<Integer, Boat> playerOneBoats;
 	private Map<Integer, Boat> playerTwoBoats;
 
@@ -99,5 +99,13 @@ public class Match {
 		return match.startDate.toString().hashCode()
 				+ match.playerOne.getPseudo().hashCode()
 				+ match.playerTwo.hashCode();
+	}
+
+	public void setPlayerOneBoat(Map<Integer, Boat> boatMap) {
+		playerOneBoats = boatMap;
+	}
+
+	public void setPlayerTwoBoat(Map<Integer, Boat> boatMap) {
+		playerOneBoats = boatMap;
 	}
 }

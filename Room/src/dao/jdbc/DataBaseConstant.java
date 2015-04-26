@@ -18,6 +18,7 @@ public class DataBaseConstant {
 	protected final static String PLAYER_ON_MATCH_TABLE_NAME = "JoueursParPartie";
 	protected final static String PLAYER_ON_MATCH_MATCH_ID = "idPartie";
 	protected final static String PLAYER_ON_MATCH_PLAYER_PSEUDO = "pseudo";
+	protected final static String PLAYER_ON_MATCH_NUM = "numJoueur";
 
 	/* Table Partie */
 	protected final static String MATCH_TABLE_NAME = "Partie";

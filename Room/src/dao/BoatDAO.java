@@ -18,7 +18,7 @@ public abstract class BoatDAO {
 	 * {@link MatchDAO#getAllInfoMatch(Connection, Match)}
 	 */
 	public abstract Map<Integer, Boat> findBoatMap(Connection con,
-			boolean withCommit, Match match, AbstractUser player);
+			boolean withCommit, Match match, AbstractUser player) throws BoatNotExistException;
 
 	public abstract void createBoatList(Connection con, boolean withCommit,
 			List<Boat> boats) throws BoatNotCreatedException;
@@ -26,6 +26,10 @@ public abstract class BoatDAO {
 	public abstract void updateBoat(Connection con, boolean withCommit,
 			Boat boat) throws BoatStateNotSaveException;
 
+	public class BoatNotExistException extends Exception {
+		private static final long serialVersionUID = 537771878750643104L;
+	}
+	
 	public class BoatNotCreatedException extends Exception {
 		private static final long serialVersionUID = -352196270508443774L;
 	}
