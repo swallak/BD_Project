@@ -104,14 +104,13 @@ public class BoatDAO_JDBC extends BoatDAO {
 				con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-
-			throw new BoatNotCreatedException();
-		} finally {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new BoatNotCreatedException();
+		} finally {
 			if (stmt != null) {
 				try {
 
@@ -161,13 +160,13 @@ public class BoatDAO_JDBC extends BoatDAO {
 				con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new BoatStateNotSaveException();
-		} finally {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
+			throw new BoatStateNotSaveException();
+		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
