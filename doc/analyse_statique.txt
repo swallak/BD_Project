@@ -10,9 +10,9 @@ Dépendances fonctionnelles :
 	pseudo -> (nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance)
 	idPartie -> (dateDemarrage)
 	(idPartie, idBateau) -> (taille, pivotX, pivotY, orientation, pointVie, pseudo)
-	(idPartie, idAction) -> (tour, idBateau, idJoueur)
-	(idPartie, idActionDepl) -> (tour, typeMouvement, idBateau)
-	(idPartie, idActionTir) -> (tour, cibleTirX, cibleTirY, idBateau) 
+	(idPartie, tour, numAction) -> idBateau, pseudo
+	(idPartie, tour, numAction) -> (typeMouvement)
+	(idPartie, tour, numAction) -> (cibleTirX, cibleTirY) 
 
 Contraintes de valeur :
 
