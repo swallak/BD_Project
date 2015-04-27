@@ -45,7 +45,7 @@ public class SignInViewFrame extends MainFrame {
         setSize(size);
 
         //Create component
-        signIn = new SignInViewPanel();
+        final SignInViewPanel signIn = new SignInViewPanel();
 
         //add component
         Container container = getContentPane();

@@ -6,14 +6,19 @@
 package view;
 
 import controller.LogInController;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+
+import dao.jdbc.JDBCConnection;
 
 /**
  *
@@ -22,8 +27,16 @@ import javax.swing.SwingUtilities;
 public class Room {
 
     public static void main(String[] args) {
-        MainFrame SignInFrame = new SignInViewFrame("GameRoom-SignIn");
-        MainFrame SignUpFrame = new SignUpViewFrame("GameRoom-SignUp");
+    	
+    	try {
+			JDBCConnection.registerJDBDriver();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return;
+		}
+    	
+        final MainFrame SignInFrame = new SignInViewFrame("GameRoom-SignIn");
+        final MainFrame SignUpFrame = new SignUpViewFrame("GameRoom-SignUp");
         
         SwingUtilities.invokeLater(new Runnable() {
 
