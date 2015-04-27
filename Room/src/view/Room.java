@@ -35,6 +35,7 @@ public class Room {
                 
                 //SignIn Frame location and size
                 //SignInFrame.setLocation(0, 150);
+                
                 SignInFrame.setSize(500, 500);
                 SignInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 SignInFrame.setVisible(true);
