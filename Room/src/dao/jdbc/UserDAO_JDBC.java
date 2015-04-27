@@ -19,7 +19,7 @@ public class UserDAO_JDBC extends UserDAO {
 		ResultSet rs = null;
 		try {
 			/* Verifie si l'utilisateur existe */
-			stmtUser = con.prepareStatement("select * into "
+			stmtUser = con.prepareStatement("select * from "
 					+ DataBaseConstant.PLAYER_TABLE_NAME + " where "
 					+ DataBaseConstant.PLAYER_PSEUDO + "= ? AND "
 					+ DataBaseConstant.PLAYER_BIRTHDAY + "= ?");
@@ -96,15 +96,14 @@ public class UserDAO_JDBC extends UserDAO {
 					+ ") values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt.setString(1, user.getPseudo());
-			stmt.setString(2, user.getMail());
-			stmt.setString(3, user.getFirstName());
-			stmt.setString(4, user.getLastName());
-			stmt.setString(5, user.getMail());
-			stmt.setDate(6, new java.sql.Date(user.getBirthday().getTime()));
-			stmt.setInt(7, user.getAddrNumber());
-			stmt.setString(8, user.getAddrStreet());
-			stmt.setInt(9, user.getAddrPostalCode());
-			stmt.setString(10, user.getAddrCity());
+			stmt.setString(2, user.getFirstName());
+			stmt.setString(3, user.getLastName());
+			stmt.setString(4, user.getMail());
+			stmt.setDate(5, new java.sql.Date(user.getBirthday().getTime()));
+			stmt.setInt(6, user.getAddrNumber());
+			stmt.setString(7, user.getAddrStreet());
+			stmt.setInt(8, user.getAddrPostalCode());
+			stmt.setString(9, user.getAddrCity());
 
 			stmt.executeUpdate();
 
