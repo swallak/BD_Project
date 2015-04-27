@@ -35,7 +35,9 @@ public class OpponentDAO_JDBC extends OpponentDAO {
 			/*
 			 * SELECT pseudo FROM JoueurParPartie WHERE pseudo != ? HAVING
 			 * COUNT(*) = (SELECT MIN(COUNT*) FROM JoueurParPartie WHERE pseudo
-			 * != ? GROUP BY pseudo) GROUP BY pseudo
+			 * != ? GROUP BY pseudo) GROUP BY pseudo UNION SELECT pseudo FROM
+			 * Joueur WHERE NOT EXISTS(SELECT * FROM JoueurParPartie jp WHERE
+			 * jp.pseudo = pseudo)
 			 */
 			stmt = con.prepareStatement("select "
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + " from "
@@ -47,7 +49,16 @@ public class OpponentDAO_JDBC extends OpponentDAO {
 					+ "!= ? group by "
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
 					+ " ) group by "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO);
+					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
+					+ " union select " + DataBaseConstant.PLAYER_PSEUDO
+					+ " from " + DataBaseConstant.PLAYER_TABLE_NAME
+					+ " p1  where not exists (select * from "
+					+ DataBaseConstant.PLAYER_ON_MATCH_TABLE_NAME
+					+ " p2  where p1." + DataBaseConstant.PLAYER_PSEUDO
+					+ " =  p2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + ")",
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE);
 
 			stmt.setString(1, currentUser.getPseudo());
 			stmt.setString(2, currentUser.getPseudo());
@@ -68,6 +79,8 @@ public class OpponentDAO_JDBC extends OpponentDAO {
 					withCommit,
 					rs.getString(DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO));
 
+			if (withCommit)
+				con.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (OpponentNotExistException e) {
@@ -115,8 +128,12 @@ public class OpponentDAO_JDBC extends OpponentDAO {
 
 				rs = stmt.executeQuery();
 
-				result = new Opponent(
-						rs.getString(DataBaseConstant.PLAYER_PSEUDO));
+				if (rs.next()) {
+					result = new Opponent(
+							rs.getString(DataBaseConstant.PLAYER_PSEUDO));
+				} else {
+					throw new OpponentNotExistException(pseudo);
+				}
 
 				opponentMap.put(result.getPseudo(), result);
 
