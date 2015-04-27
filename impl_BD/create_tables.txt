@@ -1,134 +1,133 @@
-CREATE TABLE Bateau
-(
-idBateau INT,
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-pseudo VARCHAR(255) FOREIGN KEY REFERENCES Joueur(pseudo),
-taille INT,
-pivotX INT,
-pivotY INT,
-orientation VARCHAR(255),
-pointVie INT,
-CONSTRAINT Bateau_pk PRIMARY KEY (idBateau, idPartie), --it's gonna blow
-CONSTRAINT Bateu_chk CHECK ((orientation='nord' OR orientation='sud' OR orientation='est' OR orientation='ouest') AND
-                            pointVie>=0 AND pivotX>=0 AND pivotX<8 AND pivotY>=0 AND pivotY<8 AND (taille=2 OR taille=3) AND
-                            (
-                            CASE 
-                            WHEN orientation='nord' THEN 
-                                  CASE 
-                                  WHEN pivotY+taille < 8 THEN 1 
-                                  ELSE 0
-                                  END
-                            END
+--commandes en une ligne
+CREATE TABLE Bateau(idBateau INT,idPartie INT,pseudo VARCHAR(255),taille INT,pivotX INT,pivotY INT,orientation VARCHAR(255),pointVie INT,CONSTRAINT Bateau_pk PRIMARY KEY (idBateau, idPartie),CONSTRAINT Partie_Bat_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie), CONSTRAINT Joueur_Bat_fk FOREIGN KEY(pseudo) REFERENCES Joueur(pseudo), CONSTRAINT Bateu_chk CHECK ((orientation='nord' OR orientation='sud' OR orientation='est' OR orientation='ouest') AND pointVie>=0 AND pivotX>=0 AND pivotX<8 AND pivotY>=0 AND pivotY<8 AND (taille=2 OR taille=3) AND (((Orientation = 'nord') and (pivotY + taille < 8)) or ((orientation= 'sud') and (pivotY-taille >= 0)) or ((orientation='est') and (pivotX+taille < 8)) or ((orientation='ouest') and (pivotX-taille >= 0)))));
 
-                            AND                            
-                              
-                            CASE 
-                            WHEN orientation='sud' THEN 
-                                  CASE 
-                                  WHEN pivotY-taille >= 0 THEN 1 
-                                  ELSE 0
-                                  END
-                            END
+CREATE TABLE Joueur (pseudo VARCHAR(255),nom VARCHAR(255),prenom VARCHAR(255),mail VARCHAR(255),dateNaissance DATE,adrRue VARCHAR(255),adrNumero INT,adrCodePostal INT,adrVille VARCHAR(255),CONSTRAINT Joueur_pk PRIMARY KEY (pseudo),CONSTRAINT Joueur_chk CHECK(dateNaissance > '01-JAN-1900' AND adrNumero > 0 AND adrCodePostal > 0));
 
-                            AND                            
-                              
-                            CASE 
-                            WHEN orientation='est' THEN 
-                                  CASE 
-                                  WHEN pivotX+taille < 8 THEN 1 
-                                  ELSE 0
-                                  END
-                            END
-                            
-                            AND                            
-                              
-                            CASE 
-                            WHEN orientation='ouest' THEN 
-                                  CASE 
-                                  WHEN pivotX-taille >= 0 THEN 1 
-                                  ELSE 0
-                                  END
-                            END
-                            )
-                            )
-);
+CREATE TABLE Partie (idPartie INT,dateDemarrage DATE,CONSTRAINT Partie_pk PRIMARY KEY (idPartie),CONSTRAINT Partie_chk CHECK(dateDemarrage > '01-JAN-2015'));
 
-CREATE TABLE Partie
-(
-idPartie INT,
-dateDemarage DATE,
-CONSTRAINT Partie_pk PRIMARY KEY (idPartie),
-CONSTRAINT Partie_chk CHECK(dateDemarage > '01-JAN-2015') --it's gonna blow
-);
+CREATE TABLE Action(idPartie INT,idBateau INT,pseudo VARCHAR(255),tour INT,numAction INT,CONSTRAINT Action_pk PRIMARY KEY (idPartie, tour, numAction),CONSTRAINT Bateau_Act_fk FOREIGN KEY (idBateau, idPartie) REFERENCES Bateau(idBateau, idPartie),CONSTRAINT Joueur_Act_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo));
 
-CREATE TABLE Joueur
-(
-pseudo VARCHAR(255),
-nom VARCHAR(255),
-prenom VARCHAR(255),
-mail VARCHAR(255),
-dateNaissance DATE,
-adrRue VARCHAR(255),
-adrNumero INT,
-adrCodePostal INT,
-adrVille VARCHAR(255),
-CONSTRAINT Joueur_pk PRIMARY KEY (pseudo),
-CONSTRAINT Joueur_chk CHECK(dateNaissance > 01-JAN-1900 AND adrNumero > 0 AND adrCodePostal > 0)
-);
+CREATE TABLE ActionDeplacement(idPartie INT,tour INT,numAction INT,typeDeplacement VARCHAR(255),CONSTRAINT ActionDepl_pk PRIMARY KEY (tour,idPartie, numAction),CONSTRAINT ActionDepl_chk CHECK (typeDeplacement='droite' OR typeDeplacement='gauche' OR typeDeplacement='avancer' OR typeDeplacement='reculer'),CONSTRAINT ActionDepl_fk FOREIGN KEY (tour, idPartie, numAction) REFERENCES Action(tour, idPartie, numAction));
 
-CREATE TABLE Action
-(
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-idBateau INT FOREIGN KEY REFERENCES Bateau(idBateau),
-tour INT,
-numAction INT,
-CONSTRAINT Action_pk PRIMARY KEY (idPartie, tour, numAction)
-);
+CREATE TABLE ActionTir(idPartie INT,tour INT,numAction INT,cibleTirX INT,cibleTirY INT,CONSTRAINT ActionTir_pk PRIMARY KEY (tour,idPartie, numAction),CONSTRAINT ActionTir_chk CHECK (cibleTirX>=0 AND cibleTirX<8 AND cibleTirY>=0 AND cibleTirY<8),CONSTRAINT ActionTir_fk FOREIGN KEY (tour, idPartie, numAction) REFERENCES Action(tour, idPartie, numAction));
 
-CREATE TABLE ActionDeplacement
-(
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-tour INT,
-numAction INT,
-typeDeplacement VARCHAR(255),
-CONSTRAINT ActionDepl_pk PRIMARY KEY (idAction,idPartie),
-CONSTRAINT ActionDepl_chk CHECK ((typeDeplacement='droite' OR typeDeplacement='gauche' OR typeDeplacement='avancer' OR typeDeplacement='reculer')
-);
+CREATE TABLE Vainqueurs(idPartie INT,pseudo VARCHAR(255),CONSTRAINT Vainqueurs_pk PRIMARY KEY (idPartie),CONSTRAINT Vainqueur_Partie_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie),CONSTRAINT Vainqueur_Joueur_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo));
 
-CREATE TABLE ActionTir
-(
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-tour INT,
-numAction INT,
-cibleTirX INT,
-cibleTirY INT,
-CONSTRAINT ActionTir_pk PRIMARY KEY (idAction,idPartie)
-CONSTRAINT ActionTir_chk CHECK (cibleTirX>=0 AND cibleTirX<8 AND cibleTirY>=0 AND cibleTirY<8)
-);
-
-CREATE TABLE Vainqueurs
-(
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-idBateau INT FOREIGN KEY REFERENCES Bateau(idBateau),
-tour INT,
-CONSTRAINT Vainqueurs_pk PRIMARY KEY (idPartie)
-);
-
-CREATE TABLE JoueursParPartie
-(
-pseudo VARCHAR(255) FOREIGN KEY REFERENCES Joueur(pseudo),
-idPartie INT FOREIGN KEY REFERENCES Partie(idPartie),
-numJoueur,
-CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo)
-), CONSTRAINT NumJoueur (nbJoueur = 1 OR nbJoueur = 2);
+CREATE TABLE JoueursParPartie(pseudo VARCHAR(255),idPartie INT,numJoueur INT,CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo), CONSTRAINT NbJoueur_chk CHECK(numJoueur = 1 OR numJoueur = 2),CONSTRAINT JoueursDePartie_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo),CONSTRAINT PartieJoue_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie));
 
 
+--commandes de teste
+
+--teste d'insertion dans Bateau
+INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (8, 1, 'xu', 2, 0, 0, 'nord', 2);
+--teste d'insertion dans Joueur
+INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES ('xu', 'matheus', 'schuh', 'xu@gmail.com', '24-JAN-1994', 'caxias', 8, 350, 'barao');
+--teste d'insertion dans Partie
+INSERT INTO Partie(idPartie, dateDemarrage) VALUES (1,'25-FEB-2015');
+
+--teste qui essaie de bouger le bateau à une position invalide
+update Bateau set pivotY = 7 where idBateau = 8;
+
+--clear le tableau Bateau 
+delete from Bateau
 
 
+--commandes plus ligibles
+CREATE TABLE Bateau(
+  idBateau INT,
+  idPartie INT,
+  pseudo VARCHAR(255),
+  taille INT,
+  pivotX INT,
+  pivotY INT,
+  orientation VARCHAR(255),
+  pointVie INT,
+  CONSTRAINT Bateau_pk PRIMARY KEY (idBateau, idPartie),
+  CONSTRAINT Partie_Bat_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie), 
+  CONSTRAINT Joueur_Bat_fk FOREIGN KEY(pseudo) REFERENCES Joueur(pseudo), 
+  CONSTRAINT Bateu_chk CHECK (
+                                (orientation='nord' OR orientation='sud' OR orientation='est' OR orientation='ouest') AND
+                                pointVie>=0 AND pivotX>=0 AND pivotX<8 AND pivotY>=0 AND pivotY<8 AND (taille=2 OR taille=3) AND
+                                (
+                                  ((Orientation = 'nord') AND (pivotY + taille < 8)) OR 
+                                  ((orientation= 'sud') AND (pivotY-taille >= 0)) OR
+                                  ((orientation='est') AND (pivotX+taille < 8)) OR 
+                                  ((orientation='ouest') AND (pivotX-taille >= 0))
+                                )
+                              )
+  );
 
 
+CREATE TABLE Joueur (
+  pseudo VARCHAR(255),
+  nom VARCHAR(255),
+  prenom VARCHAR(255),
+  mail VARCHAR(255),
+  dateNaissance DATE,
+  adrRue VARCHAR(255),
+  adrNumero INT,
+  adrCodePostal INT,
+  adrVille VARCHAR(255),
+  CONSTRAINT Joueur_pk PRIMARY KEY (pseudo),
+  CONSTRAINT Joueur_chk CHECK(dateNaissance > '01-JAN-1900' AND adrNumero > 0 AND adrCodePostal > 0)
+  );
 
 
+CREATE TABLE Partie (
+  idPartie INT,
+  dateDemarrage DATE,
+  CONSTRAINT Partie_pk PRIMARY KEY (idPartie),
+  CONSTRAINT Partie_chk CHECK(dateDemarrage > '01-JAN-2015')
+  );
 
 
+CREATE TABLE Action(
+  idPartie INT,
+  idBateau INT,
+  pseudo VARCHAR(255),
+  tour INT,
+  numAction INT,
+  CONSTRAINT Action_pk PRIMARY KEY (idPartie, tour, numAction),
+  CONSTRAINT Bateau_Act_fk FOREIGN KEY (idBateau, idPartie) REFERENCES Bateau(idBateau, idPartie),
+  CONSTRAINT Joueur_Act_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo)
+  );
+
+CREATE TABLE ActionDeplacement(
+  idPartie INT,
+  tour INT,
+  numAction INT,
+  typeDeplacement VARCHAR(255),
+  CONSTRAINT ActionDepl_pk PRIMARY KEY (tour,idPartie, numAction),
+  CONSTRAINT ActionDepl_fk FOREIGN KEY (tour, idPartie, numAction) REFERENCES Action(tour, idPartie, numAction),
+  CONSTRAINT ActionDepl_chk CHECK (typeDeplacement='droite' OR typeDeplacement='gauche' OR typeDeplacement='avancer' OR typeDeplacement='reculer')
+  );
+
+CREATE TABLE ActionTir(
+  idPartie INT,
+  tour INT,
+  numAction INT,
+  cibleTirX INT,
+  cibleTirY INT,C
+  ONSTRAINT ActionTir_pk PRIMARY KEY (tour,idPartie, numAction),
+  CONSTRAINT ActionTir_fk FOREIGN KEY (tour, idPartie, numAction) REFERENCES Action(tour, idPartie, numAction),
+  CONSTRAINT ActionTir_chk CHECK (cibleTirX>=0 AND cibleTirX<8 AND cibleTirY>=0 AND cibleTirY<8)
+  );
+
+CREATE TABLE Vainqueurs(
+  idPartie INT,
+  pseudo VARCHAR(255),
+  CONSTRAINT Vainqueurs_pk PRIMARY KEY (idPartie),
+  CONSTRAINT Vainqueur_Partie_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie),
+  CONSTRAINT Vainqueur_Joueur_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo)
+  );
+
+CREATE TABLE JoueursParPartie(
+  pseudo VARCHAR(255),
+  idPartie INT,
+  numJoueur INT,
+  CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo), 
+  CONSTRAINT NbJoueur_chk CHECK(numJoueur = 1 OR numJoueur = 2),
+  CONSTRAINT JoueursDePartie_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo),
+  CONSTRAINT PartieJoue_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie)
+  );
 
