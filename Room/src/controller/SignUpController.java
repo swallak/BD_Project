@@ -80,7 +80,7 @@ public class SignUpController {
         /*User = new User(pseudo, mail, firstName, lastName,
                 birthday, addrNumber, addrStreet,
                 addrPostalCode, addrCity);*/
-        System.out.println("connecting..." + pseudo);
+        System.out.println(this.toString());
 		UserDAO user = new UserDAO_JDBC();
 
 		Connection con = null;
@@ -103,5 +103,11 @@ public class SignUpController {
             return new User( pseudo,  mail,  firstName,  lastName,
 			 birthday,  addrNumber,  addrStreet,
 			 addrPostalCode,  addrCity);
+        }
+        
+        public String toString ()
+        {
+            return "Creating pseudo:"+this.pseudo+"\nBirthday:"+this.birthday+"\firstname:"+this.firstName
+                    +"\nlastname"+this.lastName;
         }
 }
