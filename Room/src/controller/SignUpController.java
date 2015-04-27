@@ -58,7 +58,7 @@ public class SignUpController {
 		try {
 			addrNumber = Integer.parseInt(signUp.getStreetNumber());
 		} catch (NumberFormatException ex) {
-			// signUp.addLabel("error", 2, 5);
+			 signUp.addLabel("error", 2, 5);
 			validFields = false;
 		}
 
@@ -67,7 +67,7 @@ public class SignUpController {
 			addrPostalCode = Integer.parseInt(signUp.getZipCode());
 
 		} catch (NumberFormatException ex) {
-			// signUp.addLabel("error", 2, 6);
+			 signUp.addLabel("error", 2, 6);
 			validFields = false;
 		}
 
