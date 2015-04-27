@@ -197,8 +197,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 					+ DataBaseConstant.MATCH_START_DATE + ", "
 					+ DataBaseConstant.MATCH_ID + ") values ( ?, ?)");
 
-			stmt.setInt(1, match.getId());
-			stmt.setDate(2, new java.sql.Date(match.getStartDate().getTime()));
+			stmt.setInt(2, match.getId());
+			stmt.setDate(1, new java.sql.Date(match.getStartDate().getTime()));
 
 			stmt.executeUpdate();
 			stmt.close();
@@ -220,8 +220,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 
 			stmt.executeUpdate();
 
-			stmt.setString(2, match.getPlayerTwo().getPseudo());
-			stmt.setInt(3, 1);
+			stmt.setString(1, match.getPlayerTwo().getPseudo());
+			stmt.setInt(3, 2);
 
 			stmt.executeUpdate();
 
