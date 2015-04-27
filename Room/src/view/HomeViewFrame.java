@@ -56,8 +56,8 @@ public class HomeViewFrame extends MainFrame{
         
         public class HomeViewInfoPanel extends JPanel{
             
-           private JLabel pseudoLabel = new JLabel("User's Pseudo");
-           private JLabel cityLabel = new JLabel ("user's city");
+           private JLabel pseudoLabel = new JLabel(user.getPseudo());
+           private JLabel cityLabel = new JLabel (user.getAddrCity());
            private JButton logoutButton = new JButton("Log out");
                   
            

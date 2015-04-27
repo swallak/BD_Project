@@ -59,6 +59,9 @@ public class Room {
 
             @Override
             public void run() {
+                
+                MainFrame matchview = new MatchViewFrame("Shit");
+                matchview.setVisible(true);
   
             }
 
