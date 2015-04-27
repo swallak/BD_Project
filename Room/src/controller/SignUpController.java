@@ -44,7 +44,7 @@ public class SignUpController {
 		pseudo = signUp.getPseudo();
 		try {
 			
-			birthday = dateFormat.parse("1993/09/11");
+			birthday = dateFormat.parse(signUp.getBirthday());
 		} catch (ParseException ex) {
 			Logger.getLogger(SignUpController.class.getName()).log(
 					Level.SEVERE, null, ex);
