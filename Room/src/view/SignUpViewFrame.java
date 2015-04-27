@@ -40,7 +40,7 @@ public class SignUpViewFrame extends MainFrame {
 
 
         //Create component
-        signUp = new SignUpViewPanel();
+        final SignUpViewPanel signUp = new SignUpViewPanel();
 
         //add component
         Container container = getContentPane();
