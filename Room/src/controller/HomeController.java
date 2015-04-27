@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Savepoint;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.game.Match;
 import model.user.Opponent;
+import view.HomeViewFrame;
 import dao.MatchDAO;
 import dao.MatchDAO.MatchNotCreatedException;
 import dao.MatchDAO.MatchStateNotSave;
@@ -16,7 +18,6 @@ import dao.OpponentDAO.OpponentNotAvailableException;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 import dao.jdbc.OpponentDAO_JDBC;
-import view.HomeViewFrame;
 
 public class HomeController {
 
@@ -38,16 +39,16 @@ public class HomeController {
 			savePoint = con.setSavepoint("startMatch");
 			Opponent opp = opponentDAO.findAvailableOpponent(con, true,
 					frame.getUser());
-			
+
 			System.out.println("Opponent " + opp.getPseudo());
-			
+
 			Date startDate = new Date(System.currentTimeMillis());
 			int id = Match.createId(startDate, frame.getUser(), opp);
-			
+
 			Match match = new Match(id, frame.getUser(), opp, null, startDate);
-			
+
 			matchDAO.createMatch(con, false, match);
-			
+
 			con.commit();
 		} catch (SQLException e) {
 			// TODO ERROR
@@ -58,7 +59,7 @@ public class HomeController {
 				e1.printStackTrace();
 			}
 		} catch (OpponentNotAvailableException e) {
-			//TODO ERROR
+			// TODO ERROR
 			e.printStackTrace();
 		} catch (MatchNotCreatedException e) {
 			// TODO Auto-generated catch block
@@ -73,6 +74,34 @@ public class HomeController {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public List<Match> getPlayableMatch(HomeViewFrame frame) {
+		Connection con = null;
+		List<Match> result = new ArrayList<Match>();
+		try {
+			con = JDBCConnection.openConnection();
+			result = matchDAO
+					.getPlayableMatchHeader(con, true, frame.getUser());
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public List<Match> getObservableMatch(HomeViewFrame frame) {
+		Connection con = null;
+		List<Match> result = new ArrayList<Match>();
+		try {
+			con = JDBCConnection.openConnection();
+			result = matchDAO.geObservableMatchHeader(con, true,
+					frame.getUser());
+			con.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
