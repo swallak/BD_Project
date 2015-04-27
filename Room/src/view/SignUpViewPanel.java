@@ -34,7 +34,7 @@ public class SignUpViewPanel extends JPanel{
     
     //Components
     private final JLabel pseudoLabel = new JLabel ("Pseudo  ");
-    private final JLabel birthdayLabel = new JLabel("Birthday  ");
+    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY-MM-DD)  ");
     private final JLabel lastNameLabel = new JLabel("Last Name  ");
     private final JLabel firstNameLabel = new JLabel("First Name  ");
     private final JLabel streetNameLabel = new JLabel("Street  ");
@@ -50,7 +50,7 @@ public class SignUpViewPanel extends JPanel{
     protected final JTextField cityField = new JTextField(WIDTH);
     protected final JTextField zipcodeField = new JTextField(WIDTH);
     protected final JButton createButton = new JButton("Create");
-    protected final JButton alreadyButton = new JButton("Already an account?");
+    protected final JButton alreadyButton = new JButton("Already have an account?");
     
     public SignUpViewPanel(){
         

@@ -58,7 +58,7 @@ public class SignUpController {
 		try {
 			addrNumber = Integer.parseInt(signUp.getStreetNumber());
 		} catch (NumberFormatException ex) {
-			 signUp.addLabel("error", 2, 5);
+			//signUp.addLabel("error", 2, 5);
 			validFields = false;
 		}
 
@@ -67,13 +67,13 @@ public class SignUpController {
 			addrPostalCode = Integer.parseInt(signUp.getZipCode());
 
 		} catch (NumberFormatException ex) {
-			 signUp.addLabel("error", 2, 6);
+			 //signUp.addLabel("error", 2, 6);
 			validFields = false;
 		}
 
 		if (!validFields)
 			signUpViewFrame
-					.popErrorDialog("The infos you entered is not correct");
+					.popErrorDialog("The infos you entered are not correct");
 
         /*User = new User(pseudo, mail, firstName, lastName,
                 birthday, addrNumber, addrStreet,
