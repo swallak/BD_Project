@@ -26,10 +26,15 @@ public class SignUpViewFrame extends MainFrame {
     private Dimension size = new Dimension(500, 500);
     public final static Point DEFAULT_LOCATION = new Point(50,50);
     
+    
     private SignUpViewPanel signUp = new SignUpViewPanel();
+    private SignUpController controller;
+    
     public SignUpViewFrame(String title) {
 
         super(title);
+        
+        controller = new SignUpController();
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(DEFAULT_LOCATION);
@@ -37,10 +42,6 @@ public class SignUpViewFrame extends MainFrame {
         setSize(size);
         //Set Layout
         setLayout(new BorderLayout());
-
-
-        //Create component
-        final SignUpViewPanel signUp = new SignUpViewPanel();
 
         //add component
         Container container = getContentPane();
@@ -53,8 +54,9 @@ public class SignUpViewFrame extends MainFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Still needs to be finished
+            		controller.createAccount(SignUpViewFrame.this);
+                        SignUpViewFrame.this.setSwitchToFrame2(new SignInViewFrame("SignIn"));
+                        SignUpViewFrame.this.switchFrame2();
             }
 
         });

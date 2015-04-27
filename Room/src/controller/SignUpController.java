@@ -32,71 +32,75 @@ public class SignUpController {
     private int addrPostalCode;
     private String addrStreet;
 
-    public SignUpController(SignUpViewFrame signUpViewFrame) {
-        
-        SignUpViewPanel signUp = signUpViewFrame.getSignUpViewPanel();
-        boolean validFields = true;
-        pseudo = signUp.getPseudo();
-        try {
-            birthday = dateFormat.parse(signUp.getBirthday());
-        } catch (ParseException ex) {
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-            validFields=false;
-            
-        }
-        firstName = signUp.getFirstName();
-        lastName = signUp.getLastName();
-        addrStreet = (signUp.getStreetName());
-        try{
-        addrNumber = Integer.parseInt(signUp.getStreetNumber());
-        }catch(NumberFormatException ex)
-        {
-            //signUp.addLabel("error", 2, 5);
-            validFields=false;
-        }
-        
-        addrCity = signUp.getCity();
-        try{
-            addrPostalCode = Integer.parseInt(signUp.getZipCode());
-
-        }catch(NumberFormatException ex)
-        {
-            //signUp.addLabel("error", 2, 6);
-            validFields=false;
-        }
-        
-        if(!validFields)
-            signUpViewFrame.popErrorDialog("The infos you entered is not correct");     
-    }
-
     /**
      *
      * @return true if account creation succeeded
      */
-    public void createAccount(SignUpViewFrame signUpViewFrame){
+	public void createAccount(SignUpViewFrame signUpViewFrame) {
+		SignUpViewPanel signUp = signUpViewFrame.getSignUpViewPanel();
+		
+		boolean validFields = true;
+		
+		pseudo = signUp.getPseudo();
+		try {
+			
+			birthday = dateFormat.parse("1993/09/11");
+		} catch (ParseException ex) {
+			Logger.getLogger(SignUpController.class.getName()).log(
+					Level.SEVERE, null, ex);
+			validFields = false;
 
+		}
+		firstName = signUp.getFirstName();
+		lastName = signUp.getLastName();
+		addrStreet = (signUp.getStreetName());
+		
+		try {
+			addrNumber = Integer.parseInt(signUp.getStreetNumber());
+		} catch (NumberFormatException ex) {
+			// signUp.addLabel("error", 2, 5);
+			validFields = false;
+		}
 
+		addrCity = signUp.getCity();
+		try {
+			addrPostalCode = Integer.parseInt(signUp.getZipCode());
+
+		} catch (NumberFormatException ex) {
+			// signUp.addLabel("error", 2, 6);
+			validFields = false;
+		}
+
+		if (!validFields)
+			signUpViewFrame
+					.popErrorDialog("The infos you entered is not correct");
 
         /*User = new User(pseudo, mail, firstName, lastName,
                 birthday, addrNumber, addrStreet,
                 addrPostalCode, addrCity);*/
         System.out.println(this.toString());
+		/*
+		 * User = new User(pseudo, mail, firstName, lastName, birthday,
+		 * addrNumber, addrStreet, addrPostalCode, addrCity);
+		 */
+		System.out.println("connecting..." + pseudo);
 		UserDAO user = new UserDAO_JDBC();
 
 		Connection con = null;
+		
 		try {
 			con = JDBCConnection.openConnection();
 			user.createUser(con, true, createUser());
 		} catch (SQLException e) {
 			e.printStackTrace();
-                        signUpViewFrame.popErrorDialog("Connection Problem");
-		} catch (UserDAO.UserAlreadyExistException ex) { 
-            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
-            
-            signUpViewFrame.popErrorDialog(ex.getMessage());
-        } 
+			signUpViewFrame.popErrorDialog("Connection Problem");
+		} catch (UserDAO.UserAlreadyExistException ex) {
+			Logger.getLogger(SignUpController.class.getName()).log(
+					Level.SEVERE, null, ex);
+			signUpViewFrame.popErrorDialog(ex.getMessage());
+		}
 
-    }
+	}
 
         public User createUser()
         {
