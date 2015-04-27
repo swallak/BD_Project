@@ -55,8 +55,9 @@ public class SignUpViewFrame extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             		controller.createAccount(SignUpViewFrame.this);
-                        SignUpViewFrame.this.setSwitchToFrame2(new SignInViewFrame("SignIn"));
-                        SignUpViewFrame.this.switchFrame2();
+                        //SignUpViewFrame.this.setSwitchToFrame2(new SignInViewFrame("SignIn"));
+                        //SignUpViewFrame.this.switchFrame2();
+                        switchFrame();
             }
 
         });
