@@ -87,6 +87,7 @@ public class SignUpController {
 		try {
 			con = JDBCConnection.openConnection();
 			user.createUser(con, true, createUser());
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			signUpViewFrame.popErrorDialog("Connection Problem");
