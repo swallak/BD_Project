@@ -8,13 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import model.game.Match;
-import model.user.Opponent;
+import model.user.AbstractUser;
 import model.user.User;
 import dao.ActionDAO;
 import dao.ActionDAO.TurnNotExistsException;
 import dao.BoatDAO;
 import dao.BoatDAO.BoatNotExistException;
 import dao.MatchDAO;
+import dao.OpponentDAO;
+import dao.OpponentDAO.OpponentNotExistException;
 
 public class MatchDAO_JDBC extends MatchDAO {
 
@@ -29,7 +31,14 @@ public class MatchDAO_JDBC extends MatchDAO {
 		 * SELECT Partie.idPartie, Date, joueur1.pseudo, joueur2.pseudo FROM
 		 * JoueursPartie joueur1, JoueursPartie joueur2, Partie WHERE
 		 * joueur1.pseudo <> userPseudo AND joueur2.pseudo <> userPseudo AND
-		 * joueur1.idPartie = joueur2.idPartie AND joueur1.idPartie = Partie
+		 * joueur1.idPartie = joueur2.idPartie AND joueur1.idPartie = Partie and
+		 * joueur1.numJoueur = 1 and joueur2.numJoueur = 2 UNION SELECT
+		 * Partie.idPartie, Date, joueur1.pseudo, joueur2.pseudo FROM
+		 * JoueursPartie joueur1, JoueursPartie joueur2, Partie joueur1.pseudo =
+		 * userPseudo OR joueur2.pseudo = userPseudo AND joueur1.idPartie =
+		 * joueur2.idPartie AND joueur1.idPartie = Partie AND joueur1.numJoueur
+		 * = 1 AND joueur2.numJoueur = 2 AND EXISTS ( SELECT * FROM Vainqueurs v
+		 * WHERE Partie.idPartie = v.idPartie)
 		 */
 		try {
 			stmt = con.prepareStatement("select "
@@ -38,8 +47,9 @@ public class MatchDAO_JDBC extends MatchDAO {
 					+ DataBaseConstant.MATCH_TABLE_NAME + "."
 					+ DataBaseConstant.MATCH_START_DATE + ", player1."
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ ", payer2."
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + "from "
+					+ " as pseudo1, player2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
+					+ " as pseudo2 from "
 					+ DataBaseConstant.PLAYER_ON_MATCH_TABLE_NAME
 					+ " player1, "
 					+ DataBaseConstant.PLAYER_ON_MATCH_TABLE_NAME
@@ -49,37 +59,51 @@ public class MatchDAO_JDBC extends MatchDAO {
 					+ " != ? and  player2. "
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
 					+ " != ? and player1. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ " !=   player2. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ "and player1. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + "="
+					+ DataBaseConstant.PLAYER_ON_MATCH_NUM
+					+ " = 1 and  player2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_NUM + " = 2"
+					+ " and player1. "
+					+ DataBaseConstant.PLAYER_ON_MATCH_MATCH_ID + " = "
 					+ DataBaseConstant.MATCH_TABLE_NAME + "."
-					+ DataBaseConstant.MATCH_ID + " and player1."
-					+ DataBaseConstant.PLAYER_ON_MATCH_NUM + " = player2."
-					+ DataBaseConstant.PLAYER_ON_MATCH_NUM);
+					+ DataBaseConstant.MATCH_ID + " and player2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_MATCH_ID + " = "
+					+ DataBaseConstant.MATCH_TABLE_NAME + "."
+					+ DataBaseConstant.MATCH_ID);
 
 			stmt.setString(1, currentUser.getPseudo());
+			stmt.setString(2, currentUser.getPseudo());
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				result.add(new Match(
-						rs.getInt(DataBaseConstant.MATCH_TABLE_NAME + "."
-								+ DataBaseConstant.MATCH_ID),
+				String pseudo1 = rs.getString("pseudo1");
+				String pseudo2 = rs.getString("pseudo2");
+				AbstractUser player1;
+				AbstractUser player2;
 
-						new Opponent(
-								rs.getString("player1. "
-										+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO)),
-						new Opponent(
-								rs.getString("player2. "
-										+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO)),
-						null, rs.getDate(DataBaseConstant.MATCH_TABLE_NAME
-								+ "." + DataBaseConstant.MATCH_START_DATE)));
+				OpponentDAO dao = new OpponentDAO_JDBC();
+
+				if (pseudo1.equals(currentUser.getPseudo())) {
+					player1 = currentUser;
+					player2 = dao.findOpponent(con, false, pseudo2);
+				} else if (pseudo2.equals(currentUser.getPseudo())) {
+					player1 = dao.findOpponent(con, false, pseudo1);
+					player2 = currentUser;
+				} else {
+					player1 = dao.findOpponent(con, false, pseudo1);
+					player2 = dao.findOpponent(con, false, pseudo2);
+				}
+
+				result.add(new Match(rs.getInt(DataBaseConstant.MATCH_ID),
+						player1, player2, null, rs
+								.getDate(DataBaseConstant.MATCH_START_DATE)));
 			}
 
 			if (withCommit)
 				con.commit();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (OpponentNotExistException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {
@@ -112,7 +136,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 		 * JoueursPartie joueur1, JoueursPartie joueur2, Partie WHERE
 		 * joueur1.pseudo = userPseudo OR joueur2.pseudo = userPseudo AND
 		 * joueur1.idPartie = joueur2.idPartie AND joueur1.idPartie = Partie AND
-		 * joueur1.numJoueur = 1 AND joueur2.numJoueur = 2
+		 * joueur1.numJoueur = 1 AND joueur2.numJoueur = 2 AND NOT EXISTS (
+		 * SELECT * FROM Vainqueurs v WHERE Partie.idPartie = v.idPartie)
 		 */
 		try {
 			stmt = con.prepareStatement("select "
@@ -121,8 +146,9 @@ public class MatchDAO_JDBC extends MatchDAO {
 					+ DataBaseConstant.MATCH_TABLE_NAME + "."
 					+ DataBaseConstant.MATCH_START_DATE + ", player1."
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ ", payer2."
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + "from "
+					+ " as pseudo1, player2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
+					+ " as pseudo2 from "
 					+ DataBaseConstant.PLAYER_ON_MATCH_TABLE_NAME
 					+ " player1, "
 					+ DataBaseConstant.PLAYER_ON_MATCH_TABLE_NAME
@@ -130,39 +156,55 @@ public class MatchDAO_JDBC extends MatchDAO {
 					+ " where player1. "
 					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
 					+ " = ? or  player2. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ " = ? and player1. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
-					+ " !=   player2. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO
+					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + " = ? "
 					+ "and player1. "
-					+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO + "="
+					+ DataBaseConstant.PLAYER_ON_MATCH_MATCH_ID + " = "
+					+ DataBaseConstant.MATCH_TABLE_NAME + "."
+					+ DataBaseConstant.MATCH_ID + " and player2. "
+					+ DataBaseConstant.PLAYER_ON_MATCH_MATCH_ID + " = "
 					+ DataBaseConstant.MATCH_TABLE_NAME + "."
 					+ DataBaseConstant.MATCH_ID + " and player1."
-					+ DataBaseConstant.PLAYER_ON_MATCH_NUM + " = player2."
-					+ DataBaseConstant.PLAYER_ON_MATCH_NUM);
+					+ DataBaseConstant.PLAYER_ON_MATCH_NUM
+					+ " = 1 and  player2."
+					+ DataBaseConstant.PLAYER_ON_MATCH_NUM
+					+ " = 2 and not exists ( select * from "
+					+ DataBaseConstant.WINNER_TABLE_NAME + " w where w."
+					+ DataBaseConstant.WINNER_MATCH_ID + " = "
+					+ DataBaseConstant.MATCH_TABLE_NAME + "."
+					+ DataBaseConstant.MATCH_ID + " )");
+
+			System.out.println(stmt.toString());
 
 			stmt.setString(1, currentUser.getPseudo());
+			stmt.setString(2, currentUser.getPseudo());
 			rs = stmt.executeQuery();
 
-			while (rs.next()) {
-				result.add(new Match(
-						rs.getInt(DataBaseConstant.MATCH_TABLE_NAME + "."
-								+ DataBaseConstant.MATCH_ID),
+			OpponentDAO dao = new OpponentDAO_JDBC();
 
-						new Opponent(
-								rs.getString("player1. "
-										+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO)),
-						new Opponent(
-								rs.getString("player2. "
-										+ DataBaseConstant.PLAYER_ON_MATCH_PLAYER_PSEUDO)),
-						null, rs.getDate(DataBaseConstant.MATCH_TABLE_NAME
-								+ "." + DataBaseConstant.MATCH_START_DATE)));
+			while (rs.next()) {
+				String pseudo1 = rs.getString("pseudo1");
+				String pseudo2 = rs.getString("pseudo2");
+				AbstractUser player1;
+				AbstractUser player2;
+
+				if (pseudo1.equals(currentUser.getPseudo())) {
+					player1 = currentUser;
+					player2 = dao.findOpponent(con, false, pseudo2);
+				} else {
+					player1 = dao.findOpponent(con, false, pseudo1);
+					player2 = currentUser;
+				}
+
+				result.add(new Match(rs.getInt(DataBaseConstant.MATCH_ID),
+						player1, player2, null, rs
+								.getDate(DataBaseConstant.MATCH_START_DATE)));
 			}
 
 			if (withCommit)
 				con.commit();
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (OpponentNotExistException e) {
 			e.printStackTrace();
 		} finally {
 			if (rs != null) {
@@ -312,13 +354,12 @@ public class MatchDAO_JDBC extends MatchDAO {
 			con.setSavepoint();
 
 			/*
-			 * INSERT INTO Partie (idPartie, idJoueur, tour) values (?, ?, ?)
+			 * INSERT INTO Partie (idPartie, idJoueur) values (?, ?)
 			 */
 			stmt = con.prepareStatement("insert into "
 					+ DataBaseConstant.WINNER_TABLE_NAME + "("
 					+ DataBaseConstant.WINNER_MATCH_ID + ", "
-					+ DataBaseConstant.WINNER_PLAYER + ", "
-					+ DataBaseConstant.WINNER_TURN + ") values (?, ?, ?)");
+					+ DataBaseConstant.WINNER_PLAYER + ") values (?, ?, ?)");
 
 			stmt.setInt(1, match.getId());
 			stmt.setString(2, match.getWinner().getPseudo());

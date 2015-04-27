@@ -28,7 +28,7 @@ public class BoatDAO_JDBC extends BoatDAO {
 		 * SELECT * FROM Bateau WHERE idPartie = ? AND pseudo = ?
 		 */
 		try {
-			stmt = con.prepareStatement("select * from"
+			stmt = con.prepareStatement("select * from "
 					+ DataBaseConstant.BOAT_TABLE_NAME + " where "
 					+ DataBaseConstant.BOAT_MATCH_ID + " = ? and "
 					+ DataBaseConstant.BOAT_OWNER + " = ?");
