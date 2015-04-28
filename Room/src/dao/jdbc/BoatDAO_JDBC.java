@@ -44,14 +44,14 @@ public class BoatDAO_JDBC extends BoatDAO {
 						new Boat(
 								match,
 								player,
-								rs.getInt(DataBaseConstant.BOAT_ID),
 								rs.getInt(DataBaseConstant.BOAT_SIZE),
 								rs.getInt(DataBaseConstant.BOAT_HP),
 								Orientation.fromString(rs
 										.getString(DataBaseConstant.BOAT_ORIENTATION)),
 								new Position(rs
 										.getInt(DataBaseConstant.BOAT_POS_X),
-										rs.getInt(DataBaseConstant.BOAT_POS_Y))));
+										rs.getInt(DataBaseConstant.BOAT_POS_Y)),
+								rs.getInt(DataBaseConstant.BOAT_ID)));
 			}
 
 			if (withCommit)
