@@ -7,6 +7,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -14,10 +15,14 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import model.game.Match;
 import model.user.User;
@@ -70,6 +75,7 @@ public class HomeViewFrame extends MainFrame{
            private JLabel pseudoLabel = new JLabel(user.getPseudo());
            private JLabel cityLabel = new JLabel (user.getAddrCity());
            private JButton logoutButton = new JButton("Log out");
+           
                   
            
            public HomeViewInfoPanel()
@@ -107,9 +113,52 @@ public class HomeViewFrame extends MainFrame{
 
 		private JButton playButton = new JButton("Play");
 		private JButton watchButton = new JButton("Watch");
+		private JPanel controlPanel = new JPanel();
+		private JLabel statusLabel;
+		
+		private void showListDemo(){                                       
+		
+			List<Match> result = controller.getObservableMatch(HomeViewFrame.this);
+			
+		    DefaultListModel<Match> observableGames = new DefaultListModel<Match>();
+		  
+		    for (Match m : result) {
+		    	System.out.println(m.toString());
+		    	observableGames.addElement(m);
+		    }
+
+		  final JList<Match> obsGamesList = new JList<Match>(observableGames);
+		  obsGamesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		  obsGamesList.setSelectedIndex(0);
+		  obsGamesList.setVisibleRowCount(3); 
+		
+		  JScrollPane obsGamesListScrollPane = new JScrollPane(obsGamesList);    
+
+//		  JButton showButton = new JButton("Show");
+//		
+//		  showButton.addActionListener(new ActionListener() {
+//		     public void actionPerformed(ActionEvent e) { 
+//		        String data = "";
+//		if (obsGamesList.getSelectedIndex() != -1) {                     
+//		   data = "Fruits Selected: " + obsGamesList.getSelectedValue().getWinner(); 
+//		   statusLabel.setText(data);
+//		}
+//		
+//		        statusLabel.setText(data);
+//		     }
+//		  }); 
+		
+		  controlPanel.add(obsGamesListScrollPane);       
+		  //controlPanel.add(showButton);    
+			              
+		}
 
 		public HomeViewMainPanel() {
 
+			controlPanel.setLayout(new FlowLayout());
+			statusLabel = new JLabel("",JLabel.CENTER);    
+			statusLabel.setSize(350,100);
+			
 			// set Layout & size
 			setBorder(BorderFactory
 					.createTitledBorder("What do you want to do?"));
@@ -117,6 +166,7 @@ public class HomeViewFrame extends MainFrame{
 			setLayout(new GridBagLayout());
 
 			GridBagConstraints gc = new GridBagConstraints();
+			 showListDemo();
 
 			// Adding component to the panel
 
@@ -128,9 +178,13 @@ public class HomeViewFrame extends MainFrame{
 
 			gc.gridx = 0;
 			add(playButton, gc);
-
+			
 			gc.gridx = 2;
+			add(controlPanel, gc);
+			gc.gridy = 5;
 			add(watchButton, gc);
+			
+			add(statusLabel);
 
 			playButton.addActionListener(new ActionListener() {
 
@@ -145,11 +199,15 @@ public class HomeViewFrame extends MainFrame{
 			System.out.println("Nombre de match observable " + controller.getObservableMatch(HomeViewFrame.this));
 
 			
-		}
+			}
             
         }
+	
+
 
 		public User getUser() {
 			return user;
 		}
 }
+
+

@@ -117,4 +117,18 @@ public class Match {
 	public void setPlayerTwoBoat(Map<Integer, Boat> boatMap) {
 		playerOneBoats = boatMap;
 	}
+	
+	public String toString() {
+		if (this.winner == null) {
+			return "Date Début " + this.startDate + " Player 1: "
+					+ this.playerOne.getPseudo() + " Player 2: " + this.playerTwo.getPseudo() + " Match unfinished";
+		}
+		else {
+			return "Date Début: " + this.startDate + " Player 1: "
+					+ this.playerOne.getPseudo() + " Player 2: " + this.playerTwo.getPseudo() 
+					+ " Winner: " + this.winner.getPseudo();
+		}
+		
+		
+	}
 }
