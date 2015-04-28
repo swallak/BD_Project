@@ -133,7 +133,6 @@ public class HomeViewFrame extends MainFrame{
 
 		private JButton playButton = new JButton("Play");
 		private JButton watchButton = new JButton("Watch");
-		private JPanel controlPanel = new JPanel();
 		private JLabel statusLabel;
 		
 		private void showListDemo(){                                       
@@ -167,15 +166,22 @@ public class HomeViewFrame extends MainFrame{
 //		        statusLabel.setText(data);
 //		     }
 //		  }); 
-		
-		  controlPanel.add(obsGamesListScrollPane);       
+
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			gbc.gridwidth=2;
+			gbc.fill = GridBagConstraints.BOTH;
+			gbc.weightx = 1;
+			gbc.weighty = 1;
+
+			add(obsGamesListScrollPane, gbc);  
 		  //controlPanel.add(showButton);    
 			              
 		}
 
 		public HomeViewMainPanel() {
 
-			controlPanel.setLayout(new FlowLayout());
 			statusLabel = new JLabel("",JLabel.CENTER);    
 			statusLabel.setSize(350,100);
 			
@@ -186,23 +192,24 @@ public class HomeViewFrame extends MainFrame{
 			setLayout(new GridBagLayout());
 
 			GridBagConstraints gc = new GridBagConstraints();
-			 showListDemo();
+			 
+			showListDemo();
 
 			// Adding component to the panel
 
-			gc.gridy = 0;
-			gc.weighty = 1;
-			gc.weightx = 1;
+			
+			gc.weightx = 0.5;
 
+			gc.gridy = 1;
+			add(watchButton, gc);
+			
 			gc.fill = GridBagConstraints.HORIZONTAL;
 
+			gc.gridy = 2;
 			gc.gridx = 0;
 			add(playButton, gc);
-			
-			gc.gridx = 2;
-			add(controlPanel, gc);
-			gc.gridy = 5;
-			add(watchButton, gc);
+
+		
 			
 			add(statusLabel);
 
