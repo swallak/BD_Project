@@ -60,16 +60,13 @@ public class Room {
 
             @Override
             public void run() {
-                
-                MainFrame matchview = new MatchViewFrame("Shit");
-                matchview.setVisible(true);
                
   
             }
 
         });
-       
-        //MatchViewFrame.MatchActionMoveFrame action = new MatchViewFrame.MatchActionMoveFrame("strin", {"sting"});
+       String [] tab = {"shit", "bla", "bla"};
+        MatchViewFrame.MatchActionMoveFrame action = new MatchViewFrame.MatchActionMoveFrame("strin", tab);
     }
     
     private void linkFrames(/*Add params*/){

@@ -17,10 +17,13 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -313,17 +316,19 @@ public class MatchViewFrame extends MainFrame {
                 
     }
     
-    public class MatchActionFrame extends MainFrame{
+    public static class MatchActionFrame extends MainFrame{
         
-        JTextField xPos = new JTextField("xPos");
-        JTextField yPos = new JTextField("yPos");
-        JComboBox<String> ships;
-        JButton validate = new JButton ("validate");
+        private JTextField xPos = new JTextField("xPos");
+        private JTextField yPos = new JTextField("yPos");
+        private JComboBox<String> ships;
+        private JButton validate = new JButton ("validate");
+        //selected ship's name Ship's coordinate
+        String selectedShip;
         
         public MatchActionFrame(String title, String[]ships)
         {
             super(title);
-            setSize(new Dimension(300,200));
+            setSize(new Dimension(300,150));
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setLayout(new BorderLayout());
             setResizable(false);
@@ -331,43 +336,144 @@ public class MatchViewFrame extends MainFrame {
             this.ships = new JComboBox<>(ships);
             
             Container container = getContentPane();
+            container.setLayout(new GridBagLayout());
             GridBagConstraints gc = new GridBagConstraints();
             
             gc.gridx=0;
             gc.gridy=0;
             gc.gridwidth=2;
+            gc.weightx=1;
             gc.weighty=1;
-            
-            gc.fill= GridBagConstraints.HORIZONTAL;
             container.add(this.ships,gc);
             
-            gc.fill= GridBagConstraints.NONE;
             gc.gridwidth=1;
             
-            gc.gridy=2;
+            gc.gridy=3;
             gc.weighty=10;
             container.add(this.validate,gc);
             
-            gc.gridy=1;
             gc.weighty=1;
+            gc.gridy=1;
             container.add(this.xPos,gc);
             
-            gc.gridx=1;
+            gc.gridy=2;
             container.add(this.yPos,gc);
             
             setVisible(true);
             
+            //Event Handler
+                // the combobox
+            
+            
+            this.ships.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    MatchActionFrame.this.selectedShip=(String)MatchActionFrame.this.ships.getSelectedItem();
+                   
+                }
+            });
+            
+                //the textField
+            
+            this.xPos.addMouseListener(new MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                    xPos.setText("");
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
+            this.yPos.addMouseListener(new MouseListener() {
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    
+                    yPos.setText("");
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
+            
         }
         
+        public String getSelectedShip(){
+            return this.selectedShip;
+        }
+        public JComboBox<String> getShips(){
+            return this.ships;
+        }
+        
+        
+        public int getXPos()
+        {
+            int pos;
+            pos= Integer.parseInt(this.xPos.getText());
+            return pos;
+        }
+        public int getYPos()
+        {
+            int pos;
+            pos= Integer.parseInt(this.yPos.getText());
+            return pos;
+        }
     }
     
-    public class MatchActionMoveFrame extends MatchActionFrame{
+    public static class MatchActionMoveFrame extends MatchActionFrame{
         
 
        
         public MatchActionMoveFrame(String title, String[] ships)
         {
             super(title,ships);
+            
+            super.validate.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
             
         }
         
@@ -381,6 +487,13 @@ public class MatchViewFrame extends MainFrame {
         public MatchActionShootFrame(String title, String[] ships)
         {
             super(title, ships);
+            super.validate.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
         }
     }
     
