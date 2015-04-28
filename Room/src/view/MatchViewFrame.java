@@ -99,21 +99,21 @@ public class MatchViewFrame extends MainFrame {
         public MatchViewPanel() {
 
             //setLayout
-            Dimension size = new Dimension(1024,768);
+            Dimension size = new Dimension(1000,700);
             setLayout(new GridBagLayout());
             setBorder(BorderFactory.createTitledBorder("matchController.toString()"));
-            setPreferredSize(size);
+            setSize(size);
             
             //addComponent
             toolBar = createToolBar("Actions");
             size = new Dimension (250,300);
             firstUserLog = new MatchViewPanelPlayer("matchController.getFirstUser()");
             secondUserLog = new MatchViewPanelPlayer("matchController.getSecondUser()");
-            firstUserLog.setPreferredSize(size);
-            secondUserLog.setPreferredSize(size);
+            firstUserLog.setSize(size);
+            secondUserLog.setSize(size);
             size = new Dimension(500,500);
             grid = new MatchViewGrid(10, 10);
-            grid.setPreferredSize(size);
+            grid.setSize(size);
             
             //toolBar
             
@@ -135,13 +135,14 @@ public class MatchViewFrame extends MainFrame {
             gc.weighty=1;
             gc.weightx=1;
             gc.gridwidth=2;
-            gc.anchor= GridBagConstraints.PAGE_END;
+            gc.anchor= GridBagConstraints.CENTER;
             add(toolBar, gc);
             
             gc.gridwidth=1;
             gc.weighty=1;
             gc.anchor= GridBagConstraints.CENTER;
 
+            gc.fill=GridBagConstraints.BOTH;
             gc.gridy=1;
             add(firstUserLog,gc);
             
