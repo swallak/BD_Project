@@ -106,8 +106,8 @@ public class Match {
 
 	public static int createId(Date startDate, AbstractUser playerOne,
 			AbstractUser playerTwo) {
-		return startDate.toString().hashCode()
-				+ playerOne.getPseudo().hashCode() + playerTwo.hashCode();
+		return (int) (startDate.getTime() + playerOne.getPseudo().hashCode() + playerTwo
+				.hashCode());
 	}
 
 	public void setPlayerOneBoat(Map<Integer, Boat> boatMap) {
@@ -116,5 +116,19 @@ public class Match {
 
 	public void setPlayerTwoBoat(Map<Integer, Boat> boatMap) {
 		playerOneBoats = boatMap;
+	}
+	
+	public String toString() {
+		if (this.winner == null) {
+			return "Date Début " + this.startDate + " Player 1: "
+					+ this.playerOne.getPseudo() + " Player 2: " + this.playerTwo.getPseudo() + " Match unfinished";
+		}
+		else {
+			return "Date Début: " + this.startDate + " Player 1: "
+					+ this.playerOne.getPseudo() + " Player 2: " + this.playerTwo.getPseudo() 
+					+ " Winner: " + this.winner.getPseudo();
+		}
+		
+		
 	}
 }

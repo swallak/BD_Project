@@ -238,21 +238,21 @@ public class ActionDAO_JDBC extends ActionDAO {
 			String type = rs.getString("aMove."
 					+ DataBaseConstant.ACTION_MOVE_TYPE);
 			if (type.equals(Left.TYPE)) {
-				moveAction = new Left(turn, boatMap.get(rs.getInt("a."
-						+ DataBaseConstant.ACTION_BOAT_ID)), rs.getInt("a."
-						+ DataBaseConstant.ACTION_NUM_ACTION));
+				moveAction = new Left(turn, boatMap.get(rs
+						.getInt(DataBaseConstant.ACTION_BOAT_ID)),
+						rs.getInt(DataBaseConstant.ACTION_NUM_ACTION));
 			} else if (type.equals(Right.TYPE)) {
-				moveAction = new Right(turn, boatMap.get(rs.getInt("a."
-						+ DataBaseConstant.ACTION_BOAT_ID)), rs.getInt("a."
-						+ DataBaseConstant.ACTION_NUM_ACTION));
+				moveAction = new Right(turn, boatMap.get(rs
+						.getInt(DataBaseConstant.ACTION_BOAT_ID)),
+						rs.getInt(DataBaseConstant.ACTION_NUM_ACTION));
 			} else if (type.equals(Forward.TYPE)) {
-				moveAction = new Forward(turn, boatMap.get(rs.getInt("a."
-						+ DataBaseConstant.ACTION_BOAT_ID)), rs.getInt("a."
-						+ DataBaseConstant.ACTION_NUM_ACTION));
+				moveAction = new Forward(turn, boatMap.get(rs
+						.getInt(DataBaseConstant.ACTION_BOAT_ID)),
+						rs.getInt(DataBaseConstant.ACTION_NUM_ACTION));
 			} else {
-				moveAction = new Backward(turn, boatMap.get(rs.getInt("a."
-						+ DataBaseConstant.ACTION_BOAT_ID)), rs.getInt("a."
-						+ DataBaseConstant.ACTION_NUM_ACTION));
+				moveAction = new Backward(turn, boatMap.get(rs
+						.getInt(DataBaseConstant.ACTION_BOAT_ID)),
+						rs.getInt(DataBaseConstant.ACTION_NUM_ACTION));
 			}
 			result.add(moveAction);
 		}
@@ -286,7 +286,7 @@ public class ActionDAO_JDBC extends ActionDAO {
 				+ DataBaseConstant.ACTION_MATCH_ID + " = aMove."
 				+ DataBaseConstant.ACTION_SHOT_MATCH_ID + " and a."
 				+ DataBaseConstant.ACTION_TURN + " = aShot."
-				+ DataBaseConstant.ACTION_SHOT_TURN + "and a."
+				+ DataBaseConstant.ACTION_SHOT_TURN + " and a."
 				+ DataBaseConstant.ACTION_NUM_ACTION + " = aShot."
 				+ DataBaseConstant.ACTION_SHOT_NUM_ACTION + " and a."
 				+ DataBaseConstant.ACTION_MATCH_ID + " = ? and a."
@@ -301,13 +301,12 @@ public class ActionDAO_JDBC extends ActionDAO {
 				.getPlayerTwoBoats() : match.getPlayerOneBoats());
 
 		while (rs.next()) {
-			ShotAction action = new ShotAction(turn, boatMap.get(rs.getInt("a."
-					+ DataBaseConstant.ACTION_BOAT_ID)), rs.getInt("a."
-					+ DataBaseConstant.ACTION_NUM_ACTION),
-					new Position(rs.getInt("aShot."
-							+ DataBaseConstant.ACTION_SHOT_TARGET_X),
-							rs.getInt("aShot."
-									+ DataBaseConstant.ACTION_SHOT_TARGET_Y)));
+			ShotAction action = new ShotAction(turn, boatMap.get(rs
+					.getInt(DataBaseConstant.ACTION_BOAT_ID)),
+					rs.getInt(DataBaseConstant.ACTION_NUM_ACTION),
+					new Position(rs
+							.getInt(DataBaseConstant.ACTION_SHOT_TARGET_X), rs
+							.getInt(DataBaseConstant.ACTION_SHOT_TARGET_Y)));
 			result.add(action);
 		}
 
