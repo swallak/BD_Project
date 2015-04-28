@@ -143,52 +143,5 @@ public class ObservationViewPanel extends JPanel{
        return button;
         
     }
-	
-    public class MatchViewGrid extends JPanel {
-        
-        private JPanel[][] cells;
-        public MatchViewGrid(int rows, int columns){
-            
-            cells = new JPanel[rows][columns];
-            setLayout(new GridBagLayout());
-            
-            GridBagConstraints gc = new GridBagConstraints();
-            gc.weightx=1;
-            gc.weighty=1;
-            gc.fill=GridBagConstraints.BOTH;
-            
-            initDecorateCells(Color.gray);
-            
-            for(int i=0; i<cells.length; i++){
-                gc.gridy=i;
-                for (int j=0; j<cells[i].length;j++)
-                {gc.gridx=j; add(cells[i][j],gc);}
-            }
-            
-            
-        }
-        
-        private void initDecorateCells(Color color)
-        {
-        
-            for (int i=0; i< cells.length; i++)
-            {
-                for(int j=0; j<cells[i].length; j++)
-                {
-                    cells[i][j]= new JPanel();
-                    cells[i][j].setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                    cells[i][j].setBackground(color);
-                }
-            }
-        }
-        
-        public void changeColor(int row, int column, Color color )
-        {
-            cells[row][column].setBackground(color);
-        }
-        
-        
-                
-    }
 
 }
