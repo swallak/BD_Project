@@ -3,7 +3,7 @@ Propriétés élémentaires :
 	pseudo, nom, prenom, mail, numero, rue, codePostal, ville, dateNaissance
 	idPartie, dateDemarrage
 	idBateau, pivotX, pivotY, orientation, PV, taille
-	numAction, tour, typeMouvement, cibleTirX, cibleTirY
+	numAction, tour, typeDeplacement, cibleTirX, cibleTirY
 
 Dépendances fonctionnelles :
 
@@ -11,7 +11,7 @@ Dépendances fonctionnelles :
 	idPartie -> (dateDemarrage)
 	(idPartie, idBateau) -> (taille, pivotX, pivotY, orientation, pointVie, pseudo)
 	(idPartie, tour, numAction) -> idBateau, pseudo
-	(idPartie, tour, numAction) -> (typeMouvement)
+	(idPartie, tour, numAction) -> (typeDeplacement)
 	(idPartie, tour, numAction) -> (cibleTirX, cibleTirY) 
 
 Contraintes de valeur :
@@ -22,7 +22,7 @@ Contraintes de valeur :
 	codePostal > 0
 	taille = 2 ou 3
 	PV >= 0
-	typeMouvement € {droite, gauche, avancer, reculer}
+	typeDeplacement € {droite, gauche, avancer, reculer}
 	orientation € {nord, sud, est, ouest}
 	pivot, orientation, taille => bateau dans la grille.
 	cibleTir => dans la grille
