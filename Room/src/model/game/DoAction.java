@@ -72,8 +72,10 @@ public class DoAction {
 				.getMatch().getPlayerOneBoats());
 
 		for (Boat boat : boatMap.values()) {
-			if (boat.isTouchBy(shot.getTarget()))
+			if (boat.isTouchBy(shot.getTarget())) {
 				boat.setHp(boat.getHp() - 1);
+				shot.setTouchBoat(boat);
+			}
 		}
 	}
 }
