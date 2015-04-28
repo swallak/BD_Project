@@ -54,15 +54,26 @@ public class HomeViewFrame extends MainFrame{
             setLayout(new BorderLayout());
             
             //Components
-            JPanel infoPanel  = new HomeViewInfoPanel();
-            JPanel mainPanel = new HomeViewMainPanel();
+            HomeViewInfoPanel infoPanel  = new HomeViewInfoPanel();
+            HomeViewMainPanel mainPanel = new HomeViewMainPanel();
             
             //Placements
             
             add(infoPanel, BorderLayout.WEST);
             add(mainPanel, BorderLayout.EAST);
             
-		
+           
+           
+            infoPanel.getLogoutButton().addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+               	setSwitchToFrame2(new SignInViewFrame("Sign In"));
+                   switchFrame2();
+
+               }
+           });
+            
+
 	}
         
         public class HomeViewInfoPanel extends JPanel{
@@ -96,10 +107,19 @@ public class HomeViewFrame extends MainFrame{
                gc.gridy=2;
                gc.weighty=0.5;
                gc.anchor=GridBagConstraints.PAGE_END;
-               add(logoutButton, gc);
+               add(logoutButton, gc);  
                
                
+               //event handler
                
+               	
+               
+   		
+           }
+           
+           public JButton getLogoutButton()
+           {
+        	   return this.logoutButton;
            }
         }
         

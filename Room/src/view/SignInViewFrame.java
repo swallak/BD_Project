@@ -76,6 +76,7 @@ public class SignInViewFrame extends MainFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+            	setSwitchToFrame(new SignUpViewFrame("Sign up"));
                 switchFrame();
 
             }

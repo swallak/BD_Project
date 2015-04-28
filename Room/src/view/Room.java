@@ -60,8 +60,9 @@ public class Room {
             @Override
             public void run() {
                 
-                MainFrame matchview = new MatchViewFrame("Shit");
-                matchview.setVisible(true);
+                //MainFrame matchview = new MatchViewFrame("Shit");
+            	//MainFrame home = new SignInViewFrame("xu putao"); 
+                //home.setVisible(true);
   
             }
 

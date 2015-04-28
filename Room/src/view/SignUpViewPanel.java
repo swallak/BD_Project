@@ -34,7 +34,7 @@ public class SignUpViewPanel extends JPanel{
     
     //Components
     private final JLabel pseudoLabel = new JLabel ("Pseudo  ");
-    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY-MM-DD)  ");
+    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY/MM/DD)  ");
     private final JLabel lastNameLabel = new JLabel("Last Name  ");
     private final JLabel firstNameLabel = new JLabel("First Name  ");
     private final JLabel streetNameLabel = new JLabel("Street  ");

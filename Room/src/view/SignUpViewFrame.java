@@ -6,15 +6,19 @@
 package view;
 
 import controller.LogInController;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import controller.ApplicationController;
 import controller.SignUpController;
+
 import java.awt.Point;
 
 /**
@@ -55,9 +59,8 @@ public class SignUpViewFrame extends MainFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             		controller.createAccount(SignUpViewFrame.this);
-                        //SignUpViewFrame.this.setSwitchToFrame2(new SignInViewFrame("SignIn"));
-                        //SignUpViewFrame.this.switchFrame2();
-                        switchFrame();
+                       setSwitchToFrame2(new SignInViewFrame("SignIn"));
+                       switchFrame2();
             }
 
         });
@@ -66,6 +69,7 @@ public class SignUpViewFrame extends MainFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+            	setSwitchToFrame(new SignInViewFrame("Sign in"));
                 switchFrame();
 
             }
