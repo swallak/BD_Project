@@ -35,7 +35,7 @@ public class HomeController {
 
 		try {
 			con = JDBCConnection.openConnection();
-			con = JDBCConnection.openConnection();
+			
 			savePoint = con.setSavepoint("startMatch");
 			Opponent opp = opponentDAO.findAvailableOpponent(con, true,
 					frame.getUser());

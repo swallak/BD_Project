@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import dao.jdbc.JDBCConnection;
+import view.MatchViewFrame.MatchActionMoveFrame;
 
 /**
  *
@@ -62,10 +63,13 @@ public class Room {
                 
                 MainFrame matchview = new MatchViewFrame("Shit");
                 matchview.setVisible(true);
+               
   
             }
 
         });
+       
+        //MatchViewFrame.MatchActionMoveFrame action = new MatchViewFrame.MatchActionMoveFrame("strin", {"sting"});
     }
     
     private void linkFrames(/*Add params*/){
