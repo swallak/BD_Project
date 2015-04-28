@@ -119,11 +119,11 @@ public class MatchViewFrame extends MainFrame {
             
             JButton button = createButton("/icon/move.png", "Move Ship");
             toolBar.add(button);
-            button= createButton("/icon/fire.png","Fire with a Ship");
+            button= createButton("/icon/box_closed.png","Fire with a Ship");
             toolBar.add(button);
             button = createButton("/icon/refresh.png", "Refresh");
             toolBar.add(button);
-            button = createButton("/icon/giveup.png", "Abandon");
+            button = createButton("/icon/stop.png", "Abandon");
             toolBar.add(button);
             
             
