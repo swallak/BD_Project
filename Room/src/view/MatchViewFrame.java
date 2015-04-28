@@ -7,16 +7,28 @@ package view;
 
 import controller.MatchController;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import model.user.AbstractUser;
@@ -69,8 +81,9 @@ public class MatchViewFrame extends MainFrame {
     public class MatchViewPanel extends JPanel {
 
         private JToolBar toolBar;
-        private JScrollPane firstUserLog;
-        private JScrollPane secondUserLog;
+        private MatchViewPanelPlayer firstUserLog;
+        private MatchViewPanelPlayer secondUserLog;
+        private MatchViewGrid grid;
         public JToolBar getToolBat() {
 
             return this.toolBar;
@@ -84,12 +97,18 @@ public class MatchViewFrame extends MainFrame {
 
             //addComponent
             toolBar = createToolBar("Actions");
-            JPanel firstUserPanel = new MatchViewPanelPlayer("matchController.getFirstUser()");
-            JPanel secondUserPanel = new MatchViewPanelPlayer("matchController.getSecondUser()");
+            firstUserLog = new MatchViewPanelPlayer("matchController.getFirstUser()");
+            secondUserLog = new MatchViewPanelPlayer("matchController.getSecondUser()");
+            grid = new MatchViewGrid(10, 10);
             
-            firstUserLog = createScrollPane(firstUserPanel);
-            secondUserLog= createScrollPane(secondUserPanel);
+            //toolBar
             
+            JButton button = createButton("/icon/move.png", "Move Ship");
+            toolBar.add(button);
+            button= createButton("/icon/fire.png","Fire with a Ship");
+            toolBar.add(button);
+            button = createButton("/icon/refresh.png", "Refresh");
+            toolBar.add(button);
             
             
             //Placing component
@@ -102,7 +121,8 @@ public class MatchViewFrame extends MainFrame {
             add(toolBar, gc);
             
             gc.weighty=10;
-            gc.fill=GridBagConstraints.VERTICAL;
+            gc.anchor= GridBagConstraints.PAGE_END;
+
             gc.gridx=0;
             gc.gridy=1;
             add(firstUserLog,gc);
@@ -110,57 +130,69 @@ public class MatchViewFrame extends MainFrame {
             gc.gridx=1;
             add(secondUserLog,gc);
             
+            gc.gridx=2;
+            gc.anchor= GridBagConstraints.CENTER;
+            gc.weightx=10;
+            add(grid,gc);
             
             
             
-
+            
         }
 
         private JToolBar createToolBar(String actions) {
             
             JToolBar bar = new JToolBar(actions);
             bar.setFloatable(false);
+            bar.setRollover(true);
+            bar.setOrientation(JToolBar.HORIZONTAL);
             return bar;
         }
         
-        private JScrollPane createScrollPane(JPanel panel)
+        private JButton createButton( String source, String rollOverMsg)
         {
-            
-            JScrollPane scroll = new JScrollPane(panel);
-            
-            scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-            scroll.setBounds(panel.getBounds());
-            return scroll;
-          
-        }
+            Image img;
+            JButton button; 
+            try {
+                img = ImageIO.read(getClass().getResource(source));
+                button = new JButton(new ImageIcon(img));
+            } catch (IOException ex) {
+                //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Image Introuvable");
+                return new JButton("Img Introuvable");
+            }catch(IllegalArgumentException ex){
+               System.out.println("Image Introuvable");
+                return new JButton("Img Introuvable");
+            }
 
+           button.setToolTipText(rollOverMsg);
+           return button;
+            
+        }
+        
     }
 
     public class MatchViewPanelPlayer extends JPanel {
 
-        private int currentColumn=0;
-        private int currentRow=0;
+        private JTextArea playerLog = new JTextArea();
         
         public MatchViewPanelPlayer(String userName)
         {
             //setLayout
-            
-            /*GridBagConstraints gc = new GridBagConstraints();
-            gc.gridx=currentColumn;
-            gc.gridy=currentRow;
-            gc.weightx=1;
-            gc.weightx=1;
-            gc.anchor=GridBagConstraints.LINE_START;
-            */
-            
-
-            //GridBagLayout layout = new GridBagLayout();
-            //layout.setConstraints(this, gc);
-            setLayout(new GridBagLayout());
+            setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(userName));
-            Dimension size = new Dimension( 200, 300);
+            Dimension size = new Dimension( 300, 300);
             setPreferredSize(size);
+            
+            playerLog.setSize(size);
+            playerLog.setEditable(false);
+            //Creating components
+            JScrollPane playerLogScroll = createScrollPane(playerLog);
+            
+            //Addding component
+            //playerLogScroll.setPreferredSize(size);
+            //playerLog.setSize(size);
+            add(playerLogScroll,BorderLayout.CENTER);
             
             
             
@@ -171,20 +203,77 @@ public class MatchViewFrame extends MainFrame {
             this(user.getPseudo());
             System.out.println("to complete");
         }
-        public void addPanel(String logMsg)
+        public void addMsg(String logMsg)
         {
-            GridBagConstraints gc = new GridBagConstraints();
-            currentColumn++;
-            currentRow++;
-            gc.gridx = currentColumn;
-            gc.gridy = currentRow;
-            gc.weightx = 1;
-            gc.weightx = 1;
-            gc.anchor = GridBagConstraints.LINE_START;
             
-            this.add(new JLabel(logMsg));
+            this.playerLog.append(logMsg);
+        }
+        public JTextArea getPlayerLog()
+        {
+            return this.playerLog;
+        }
+        private JScrollPane createScrollPane(JTextArea textArea)
+        {
+            
+            JScrollPane scroll = new JScrollPane(textArea);
+            scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+            scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+            //scroll.setBounds(textArea.getBounds());
+            return scroll;
+          
         }
 
+    }
+    
+    public class MatchViewGrid extends JPanel {
+        
+        private JPanel[][] cells;
+        public MatchViewGrid(int rows, int columns){
+            
+            cells = new JPanel[rows][columns];
+            Dimension size = new Dimension(50*rows,50*columns);
+            setLayout(new GridBagLayout());
+            setPreferredSize(size);
+            
+            
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.weightx=1;
+            gc.weighty=1;
+            gc.fill=GridBagConstraints.BOTH;
+            
+            initDecorateCells(Color.gray);
+            
+            for(int i=0; i<cells.length; i++){
+                gc.gridy=i;
+                for (int j=0; j<cells[i].length;j++)
+                {gc.gridx=j; add(cells[i][j],gc);}
+            }
+            
+            
+        }
+        
+        private void initDecorateCells(Color color)
+        {
+            Dimension size = new Dimension (70,70);
+            for (int i=0; i< cells.length; i++)
+            {
+                for(int j=0; j<cells[i].length; j++)
+                {
+                    cells[i][j]= new JPanel();
+                    
+                    cells[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                    cells[i][j].setBackground(color);
+                }
+            }
+        }
+        
+        public void changeColor(int row, int column, Color color )
+        {
+            cells[row][column].setBackground(color);
+        }
+        
+        
+                
     }
 
 }
