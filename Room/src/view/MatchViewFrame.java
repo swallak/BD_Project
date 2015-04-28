@@ -507,9 +507,12 @@ public class MatchViewFrame extends MainFrame {
     public class MatchInitFrame extends MainFrame{
         
         JButton validate = new JButton("Validate");
-        JTextField[][] shipsPosition = new JTextField[3][2];
+        JTextField[][] shipsPosition = new JTextField[3][3];
         JRadioButton optionnal;
-        public MatchInitFrame ()
+        
+        private int i=0;
+        private int j=0;
+        private MatchInitFrame ()
         {
             super("Choose your Ships");
             
@@ -528,30 +531,42 @@ public class MatchViewFrame extends MainFrame {
             gc.weighty=0.5;
             
             gc.gridx=0;
-            gc.gridy=1;
+            gc.gridy=2;
             add(new JLabel("Destroyer"),gc);
             
-            gc.gridy=1;
+            gc.gridy=3;
             add(new JLabel("Escorteur"),gc );
             
-            gc.gridy=2;
+            gc.gridy=4;
             add(new JLabel ("Escorteur(Optionnel)"),gc);
             
+            gc.gridx=1;
+            add(new JLabel ("posX"),gc);
+            gc.gridx=2;
+            add(new JLabel("posY"),gc);
+            gc.gridx=3;
+            add(new JLabel("orient"),gc);
             
-            gc.gridx=0;
-            gc.gridy=0;
+            gc.gridx=1;
+            gc.gridy=1;
                     //Frame components
-            for(int i = 0; i<shipsPosition.length; i++,gc.gridx++)
+            for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
             {
-                for (int j=0; j<shipsPosition[3].length; j++, gc.gridy++)
+                for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
                 {
+                    shipsPosition[i][j]= new JTextField(5);
+                    add(shipsPosition[i][j],gc);
                     
                 }
             }
             
+        }
+        
+        public MatchInitFrame(MatchViewFrame matchView)
+        {
+            this();
             
-            
-            
+            //validate Handling
             
             
         }
