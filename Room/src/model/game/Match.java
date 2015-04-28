@@ -106,8 +106,8 @@ public class Match {
 
 	public static int createId(Date startDate, AbstractUser playerOne,
 			AbstractUser playerTwo) {
-		return startDate.toString().hashCode()
-				+ playerOne.getPseudo().hashCode() + playerTwo.hashCode();
+		return (int) (startDate.getTime() + playerOne.getPseudo().hashCode() + playerTwo
+				.hashCode());
 	}
 
 	public void setPlayerOneBoat(Map<Integer, Boat> boatMap) {
