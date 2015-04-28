@@ -15,8 +15,18 @@ public class Boat {
 	private Orientation orientation;
 	private Position position;
 
-	public Boat(Match match, AbstractUser owner, int id, int size, int hp,
+	public Boat(Match match, AbstractUser owner, int size, int hp,
 			Orientation orientation, Position position) {
+		this.id = createId(match, owner, position);
+		this.size = size;
+		this.hp = hp;
+		this.orientation = orientation;
+		this.position = position;
+	}
+	
+	public Boat(Match match, AbstractUser owner, int size, int hp,
+			Orientation orientation, Position position, int id) {
+		this.id = id;
 		this.size = size;
 		this.hp = hp;
 		this.orientation = orientation;
@@ -141,5 +151,9 @@ public class Boat {
 		public String getStringValue() {
 			return strValue;
 		}
+	}
+	
+	public static int createId(Match match, AbstractUser owner, Position pos) {
+		return match.getId() + owner.getPseudo().hashCode() + pos.hashCode();
 	}
 }

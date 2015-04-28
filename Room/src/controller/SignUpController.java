@@ -71,6 +71,8 @@ public class SignUpController {
 			validFields = false;
 		}
 
+		mail = signUp.getMail();
+		
 		if (!validFields)
 			signUpViewFrame
 					.popErrorDialog("The infos you entered are not correct");
