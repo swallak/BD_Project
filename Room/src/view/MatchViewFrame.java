@@ -91,7 +91,7 @@ public class MatchViewFrame extends MainFrame {
         private MatchViewPanelPlayer firstUserLog;
         private MatchViewPanelPlayer secondUserLog;
         private MatchViewGrid grid;
-        public JToolBar getToolBat() {
+        public JToolBar getToolBar() {
 
             return this.toolBar;
         }
@@ -164,25 +164,44 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    actionPopupWindow(0); //To change body of generated methods, choose Tools | Templates.
+                    actionPopupWindow(0);
                 }
             });
+            
+            button =(JButton)toolBar.getComponentAtIndex(1);
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                   public void actionPerformed(ActionEvent e) {
+                    actionPopupWindow(1);
+                }
+            });
+            
+            button =(JButton)toolBar.getComponentAtIndex(3);
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                   public void actionPerformed(ActionEvent e) {
+                    actionPopupWindow(3);
+                }
+            });
+            
             }
             
 
         }
         public void actionPopupWindow(int i){
             
-            
+            String[] ships = {"this", "is", "temporal"};
             
             switch (i){
-                case 0:
+                case 0: new MatchActionMoveFrame("Se Deplacer", ships);
                     break;
-                case 1:
+                case 1: new MatchActionShootFrame("Tirer", ships);
                     break;
                 case 2:
                     break;
-                case 3:
+                case 3: new MatchActionAbandonFrame();
                     break;
                 default:
                         break;
@@ -224,6 +243,9 @@ public class MatchViewFrame extends MainFrame {
         }
         
 
+        
+        
+        
     public class MatchViewPanelPlayer extends JPanel {
 
         private JTextArea playerLog = new JTextArea();
@@ -494,6 +516,36 @@ public class MatchViewFrame extends MainFrame {
                     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
+        }
+    }
+    
+    public class MatchActionAbandonFrame extends MainFrame{
+        
+        JButton yesButton = new JButton("Yes");
+        public MatchActionAbandonFrame()
+        {
+            super("Surrender!");
+            
+            JLabel label = new JLabel("Are you sure? ");
+            
+            
+            setSize(new Dimension(300,150));
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setLayout(new BorderLayout());
+            setResizable(false);
+            setVisible(true);
+            
+            add(label, BorderLayout.CENTER);
+            add(yesButton, BorderLayout.PAGE_END);
+            
+            yesButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            }
+            );
         }
     }
     
