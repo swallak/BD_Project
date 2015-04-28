@@ -134,6 +134,9 @@ public class HomeViewFrame extends MainFrame{
 		private JButton playButton = new JButton("Play");
 		private JButton watchButton = new JButton("Watch");
 		private JLabel statusLabel;
+		private JList<Match> obsGamesList;	
+		
+		
 		
 		private void showListDemo(){                                       
 		
@@ -146,7 +149,7 @@ public class HomeViewFrame extends MainFrame{
 		    	observableGames.addElement(m);
 		    }
 
-		  final JList<Match> obsGamesList = new JList<Match>(observableGames);
+		  obsGamesList = new JList<Match>(observableGames);
 		  obsGamesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		  obsGamesList.setSelectedIndex(0);
 		  obsGamesList.setVisibleRowCount(3); 
@@ -166,6 +169,9 @@ public class HomeViewFrame extends MainFrame{
 //		        statusLabel.setText(data);
 //		     }
 //		  }); 
+
+			
+		  	
 
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.gridx = 0;
@@ -200,6 +206,8 @@ public class HomeViewFrame extends MainFrame{
 			
 			gc.weightx = 0.5;
 
+			gc.fill = GridBagConstraints.HORIZONTAL;
+
 			gc.gridy = 1;
 			add(watchButton, gc);
 			
@@ -209,10 +217,16 @@ public class HomeViewFrame extends MainFrame{
 			gc.gridx = 0;
 			add(playButton, gc);
 
-		
-			
-			add(statusLabel);
+			watchButton.addActionListener(new ActionListener() {
 
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setSwitchToFrame(new ObservationViewFrame("Observating Match", obsGamesList.getSelectedValue()));
+	                switchFrame();
+				}
+			});
+
+			
 			playButton.addActionListener(new ActionListener() {
 
 				@Override
