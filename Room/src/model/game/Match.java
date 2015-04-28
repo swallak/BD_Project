@@ -1,6 +1,8 @@
 package model.game;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +27,8 @@ public class Match {
 
 	public Match(AbstractUser playerOne, AbstractUser playerTwo,
 			AbstractUser winner, Date date) {
-		this.id = createId(date, playerOne, playerTwo);
-		this.playerOne = playerOne;
-		this.playerTwo = playerTwo;
-		this.winner = winner;
-		this.startDate = date;
+		this(playerOne, playerTwo, winner, date, createId(date, playerOne,
+				playerTwo));
 	}
 
 	public Match(AbstractUser playerOne, AbstractUser playerTwo,
@@ -39,6 +38,9 @@ public class Match {
 		this.playerTwo = playerTwo;
 		this.winner = winner;
 		this.startDate = date;
+		this.historic = new ArrayList<Turn>();
+		this.playerOneBoats = new HashMap<Integer, Boat>();
+		this.playerTwoBoats = new HashMap<Integer, Boat>();
 	}
 
 	public Map<Integer, Boat> getPlayerOneBoats() {
@@ -99,9 +101,13 @@ public class Match {
 
 		}
 	}
-
+	
 	public int getId() {
 		return id;
+	}
+	
+	public int getCurrentTurn() {
+		return currentTurn;
 	}
 
 	public static int createId(Date startDate, AbstractUser playerOne,
@@ -130,5 +136,9 @@ public class Match {
 		}
 		
 		
+	}
+
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
 	}
 }

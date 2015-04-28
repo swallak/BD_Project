@@ -1,11 +1,13 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -15,10 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import model.game.Boat;
 import model.game.Match;
-import view.MatchViewFrame.MatchViewGrid;
+import controller.ObservationController;
 
 public class ObservationViewPanel extends JPanel{
+	
+	private ObservationController controller;
 	
 	private MatchViewGrid gridPlayer1;
 	private MatchViewGrid gridPlayer2;
@@ -27,8 +32,12 @@ public class ObservationViewPanel extends JPanel{
     private JLabel grid2Label = new JLabel ("Grid 2");
     private JLabel labelPlayer1;
     private JLabel labelPlayer2;
+    protected final JButton returnButton = createButton("/icon/home.png", "Return to home");
+    protected final JButton restartButton = createButton("/icon/skip_backward.png", "Return to first turn");
+    protected final JButton forwardButton = createButton("/icon/forward.png", "One action forward");
 	
 	protected ObservationViewPanel(Match m) {
+		controller = new ObservationController(m);
 		
 		//Set Layout
 		Dimension size = new Dimension(1024,768);
@@ -36,14 +45,14 @@ public class ObservationViewPanel extends JPanel{
         setBorder(BorderFactory.createTitledBorder("Game Observation"));
         setPreferredSize(size);
         
-        //addComponent
+        //ToolBar
         toolBar = createToolBar("Actions");
+        toolBar.add(this.forwardButton);
+        toolBar.add(this.restartButton);
+        toolBar.add(this.returnButton);
+
         
-        //toolBar
-        JButton button = createButton("/icon/skip_backward.png", "Return to the beginning");
-        toolBar.add(button);
-        button = createButton("/icon/forward.png", "One action forward");
-        toolBar.add(button);
+        
         
         //labels
         labelPlayer1 = new JLabel("Player: "+ m.getPlayerOne().getPseudo());
@@ -109,7 +118,21 @@ public class ObservationViewPanel extends JPanel{
         gc.anchor= GridBagConstraints.CENTER;
         add(toolBar, gc);
         
+        restartButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.goToStart(ObservationViewPanel.this);
+			}
+		});
         
+        forwardButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.nextTurn(ObservationViewPanel.this);
+			}
+		});
+        
+        controller.initView(ObservationViewPanel.this);
 	}
 	
 	private JToolBar createToolBar(String actions) {
@@ -141,52 +164,10 @@ public class ObservationViewPanel extends JPanel{
        return button;
         
     }
-	
-    public class MatchViewGrid extends JPanel {
-        
-        private JPanel[][] cells;
-        public MatchViewGrid(int rows, int columns){
-            
-            cells = new JPanel[rows][columns];
-            setLayout(new GridBagLayout());
-            
-            GridBagConstraints gc = new GridBagConstraints();
-            gc.weightx=1;
-            gc.weighty=1;
-            gc.fill=GridBagConstraints.BOTH;
-            
-            initDecorateCells(Color.gray);
-            
-            for(int i=0; i<cells.length; i++){
-                gc.gridy=i;
-                for (int j=0; j<cells[i].length;j++)
-                {gc.gridx=j; add(cells[i][j],gc);}
-            }
-            
-            
-        }
-        
-        private void initDecorateCells(Color color)
-        {
-        
-            for (int i=0; i< cells.length; i++)
-            {
-                for(int j=0; j<cells[i].length; j++)
-                {
-                    cells[i][j]= new JPanel();
-                    cells[i][j].setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                    cells[i][j].setBackground(color);
-                }
-            }
-        }
-        
-        public void changeColor(int row, int column, Color color )
-        {
-            cells[row][column].setBackground(color);
-        }
-        
-        
-                
+    
+    public void displayBoat(List<Boat> boatsPlayerOne, List<Boat> boatsPlayerTwo) {
+    		gridPlayer1.displayBoatList(boatsPlayerOne);
+    		gridPlayer2.displayBoatList(boatsPlayerTwo);
     }
 
 }
