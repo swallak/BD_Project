@@ -1,0 +1,19 @@
+# 01/04 (mercredi) : analyse statique, diagrammes de cas d'utilisation.
+
+Début du diagramme entité-association
+
+# 07/04 (mardi) : documentation textuelle des cas d'utilisation
+
+# 08/04 (mercredi) : diagramme états-transitions, début de l'architecture (diagramme de classes, couche modèle et fabrique), diagramme entité-association fini
+
+--- Vacances --
+
+# 21/4 (mardi) : Avancée architecture (modification de la couche fabrique, ajout des connexions entre la couche manager et fabrique), début des interfaces graphiques, schéma relationnel, début de l'analyse des formes normales
+
+# 22/4 (mercredi) : analyse des formes normales finie, quelques modifications dans la conception de la base des données, continuation des interfaces graphiques, début de l'implementation des DAOs, début de l'implémentation de la base des données (création des tables)
+
+# 23/4 (jeudi) (permanence) : continuation des interfaces graphiques, début des rêquetes
+
+continuation des interfaces graphiques, implementation des contrôlleurs, implémentation des DAOs, continuation de la création des tables, liason de l'application avec la base des données
+
+# 28/4 (mardi) :
