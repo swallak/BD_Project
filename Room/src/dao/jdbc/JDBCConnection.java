@@ -22,5 +22,10 @@ public class JDBCConnection {
 	public static void registerJDBDriver() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 	}
+        
+        public static void closeConnection(Connection con) throws SQLException{
+            con.close();
+            
+        }
 
 }

@@ -32,6 +32,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -101,14 +102,14 @@ public class MatchViewFrame extends MainFrame {
             //setLayout
             Dimension size = new Dimension(1000,700);
             setLayout(new GridBagLayout());
-            setBorder(BorderFactory.createTitledBorder("matchController.toString()"));
+            setBorder(BorderFactory.createTitledBorder(matchController.toString()));
             setSize(size);
             
             //addComponent
             toolBar = createToolBar("Actions");
             size = new Dimension (250,300);
-            firstUserLog = new MatchViewPanelPlayer("matchController.getFirstUser()");
-            secondUserLog = new MatchViewPanelPlayer("matchController.getSecondUser()");
+            firstUserLog = new MatchViewPanelPlayer(matchController.getFirstUser());
+            secondUserLog = new MatchViewPanelPlayer(matchController.getSecondUser());
             firstUserLog.setSize(size);
             secondUserLog.setSize(size);
             size = new Dimension(500,500);
@@ -119,11 +120,11 @@ public class MatchViewFrame extends MainFrame {
             
             JButton button = createButton("/icon/move.png", "Move Ship");
             toolBar.add(button);
-            button= createButton("/icon/box_closed.png","Fire with a Ship");
+            button= createButton("/icon/fire.png","Fire with a Ship");
             toolBar.add(button);
             button = createButton("/icon/refresh.png", "Refresh");
             toolBar.add(button);
-            button = createButton("/icon/stop.png", "Abandon");
+            button = createButton("/icon/giveup.png", "Abandon");
             toolBar.add(button);
             
             
@@ -550,5 +551,57 @@ public class MatchViewFrame extends MainFrame {
         }
     }
     
+    public class MatchInitFrame extends MainFrame{
+        
+        JButton validate = new JButton("Validate");
+        JTextField[][] shipsPosition = new JTextField[3][2];
+        JRadioButton optionnal;
+        public MatchInitFrame ()
+        {
+            super("Choose your Ships");
+            
+            JLabel label = new JLabel("Select your ships");
+            
+            
+            setSize(new Dimension(300,150));
+            setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            setLayout(new GridBagLayout());
+            setResizable(false);
+            setVisible(true);
+            
+            GridBagConstraints gc = new GridBagConstraints();
+            
+            gc.weightx=0.5;
+            gc.weighty=0.5;
+            
+            gc.gridx=0;
+            gc.gridy=1;
+            add(new JLabel("Destroyer"),gc);
+            
+            gc.gridy=1;
+            add(new JLabel("Escorteur"),gc );
+            
+            gc.gridy=2;
+            add(new JLabel ("Escorteur(Optionnel)"),gc);
+            
+            
+            gc.gridx=0;
+            gc.gridy=0;
+                    //Frame components
+            for(int i = 0; i<shipsPosition.length; i++,gc.gridx++)
+            {
+                for (int j=0; j<shipsPosition[3].length; j++, gc.gridy++)
+                {
+                    
+                }
+            }
+            
+            
+            
+            
+            
+            
+        }
+    }
 }
 

@@ -5,9 +5,11 @@
  */
 package view;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -26,7 +28,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame(String title) {
         super(title);
-//            switchToFrame.setVisible(false);
+       
     }
 
     protected void switchFrame() {
