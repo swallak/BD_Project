@@ -116,5 +116,11 @@ public class HomeController {
 		}
 		return result;
 	}
+	
+	public void refresh(HomeViewFrame frame) {
+		System.out.println("Refresh");
+		frame.getMainPanel().setDisplayedList(getObservableMatch(frame),
+				getPlayableMatch(frame));
+	}
 
 }
