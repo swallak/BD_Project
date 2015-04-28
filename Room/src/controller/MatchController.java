@@ -32,7 +32,6 @@ public class MatchController {
     public void initMatch() {
             
             //choix et placement des bateau: initialisation du jeu
-            matchview
     }
 
     public boolean moveAction(Point cible) {

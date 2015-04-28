@@ -359,27 +359,22 @@ public class MatchViewFrame extends MainFrame {
                 public void mouseClicked(MouseEvent e) {
                     
                     xPos.setText("");
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
             this.yPos.addMouseListener(new MouseListener() {
@@ -388,27 +383,22 @@ public class MatchViewFrame extends MainFrame {
                 public void mouseClicked(MouseEvent e) {
                     
                     yPos.setText("");
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
             
@@ -565,9 +555,18 @@ public class MatchViewFrame extends MainFrame {
         public MatchInitFrame(MatchViewFrame matchView)
         {
             this();
-            
+            final MatchViewFrame view = matchView;
             //validate Handling
-            
+            this.validate.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    MatchInitFrame.this.setSwitchToFrame(view);
+                    throw new UnsupportedOperationException("Not supported yet.");
+
+                    
+                }
+            });
             
         }
     }
