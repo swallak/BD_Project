@@ -86,7 +86,7 @@ public class Match {
 	}
 
 	public void undoCurrentTurn() {
-		if (currentTurn > 0)
+		if (currentTurn > 1)
 			historic.get(currentTurn).undo();
 		currentTurn--;
 	}
@@ -98,7 +98,7 @@ public class Match {
 
 	public void undoToStart() {
 		while (currentTurn > 0) {
-
+			undoCurrentTurn();
 		}
 	}
 	

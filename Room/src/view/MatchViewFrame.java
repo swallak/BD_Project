@@ -62,8 +62,7 @@ public class MatchViewFrame extends MainFrame {
     public MatchViewFrame(String title) {
         super(title);
         
-        
-        //set MatchController
+        new MatchInitFrame(this);
         
         //Layout And size
         setLayout(new BorderLayout());
@@ -81,6 +80,12 @@ public class MatchViewFrame extends MainFrame {
         //Adding component
         add(matchViewPanel, BorderLayout.CENTER);
         
+    }
+    
+    public MatchViewFrame(String title, MatchController matchConroller)
+    {
+        super(title);
+        setMatchController(matchController);
     }
     
     public void setMatchController(MatchController matchController)
@@ -198,7 +203,7 @@ public class MatchViewFrame extends MainFrame {
             }
             
 
-        }
+        
         public void actionPopupWindow(int i){
             
             String[] ships = {"this", "is", "temporal"};
@@ -218,9 +223,7 @@ public class MatchViewFrame extends MainFrame {
             
             }
         }
-        
-        
-        
+
         private JToolBar createToolBar(String actions) {
             
             JToolBar bar = new JToolBar(actions);
@@ -229,7 +232,7 @@ public class MatchViewFrame extends MainFrame {
             bar.setOrientation(JToolBar.HORIZONTAL);
             return bar;
         }
-        
+
         private JButton createButton( String source, String rollOverMsg)
         {
             Image img;
@@ -250,10 +253,7 @@ public class MatchViewFrame extends MainFrame {
            return button;
             
         }
-        
-
-        
-        
+}
         
     public class MatchViewPanelPlayer extends JPanel {
 

@@ -32,9 +32,8 @@ public class MatchController {
 
     public void initMatch(List<Boat> boats) throws BoatDAO.BoatNotCreatedException, MatchDAO.MatchNotCreatedException, MatchDAO.MatchStateNotSave {
             
-        matchDAO.createMatch(con, true, match);
+        //matchDAO.createMatch(con, true, match);
         boatDAO.createBoatList(con, true, boats);
-            //choix et placement des bateau: initialisation du jeu
     }
 
     public boolean moveAction(Point cible) {
