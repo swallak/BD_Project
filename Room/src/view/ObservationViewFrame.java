@@ -11,7 +11,7 @@ import model.game.Match;
 public class ObservationViewFrame extends MainFrame {
 
     private ObservationViewPanel observationViewPanel;     
-    private Dimension size = new Dimension(500, 500);
+    private Dimension size = new Dimension(1024, 768);
     
 	
 	public ObservationViewFrame(String title, Match m) {
@@ -26,7 +26,7 @@ public class ObservationViewFrame extends MainFrame {
         setLayout(new BorderLayout());
         setSize(size);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setResizable(false);
+        //setResizable(false);
         
         //set Default closing operation
        
@@ -34,7 +34,7 @@ public class ObservationViewFrame extends MainFrame {
 
 //        //Creating Components
 //        
-        observationViewPanel = new ObservationViewPanel();
+        observationViewPanel = new ObservationViewPanel(m);
 //        //Adding component
         add(observationViewPanel, BorderLayout.CENTER);
 	        
