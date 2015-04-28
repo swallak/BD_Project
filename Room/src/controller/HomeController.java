@@ -83,9 +83,16 @@ public class HomeController {
 			con = JDBCConnection.openConnection();
 			result = matchDAO
 					.getPlayableMatchHeader(con, true, frame.getUser());
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return result;
 	}
@@ -97,9 +104,16 @@ public class HomeController {
 			con = JDBCConnection.openConnection();
 			result = matchDAO.geObservableMatchHeader(con, true,
 					frame.getUser());
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return result;
 	}
