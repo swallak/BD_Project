@@ -17,6 +17,7 @@ Joueur:
 pseudo(clef primaire)
 nom
 prenom
+mail
 dateNaissance
 adrRue
 adrNumero
@@ -25,22 +26,23 @@ adrCodePostal
 adrVille
 ---------------------------------------------------------------------------------
 Action:
-idAction(clef primaire)
 idPartie(clef primaire)
+tour(clef primaire)
+numAction(clef primaire)
 idBateau(clef étrangère)
 pseudo(clef étrangère)
-tour
+
 ---------------------------------------------------------------------------------
 ActionDeplacement:
-idAction(clef primaire)
 idPartie(clef primaire)
-tour
+tour(clef primaire)
+numAction(clef primaire)
 typeDeplacement
 ---------------------------------------------------------------------------------
 ActionTir:
-idAction(clef primaire)
 idPartie(clef primaire)
-tour
+tour(clef primaire)
+numAction(clef primaire)
 cibleTirX
 cibleTirY
 ---------------------------------------------------------------------------------
@@ -51,3 +53,4 @@ pseudo(clef étrangère)
 JoueursParPartie:
 pseudo(clef primaire)
 idPartie(clef primaire)
+numJoueur

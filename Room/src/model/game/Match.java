@@ -95,10 +95,10 @@ public class Match {
 		return id;
 	}
 
-	public static int createId(Match match) {
-		return match.startDate.toString().hashCode()
-				+ match.playerOne.getPseudo().hashCode()
-				+ match.playerTwo.hashCode();
+	public static int createId(Date startDate, AbstractUser playerOne,
+			AbstractUser playerTwo) {
+		return startDate.toString().hashCode()
+				+ playerOne.getPseudo().hashCode() + playerTwo.hashCode();
 	}
 
 	public void setPlayerOneBoat(Map<Integer, Boat> boatMap) {

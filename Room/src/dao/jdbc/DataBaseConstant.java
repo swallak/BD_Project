@@ -22,7 +22,7 @@ public class DataBaseConstant {
 
 	/* Table Partie */
 	protected final static String MATCH_TABLE_NAME = "Partie";
-	protected final static String MATCH_START_DATE = "dateDemarage";
+	protected final static String MATCH_START_DATE = "dateDemarrage";
 	protected final static String MATCH_ID = "idPartie";
 
 	/* Table Action */
@@ -59,8 +59,7 @@ public class DataBaseConstant {
 	protected final static String BOAT_HP = "pointVie";
 
 	/* Table Vainqueur */
-	protected final static String WINNER_TABLE_NAME = "vainqueur";
+	protected final static String WINNER_TABLE_NAME = "vainqueurs";
 	protected final static String WINNER_MATCH_ID = "idPartie";
 	protected final static String WINNER_PLAYER = "pseudo";
-	protected final static String WINNER_TURN = "turn";
 }
