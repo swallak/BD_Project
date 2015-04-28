@@ -87,9 +87,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 				Opponent player2 = dao.findOpponent(con, false,
 						rs.getString("pseudo2"));
 
-				result.add(new Match(rs.getInt(DataBaseConstant.MATCH_ID),
-						player1, player2, null, rs
-								.getDate(DataBaseConstant.MATCH_START_DATE)));
+				result.add(new Match(player1, player2, null, rs
+						.getDate(DataBaseConstant.MATCH_START_DATE),rs.getInt(DataBaseConstant.MATCH_ID)));
 			}
 
 			rs.close();
@@ -166,9 +165,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 				else
 					winner = player2;
 
-				result.add(new Match(rs.getInt(DataBaseConstant.MATCH_ID),
-						player1, player2, winner, rs
-								.getDate(DataBaseConstant.MATCH_START_DATE)));
+				result.add(new Match(player1, player2, winner, rs
+							.getDate(DataBaseConstant.MATCH_START_DATE),rs.getInt(DataBaseConstant.MATCH_ID)));
 			}
 
 			if (withCommit)
@@ -268,9 +266,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 					player2 = currentUser;
 				}
 
-				result.add(new Match(rs.getInt(DataBaseConstant.MATCH_ID),
-						player1, player2, null, rs
-								.getDate(DataBaseConstant.MATCH_START_DATE)));
+				result.add(new Match(player1, player2, null, rs
+						.getDate(DataBaseConstant.MATCH_START_DATE) ,rs.getInt(DataBaseConstant.MATCH_ID)));
 			}
 
 			if (withCommit)

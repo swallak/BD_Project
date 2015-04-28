@@ -43,9 +43,8 @@ public class HomeController {
 			System.out.println("Opponent " + opp.getPseudo());
 
 			Date startDate = new Date(System.currentTimeMillis());
-			int id = Match.createId(startDate, frame.getUser(), opp);
 
-			Match match = new Match(id, frame.getUser(), opp, null, startDate);
+			Match match = new Match(frame.getUser(), opp, null, startDate);
 
 			matchDAO.createMatch(con, false, match);
 
