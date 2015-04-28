@@ -322,7 +322,7 @@ public class MatchViewFrame extends MainFrame {
         
         public MatchActionFrame(String title, String[]ships)
         {
-            super(title,ships);
+            super(title);
             setSize(new Dimension(300,200));
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setLayout(new BorderLayout());
@@ -378,9 +378,9 @@ public class MatchViewFrame extends MainFrame {
     
     public class MatchActionShootFrame extends MatchActionFrame{
         
-        public MatchActionShootFrame(String title)
+        public MatchActionShootFrame(String title, String[] ships)
         {
-            super(title);
+            super(title, ships);
         }
     }
     
