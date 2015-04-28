@@ -3,6 +3,8 @@ package model.game;
 public final class ShotAction extends Action {
 
 	private Position target;
+	
+	private Boat touchBoat;
 
 	public Position getTarget() {
 		return target;
@@ -21,5 +23,13 @@ public final class ShotAction extends Action {
 	@Override
 	public void undo() {
 		UndoAction.getInstance().undo(this);
+	}
+	
+	public Boat getTouchBoat() {
+		return touchBoat;
+	}
+	
+	public void setTouchBoat(Boat touchBoat) {
+		this.touchBoat = touchBoat;
 	}
 }

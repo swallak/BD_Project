@@ -6,6 +6,8 @@
 package view;
 
 import controller.MatchController;
+import dao.BoatDAO;
+import dao.MatchDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -20,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -39,6 +43,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
+import model.game.Boat;
+import model.game.Boat.Orientation;
+import model.game.Position;
 import model.user.AbstractUser;
 
 /**
@@ -55,8 +62,7 @@ public class MatchViewFrame extends MainFrame {
     public MatchViewFrame(String title) {
         super(title);
         
-        
-        //set MatchController
+        new MatchInitFrame(this);
         
         //Layout And size
         setLayout(new BorderLayout());
@@ -74,6 +80,12 @@ public class MatchViewFrame extends MainFrame {
         //Adding component
         add(matchViewPanel, BorderLayout.CENTER);
         
+    }
+    
+    public MatchViewFrame(String title, MatchController matchConroller)
+    {
+        super(title);
+        setMatchController(matchController);
     }
     
     public void setMatchController(MatchController matchController)
@@ -191,7 +203,7 @@ public class MatchViewFrame extends MainFrame {
             }
             
 
-        }
+        
         public void actionPopupWindow(int i){
             
             String[] ships = {"this", "is", "temporal"};
@@ -211,9 +223,7 @@ public class MatchViewFrame extends MainFrame {
             
             }
         }
-        
-        
-        
+
         private JToolBar createToolBar(String actions) {
             
             JToolBar bar = new JToolBar(actions);
@@ -222,7 +232,7 @@ public class MatchViewFrame extends MainFrame {
             bar.setOrientation(JToolBar.HORIZONTAL);
             return bar;
         }
-        
+
         private JButton createButton( String source, String rollOverMsg)
         {
             Image img;
@@ -243,10 +253,7 @@ public class MatchViewFrame extends MainFrame {
            return button;
             
         }
-        
-
-        
-        
+}
         
     public class MatchViewPanelPlayer extends JPanel {
 
@@ -359,27 +366,22 @@ public class MatchViewFrame extends MainFrame {
                 public void mouseClicked(MouseEvent e) {
                     
                     xPos.setText("");
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
             this.yPos.addMouseListener(new MouseListener() {
@@ -388,27 +390,22 @@ public class MatchViewFrame extends MainFrame {
                 public void mouseClicked(MouseEvent e) {
                     
                     yPos.setText("");
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mousePressed(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseReleased(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
             
@@ -507,9 +504,12 @@ public class MatchViewFrame extends MainFrame {
     public class MatchInitFrame extends MainFrame{
         
         JButton validate = new JButton("Validate");
-        JTextField[][] shipsPosition = new JTextField[3][2];
-        JRadioButton optionnal;
-        public MatchInitFrame ()
+        JTextField[][] shipsPosition = new JTextField[3][3];
+        JRadioButton optionnal= new JRadioButton();
+        
+        private int i=0;
+        private int j=0;
+        private MatchInitFrame ()
         {
             super("Choose your Ships");
             
@@ -528,31 +528,97 @@ public class MatchViewFrame extends MainFrame {
             gc.weighty=0.5;
             
             gc.gridx=0;
-            gc.gridy=1;
+            gc.gridy=2;
             add(new JLabel("Destroyer"),gc);
             
-            gc.gridy=1;
+            gc.gridy=3;
             add(new JLabel("Escorteur"),gc );
             
-            gc.gridy=2;
+            gc.gridy=4;
             add(new JLabel ("Escorteur(Optionnel)"),gc);
             
+            gc.gridx=1;
+            add(new JLabel ("posX"),gc);
+            gc.gridx=2;
+            add(new JLabel("posY"),gc);
+            gc.gridx=3;
+            add(new JLabel("orient"),gc);
             
-            gc.gridx=0;
-            gc.gridy=0;
+            gc.gridx=1;
+            gc.gridy=1;
                     //Frame components
-            for(int i = 0; i<shipsPosition.length; i++,gc.gridx++)
+            for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
             {
-                for (int j=0; j<shipsPosition[3].length; j++, gc.gridy++)
+                for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
                 {
+                    shipsPosition[i][j]= new JTextField(5);
+                    add(shipsPosition[i][j],gc);
                     
                 }
             }
+            add( optionnal,gc);
             
-            
-            
-            
-            
+        }
+        
+        public MatchInitFrame(MatchViewFrame matchView)
+        {
+            this();
+            final MatchViewFrame view = matchView;
+            //validate Handling
+            this.validate.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    List<Boat> boatList = new ArrayList<>();
+                    MatchInitFrame.this.setSwitchToFrame(view);
+                    //Adding the destroyer
+                    Boat boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 3, 3, Orientation.fromString(shipsPosition[0][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[0][0].getText())
+                                    , Integer.parseInt(shipsPosition[0][0].getText())));
+                    boatList.add(boat);
+                    
+                    //Adding the exorteur
+                    boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 2, 2, Orientation.fromString(shipsPosition[1][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[1][0].getText())
+                                    , Integer.parseInt(shipsPosition[1][0].getText())));
+                    boatList.add(boat);
+                    
+                    //Adding the second optionnal destroyyer
+                    
+                    if(optionnal.isSelected())
+                    {
+                        boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 2, 2, Orientation.fromString(shipsPosition[2][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[2][0].getText())
+                                    , Integer.parseInt(shipsPosition[2][0].getText())));
+                    boatList.add(boat);
+                    }
+                    try {
+                        //call the controller
+                        matchController.initMatch(boatList);
+                    } catch (BoatDAO.BoatNotCreatedException ex) {
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                       MatchInitFrame.this.popErrorDialog("Data entered is not correct");
+                    } catch (MatchDAO.MatchNotCreatedException ex) {
+                        MatchInitFrame.this.popErrorDialog("Error  match creation");return;
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MatchDAO.MatchStateNotSave ex) {
+                        MatchInitFrame.this.popErrorDialog("Error  match not saved");return ;
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    matchView.matchViewPanel.grid.displayBoatList(boatList);
+                    MatchInitFrame.this.switchFrame();
+                    
+                    
+                    
+                    //throw new UnsupportedOperationException("Not supported yet.");
+
+                    
+                }
+            });
             
         }
     }
