@@ -43,9 +43,8 @@ public class HomeController {
 			System.out.println("Opponent " + opp.getPseudo());
 
 			Date startDate = new Date(System.currentTimeMillis());
-			int id = Match.createId(startDate, frame.getUser(), opp);
 
-			Match match = new Match(id, frame.getUser(), opp, null, startDate);
+			Match match = new Match(frame.getUser(), opp, null, startDate);
 
 			matchDAO.createMatch(con, false, match);
 
@@ -83,9 +82,16 @@ public class HomeController {
 			con = JDBCConnection.openConnection();
 			result = matchDAO
 					.getPlayableMatchHeader(con, true, frame.getUser());
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return result;
 	}
@@ -97,9 +103,16 @@ public class HomeController {
 			con = JDBCConnection.openConnection();
 			result = matchDAO.geObservableMatchHeader(con, true,
 					frame.getUser());
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return result;
 	}

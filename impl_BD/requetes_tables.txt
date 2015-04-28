@@ -32,17 +32,41 @@ SELECT idPartie from JoueursParPartie
 
 SELECT pseudo from JoueursParPartie where IdPartie = x 
 
--- Get all observable match header 
+-- Get all observable matches header 
+        --Partie without winner.
+        SELECT Partie.idPartie, Date, joueur1.pseudo as pseudo1, joueur2.pseudo as pseudo2
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
+        WHERE joueur1.pseudo !> userPseudo
+        AND joueur2.pseudo !> userPseudo
+        AND joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        AND NOT EXISTS (SELECT * FROM Vainqueurs v  
+                        WHERE v.idPartie = Partie.idPartie) 
 
-SELECT Partie.idPartie, Date, joueur1.pseudo, joueur2.pseudo
-FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
-WHERE joueur1.pseudo <> userPseudo
-AND joueur2.pseudo <> userPseudo
-AND joueur1.idPartie = joueur2.idPartie
-AND joueur1.idPartie = Partie
+        --Partie with winner
+        SELECT Partie.idPartie, Partie.Date, joueur1.pseudo as pseudo1,
+        joueur2.pseudo as pseudo2, Vainqueurs.pseudo
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Vainqueurs, Partie
+        WHERE joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie
+        AND Vainqueurs.idPartie = Partie.idPartie
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        
+-- Get all playable matches header.
 
-
-
+        SELECT Partie.idPartie, Partie.dateDemarrage, joueur1.pseudo as pseudo1,
+        joueur2.pseudo as pseudo2
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
+        WHERE joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie and
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        AND (joueur1.pseudo = ? OR joueur2.pseudo = ?)
+        AND NOT EXISTS (SELECT * FROM Vainqueurs 
+                        WHERE Vainqueurs.idPartie = Partie.idPartie)
 
 -- INSERTION
 

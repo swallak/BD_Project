@@ -23,8 +23,17 @@ public class Match {
 
 	private List<Turn> historic;
 
-	public Match(int id, AbstractUser playerOne, AbstractUser playerTwo,
+	public Match(AbstractUser playerOne, AbstractUser playerTwo,
 			AbstractUser winner, Date date) {
+		this.id = createId(date, playerOne, playerTwo);
+		this.playerOne = playerOne;
+		this.playerTwo = playerTwo;
+		this.winner = winner;
+		this.startDate = date;
+	}
+
+	public Match(AbstractUser playerOne, AbstractUser playerTwo,
+			AbstractUser winner, Date date, int id) {
 		this.id = id;
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
