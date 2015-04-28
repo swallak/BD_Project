@@ -1,37 +1,106 @@
 package controller;
 
-import model.game.Turn;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import model.game.Boat;
+import model.game.Match;
 import model.user.AbstractUser;
+import view.ObservationViewPanel;
 import dao.ActionDAO;
+import dao.MatchDAO;
+import dao.MatchDAO.MatchNotExistsException;
+import dao.MatchDAO.ReadMatchException;
+import dao.jdbc.ActionDAO_JDBC;
+import dao.jdbc.JDBCConnection;
+import dao.jdbc.MatchDAO_JDBC;
 
 public class ObservationController {
-	private AbstractUser firstUser;
-    private AbstractUser secondUser;
-    private ActionDAO action;
-    private Turn turn;
-    
-    public AbstractUser getFirstUser()
-    {
-        return this.firstUser;
-    }
-    
-    public AbstractUser getSecondUser( )
-    {
-        
-        return this.secondUser;
-        
-    }
-    public String toString ()
-    {
-            
-            return this.firstUser.getPseudo() +"vs"+ this.secondUser.getPseudo();
-    }
-    public void setAction(ActionDAO action ){
-        this.action = action;
-    }
-    
-    public void setTurn (Turn turn ){
-        this.turn=turn;
-    }
 
+	private Match match;
+	private AbstractUser firstUser;
+	private AbstractUser secondUser;
+
+	private ActionDAO actionDAO;
+	private MatchDAO matchDAO;
+
+	public ObservationController(Match match) {
+		this.match = match;
+		firstUser = match.getPlayerOne();
+		secondUser = match.getPlayerTwo();
+		actionDAO = new ActionDAO_JDBC();
+		matchDAO = new MatchDAO_JDBC();
+	}
+
+	public void undoTurn(ObservationViewPanel panel) {
+		match.undoCurrentTurn();
+		refreshView(panel);
+	}
+
+	public void nextTurn(ObservationViewPanel panel) {
+		if (match.getCurrentTurn() <= match.getHistoric().size()) {
+			match.applyNextTurn();
+		} else {
+			java.sql.Connection con = null;
+			try {
+				con = JDBCConnection.openConnection();
+				matchDAO.getCurrentMatchInfo(con, true, match);
+				if (match.getCurrentTurn() <= match.getHistoric().size()) {
+					match.applyNextTurn();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (ReadMatchException e) {
+				e.printStackTrace();
+			} catch (MatchNotExistsException e) {
+				e.printStackTrace();
+			} finally {
+				if (con != null) {
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		refreshView(panel);
+	}
+
+	public void goToStart(ObservationViewPanel panel) {
+		match.undoToStart();
+		refreshView(panel);
+	}
+
+	public void initView(ObservationViewPanel panel) {
+		java.sql.Connection con = null;
+		try {
+			con = JDBCConnection.openConnection();
+			matchDAO.getCurrentMatchInfo(con, true, match);
+			if (match.getCurrentTurn() <= match.getHistoric().size()) {
+				match.applyCurrentTurn();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ReadMatchException e) {
+			e.printStackTrace();
+		} catch (MatchNotExistsException e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		refreshView(panel);
+	}
+
+	private void refreshView(ObservationViewPanel panel) {
+		panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
+				.values()), new ArrayList<Boat>(match.getPlayerTwoBoats()
+				.values()));
+	}
 }

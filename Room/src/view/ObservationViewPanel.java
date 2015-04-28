@@ -1,11 +1,13 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -15,9 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import model.game.Boat;
 import model.game.Match;
+import controller.ObservationController;
 
 public class ObservationViewPanel extends JPanel{
+	
+	private ObservationController controller;
 	
 	private MatchViewGrid gridPlayer1;
 	private MatchViewGrid gridPlayer2;
@@ -31,6 +37,7 @@ public class ObservationViewPanel extends JPanel{
     protected final JButton forwardButton = createButton("/icon/forward.png", "One action forward");
 	
 	protected ObservationViewPanel(Match m) {
+		controller = new ObservationController(m);
 		
 		//Set Layout
 		Dimension size = new Dimension(1024,768);
@@ -111,7 +118,21 @@ public class ObservationViewPanel extends JPanel{
         gc.anchor= GridBagConstraints.CENTER;
         add(toolBar, gc);
         
+        restartButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.goToStart(ObservationViewPanel.this);
+			}
+		});
         
+        forwardButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.nextTurn(ObservationViewPanel.this);
+			}
+		});
+        
+        controller.initView(ObservationViewPanel.this);
 	}
 	
 	private JToolBar createToolBar(String actions) {
@@ -142,6 +163,11 @@ public class ObservationViewPanel extends JPanel{
        button.setToolTipText(rollOverMsg);
        return button;
         
+    }
+    
+    public void displayBoat(List<Boat> boatsPlayerOne, List<Boat> boatsPlayerTwo) {
+    		gridPlayer1.displayBoatList(boatsPlayerOne);
+    		gridPlayer2.displayBoatList(boatsPlayerTwo);
     }
 
 }
