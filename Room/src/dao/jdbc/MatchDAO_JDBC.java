@@ -393,6 +393,8 @@ public class MatchDAO_JDBC extends MatchDAO {
 				match.addTurn(actionDAO.getActionInTurn(con, withCommit, match,
 						match.getHistoric().size() + 1));
 			}
+			if(withCommit)
+				con.commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -444,7 +446,6 @@ public class MatchDAO_JDBC extends MatchDAO {
 			try {
 				con.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			throw new MatchStateNotSave();
@@ -453,7 +454,6 @@ public class MatchDAO_JDBC extends MatchDAO {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
