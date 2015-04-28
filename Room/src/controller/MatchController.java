@@ -9,6 +9,7 @@ import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 import java.awt.Point;
 import java.sql.Connection;
+import java.util.List;
 import model.game.Boat;
 import model.game.Match;
 import model.game.Turn;
@@ -29,8 +30,10 @@ public class MatchController {
         this.match = match;
     }
 
-    public void initMatch() {
+    public void initMatch(List<Boat> boats) throws BoatDAO.BoatNotCreatedException, MatchDAO.MatchNotCreatedException, MatchDAO.MatchStateNotSave {
             
+        matchDAO.createMatch(con, true, match);
+        boatDAO.createBoatList(con, true, boats);
             //choix et placement des bateau: initialisation du jeu
     }
 
@@ -64,7 +67,10 @@ public class MatchController {
         return this.match.getPlayerTwo();
 
     }
-
+    public Match getMatch()
+    {
+        return this.match;
+    }
     public String toString() {
 
         return this.getFirstUser().getPseudo() + "vs" + this.getSecondUser().getPseudo();

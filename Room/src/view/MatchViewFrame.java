@@ -6,6 +6,8 @@
 package view;
 
 import controller.MatchController;
+import dao.BoatDAO;
+import dao.MatchDAO;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -20,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -39,6 +43,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
+import model.game.Boat;
+import model.game.Boat.Orientation;
+import model.game.Position;
 import model.user.AbstractUser;
 
 /**
@@ -498,7 +505,7 @@ public class MatchViewFrame extends MainFrame {
         
         JButton validate = new JButton("Validate");
         JTextField[][] shipsPosition = new JTextField[3][3];
-        JRadioButton optionnal;
+        JRadioButton optionnal= new JRadioButton();
         
         private int i=0;
         private int j=0;
@@ -549,6 +556,7 @@ public class MatchViewFrame extends MainFrame {
                     
                 }
             }
+            add( optionnal,gc);
             
         }
         
@@ -561,8 +569,52 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    List<Boat> boatList = new ArrayList<>();
                     MatchInitFrame.this.setSwitchToFrame(view);
-                    throw new UnsupportedOperationException("Not supported yet.");
+                    //Adding the destroyer
+                    Boat boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 3, 3, Orientation.fromString(shipsPosition[0][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[0][0].getText())
+                                    , Integer.parseInt(shipsPosition[0][0].getText())));
+                    boatList.add(boat);
+                    
+                    //Adding the exorteur
+                    boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 2, 2, Orientation.fromString(shipsPosition[1][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[1][0].getText())
+                                    , Integer.parseInt(shipsPosition[1][0].getText())));
+                    boatList.add(boat);
+                    
+                    //Adding the second optionnal destroyyer
+                    
+                    if(optionnal.isSelected())
+                    {
+                        boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                            , 2, 2, Orientation.fromString(shipsPosition[2][2].getText())
+                            , new Position(Integer.parseInt(shipsPosition[2][0].getText())
+                                    , Integer.parseInt(shipsPosition[2][0].getText())));
+                    boatList.add(boat);
+                    }
+                    try {
+                        //call the controller
+                        matchController.initMatch(boatList);
+                    } catch (BoatDAO.BoatNotCreatedException ex) {
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                       MatchInitFrame.this.popErrorDialog("Data entered is not correct");
+                    } catch (MatchDAO.MatchNotCreatedException ex) {
+                        MatchInitFrame.this.popErrorDialog("Error  match creation");return;
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (MatchDAO.MatchStateNotSave ex) {
+                        MatchInitFrame.this.popErrorDialog("Error  match not saved");return ;
+                        //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    matchView.matchViewPanel.grid.displayBoatList(boatList);
+                    MatchInitFrame.this.switchFrame();
+                    
+                    
+                    
+                    //throw new UnsupportedOperationException("Not supported yet.");
 
                     
                 }
