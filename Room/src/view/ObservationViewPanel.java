@@ -27,6 +27,9 @@ public class ObservationViewPanel extends JPanel{
     private JLabel grid2Label = new JLabel ("Grid 2");
     private JLabel labelPlayer1;
     private JLabel labelPlayer2;
+    protected final JButton returnButton = createButton("/icon/home.png", "Return to home");
+    protected final JButton restartButton = createButton("/icon/skip_backward.png", "Return to first turn");
+    protected final JButton forwardButton = createButton("/icon/forward.png", "One action forward");
 	
 	protected ObservationViewPanel(Match m) {
 		
@@ -36,14 +39,14 @@ public class ObservationViewPanel extends JPanel{
         setBorder(BorderFactory.createTitledBorder("Game Observation"));
         setPreferredSize(size);
         
-        //addComponent
+        //ToolBar
         toolBar = createToolBar("Actions");
+        toolBar.add(this.forwardButton);
+        toolBar.add(this.restartButton);
+        toolBar.add(this.returnButton);
+
         
-        //toolBar
-        JButton button = createButton("/icon/skip_backward.png", "Return to the beginning");
-        toolBar.add(button);
-        button = createButton("/icon/forward.png", "One action forward");
-        toolBar.add(button);
+        
         
         //labels
         labelPlayer1 = new JLabel("Player: "+ m.getPlayerOne().getPseudo());

@@ -227,7 +227,7 @@ public class HomeViewFrame extends MainFrame{
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					setSwitchToFrame(new ObservationViewFrame("Observating Match", obsGamesList.getSelectedValue()));
+					setSwitchToFrame(new ObservationViewFrame("Observating Match", obsGamesList.getSelectedValue(), user));
 	                switchFrame();
 				}
 			});
