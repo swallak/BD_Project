@@ -32,7 +32,7 @@ public class SignInViewPanel extends JPanel {
     
     private LogInController logincontroller;
     private final JLabel pseudoLabel = new JLabel("Pseudo  ");
-    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY-MM-DD)  ");
+    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY/MM/DD)  ");
     protected final JTextField pseudoField = new JTextField(WIDTH);
     protected final JTextField birthdayField = new JTextField(WIDTH);
     protected final JButton connectButton = new JButton("Connect");
