@@ -5,30 +5,21 @@ import java.util.ArrayList;
 
 import model.game.Boat;
 import model.game.Match;
-import model.user.AbstractUser;
 import view.ObservationViewPanel;
-import dao.ActionDAO;
 import dao.MatchDAO;
 import dao.MatchDAO.MatchNotExistsException;
 import dao.MatchDAO.ReadMatchException;
-import dao.jdbc.ActionDAO_JDBC;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 
 public class ObservationController {
 
 	private Match match;
-	private AbstractUser firstUser;
-	private AbstractUser secondUser;
 
-	private ActionDAO actionDAO;
 	private MatchDAO matchDAO;
 
 	public ObservationController(Match match) {
 		this.match = match;
-		firstUser = match.getPlayerOne();
-		secondUser = match.getPlayerTwo();
-		actionDAO = new ActionDAO_JDBC();
 		matchDAO = new MatchDAO_JDBC();
 	}
 
@@ -45,9 +36,7 @@ public class ObservationController {
 			try {
 				con = JDBCConnection.openConnection();
 				matchDAO.getCurrentMatchInfo(con, true, match);
-				if (match.getCurrentTurn() <= match.getHistoric().size()) {
-					match.applyNextTurn();
-				}
+				match.setCurrentTurn(match.getHistoric().size());
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (ReadMatchException e) {

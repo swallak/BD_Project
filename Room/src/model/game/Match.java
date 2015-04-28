@@ -137,4 +137,8 @@ public class Match {
 		
 		
 	}
+
+	public void setCurrentTurn(int currentTurn) {
+		this.currentTurn = currentTurn;
+	}
 }
