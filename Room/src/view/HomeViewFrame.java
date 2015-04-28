@@ -83,8 +83,8 @@ public class HomeViewFrame extends MainFrame{
         
         public class HomeViewInfoPanel extends JPanel{
             
-           private JLabel pseudoLabel = new JLabel(user.getPseudo());
-           private JLabel cityLabel = new JLabel (user.getAddrCity());
+           private JLabel pseudoLabel = new JLabel("Pseudo: " + user.getPseudo());
+           private JLabel cityLabel = new JLabel ("City: " + user.getAddrCity());
            private JButton logoutButton = new JButton("Log out");
            
                   
@@ -113,6 +113,7 @@ public class HomeViewFrame extends MainFrame{
                gc.gridy=2;
                gc.weighty=0.5;
                gc.anchor=GridBagConstraints.PAGE_END;
+               gc.fill = GridBagConstraints.BOTH;
                add(logoutButton, gc);  
                
                
@@ -133,9 +134,13 @@ public class HomeViewFrame extends MainFrame{
 
 		private JButton playButton = new JButton("Play");
 		private JButton watchButton = new JButton("Watch");
-		private JLabel statusLabel;
+		private JList<Match> obsGamesList;	
+		private JLabel obsLabel = new JLabel("If you want to observe a game, choose one "
+				+ "from the list below and click 'Watch'");
+        private JLabel playLabel = new JLabel("If you want to play a game, click on 'Play' "
+        		+ "and the application will find a player for you");
 		
-		private void showListDemo(){                                       
+		private void addObsList(){                                       
 		
 			List<Match> result = controller.getObservableMatch(HomeViewFrame.this);
 			
@@ -146,7 +151,7 @@ public class HomeViewFrame extends MainFrame{
 		    	observableGames.addElement(m);
 		    }
 
-		  final JList<Match> obsGamesList = new JList<Match>(observableGames);
+		  obsGamesList = new JList<Match>(observableGames);
 		  obsGamesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		  obsGamesList.setSelectedIndex(0);
 		  obsGamesList.setVisibleRowCount(3); 
@@ -167,9 +172,12 @@ public class HomeViewFrame extends MainFrame{
 //		     }
 //		  }); 
 
+			
+		  	
+
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.gridx = 0;
-			gbc.gridy = 0;
+			gbc.gridy = 2;
 			gbc.gridwidth=2;
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.weightx = 1;
@@ -181,9 +189,6 @@ public class HomeViewFrame extends MainFrame{
 		}
 
 		public HomeViewMainPanel() {
-
-			statusLabel = new JLabel("",JLabel.CENTER);    
-			statusLabel.setSize(350,100);
 			
 			// set Layout & size
 			setBorder(BorderFactory
@@ -192,27 +197,42 @@ public class HomeViewFrame extends MainFrame{
 			setLayout(new GridBagLayout());
 
 			GridBagConstraints gc = new GridBagConstraints();
-			 
-			showListDemo();
 
 			// Adding component to the panel
-
 			
 			gc.weightx = 0.5;
-
+			gc.weighty = 0.1;
+			gc.gridy = 0;
+			add(obsLabel, gc);
+			
+			gc.weightx = 0.5;
+			gc.weighty = 0.1;
 			gc.gridy = 1;
+			add(playLabel, gc);
+
+			
+			addObsList();
+			
+			gc.weightx = 0.5;
+			gc.fill = GridBagConstraints.BOTH;
+			gc.gridy = 3;
 			add(watchButton, gc);
 			
-			gc.fill = GridBagConstraints.HORIZONTAL;
-
-			gc.gridy = 2;
+			gc.fill = GridBagConstraints.BOTH;
 			gc.gridx = 0;
+			gc.gridy = 4;
 			add(playButton, gc);
 
-		
-			
-			add(statusLabel);
+			watchButton.addActionListener(new ActionListener() {
 
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					setSwitchToFrame(new ObservationViewFrame("Observating Match", obsGamesList.getSelectedValue()));
+	                switchFrame();
+				}
+			});
+
+			
 			playButton.addActionListener(new ActionListener() {
 
 				@Override
