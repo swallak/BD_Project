@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import model.game.Match;
-import view.MatchViewFrame.MatchViewGrid;
 
 public class ObservationViewPanel extends JPanel{
 	
