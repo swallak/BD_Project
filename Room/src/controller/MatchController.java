@@ -86,7 +86,7 @@ public class MatchController {
 			if(match.getPlayerOneBoats().size() == 0 || match.getPlayerTwoBoats().size() == 0)
 			{
 				isInitPhase = true;
-				// TODO indiquer au panel que l'on est en init.
+				JOptionPane.showMessageDialog(matchView, "Let's play a game?");
 			}
 			else if (match.getHistoric().size() == 0){
 				isUserTurn = isUserPlayerOne;
@@ -115,7 +115,9 @@ public class MatchController {
 		} catch (ReadMatchException e) {
 			e.printStackTrace();
 		} catch (MatchNotExistsException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(matchView,
+					"The Match doesn't exist!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}finally {
 			if (con != null) {
@@ -202,7 +204,7 @@ public class MatchController {
 
 	}
 	
-	// TODO rajouter en paramètre la vue concernée.
+	
 	public void moveAction(Boat boat, MovementType type) {
 		MoveAction moveAction = null;
 		Savepoint savePoint = null;
@@ -289,7 +291,7 @@ public class MatchController {
 		}
 	}
 
-	// TODO rajouter la vue concerné en paramètre.
+	
 	public void shootAction(Boat boat, Position target) {
 		ShotAction action = new ShotAction(currentTurn, boat, actionCounter,
 				target);
