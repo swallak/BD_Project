@@ -138,7 +138,9 @@ public class MatchController {
 				// bien touché.
 
 			} catch (SQLException e) {
-				// TODO Afficher l'erreur à l'utilisateur.
+				JOptionPane.showMessageDialog(matchView,
+						"Problem connecting to database.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
@@ -199,7 +201,9 @@ public class MatchController {
 				moveAction.apply();
 
 				// TODO tester si les bateaux ne se superposent pas.
-
+				
+				
+				
 				boatDAO.updateBoat(turnConnection, false, boat);
 
 				// Si on arrive ici, il n'y a pas d'erreur :
