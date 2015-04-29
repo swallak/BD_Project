@@ -30,37 +30,39 @@ public class Room {
 			e.printStackTrace();
 			return;
 		}
+    	
+        final MainFrame SignInFrame = new SignInViewFrame("GameRoom-SignIn");
+        final MainFrame SignUpFrame = new SignUpViewFrame("GameRoom-SignUp");
+        
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                //Frames linking
+                SignUpFrame.setSwitchToFrame(SignInFrame);
+                SignInFrame.setSwitchToFrame(SignUpFrame);
+                SignInFrame.setSize(500, 500);
+                SignInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                SignInFrame.setVisible(true);
+            }
+        });
+
+       SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                
+               
+            }
+
+        });
+    }
+    
+    private void linkFrames(/*Add params*/){
+        // To be completed
+    }
+}
 
 		
 
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				// Frames linking
-				SIGN_UP_FRAME.setSwitchToFrame(SIGN_IN_FRAME);
-				SIGN_IN_FRAME.setSwitchToFrame(SIGN_UP_FRAME);
-				SIGN_IN_FRAME.setSize(300, 150);
-				SIGN_IN_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				SIGN_IN_FRAME.setVisible(true);
-			}
-		});
-
-		SwingUtilities.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-
-				// MatchViewFrame match = new MatchViewFrame("Test");
-				// match.setVisible(true);
-			}
-
-		});
-	}
-
-	@SuppressWarnings("unused")
-	private void linkFrames(/* add parameters */) {
-		// TODO
-	}
-
-}
+		

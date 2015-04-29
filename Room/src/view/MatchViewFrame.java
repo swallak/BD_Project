@@ -60,7 +60,7 @@ public class MatchViewFrame extends MainFrame {
     
     private final Dimension size = new Dimension (1000, 700);    
     
-    private MatchViewFrame(String title) {
+    public MatchViewFrame(String title) {
         super(title);
         
         new MatchInitFrame(this);
@@ -70,6 +70,7 @@ public class MatchViewFrame extends MainFrame {
         setSize(size);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
+        setVisible(true);
         
         //set Default closing operation
        
@@ -542,7 +543,7 @@ public class MatchViewFrame extends MainFrame {
         
         private int i=0;
         private int j=0;
-        private MatchInitFrame ()
+        public MatchInitFrame ()
         {
             super("Choose your Ships");
             
@@ -570,6 +571,7 @@ public class MatchViewFrame extends MainFrame {
             gc.gridy=4;
             add(new JLabel ("Escorteur(Optionnel)"),gc);
             
+            gc.gridy=0;
             gc.gridx=1;
             add(new JLabel ("posX"),gc);
             gc.gridx=2;
@@ -582,6 +584,7 @@ public class MatchViewFrame extends MainFrame {
                     //Frame components
             for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
             {
+                gc.gridy=1;
                 for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
                 {
                     shipsPosition[i][j]= new JTextField(5);
@@ -589,8 +592,11 @@ public class MatchViewFrame extends MainFrame {
                     
                 }
             }
+            gc.gridy--;
             add( optionnal,gc);
             
+            gc.gridy+=2;
+            add(validate,gc);
         }
         
         public MatchInitFrame(MatchViewFrame matchView)
