@@ -54,6 +54,10 @@ public class Turn implements Comparable<Turn> {
 		actionIndex++;
 	}
 	
+	public List<Action> getActions() {
+		return this.actionList;
+	}
+	
 	public void setActionList(List<Action> actions) {
 		actionList = actions;
 		actionIndex = actionList.size();
