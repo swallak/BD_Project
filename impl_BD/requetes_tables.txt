@@ -78,3 +78,51 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
         INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
     Third step :
         INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+
+
+--QUERIES DONE INSIDE THE CODE JAVA (DAO)
+
+--ActionDAO
+
+--createActionDeplacement
+  INSERT INTO ActionDeplacement (idPartie, tour, numAction,
+  typeDeplacement) values ( ?, ?, ?, ?, ?)
+
+--createActionTir
+  INSERT INTO ActionTir (idPartie, tour, numAction, cibleTirX,
+  cibleTirY ) values ( ?, ?, ?, ?, ?)
+
+--createActionCommun
+  INSERT INTO Action (idPartie, idBateau, tour, numAction) values( ?,
+  ?, ?, ?)
+
+--isTurnExist
+  SELECT MAX(a.tour) FROM Action a WHERE a.idPartie = ?
+
+--getMoveAction
+  SELECT a.numAction, a.bateau, aMove.typeDeplacement FROM Action a,
+  ActionDeplacement aMove WHERE Action.idPartie =
+  ActionDeplacement.idPartie AND Action.tour = ActionDeplacement.tour
+  AND Action.numAction = ActionDeplacement.numAction AND Action.tour =
+  ? AND Action.idPartie = ?
+
+--getShotActions
+  SELECT a.numAction, a.bateau, aShot.cibleTir_X, aShot.cibleTir_Y FROM
+	Action a, ActionTir aShot WHERE Action.idPartie = aShot.idPartie AND
+	Action.tour = aShot.tour AND Action.numAction = aShot.numAction AND
+	Action.tour = ? AND Action.idPartie = ?
+
+--BoatDAO
+
+--findBoatMap
+  SELECT * FROM Bateau WHERE idPartie = ? AND pseudo = ?
+
+--createBoatList
+  INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX,
+	pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
+--updateBoat
+  UPDATE Bateau SET pivotX = ?, pivotY = ?, hp = ?, orientation = ?
+  WHERE idBateau = ? AND idPartie = ? AND pseudo = ?
+
+
