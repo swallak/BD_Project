@@ -36,4 +36,12 @@ public abstract class MoveAction extends Action {
 			return strValue;
 		}
 	}
+	
+	public boolean isShot() {
+		return false;
+	}
+	
+	public boolean isMove() {
+		return true;
+	}
 }

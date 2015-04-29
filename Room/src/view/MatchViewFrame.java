@@ -60,7 +60,7 @@ public class MatchViewFrame extends MainFrame {
     
     private final Dimension size = new Dimension (1000, 700);    
     
-    public MatchViewFrame(String title) {
+    private MatchViewFrame(String title) {
         super(title);
         
         new MatchInitFrame(this);
@@ -68,7 +68,6 @@ public class MatchViewFrame extends MainFrame {
         //Layout And size
         setLayout(new BorderLayout());
         setSize(size);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
         setVisible(true);
         
@@ -79,7 +78,7 @@ public class MatchViewFrame extends MainFrame {
         //Creating Components
         
         matchViewPanel = new MatchViewPanel();
-        //Adding component
+        //Adding component//setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(matchViewPanel, BorderLayout.CENTER);
         
     }
@@ -229,7 +228,7 @@ public class MatchViewFrame extends MainFrame {
         
         public void actionPopupWindow(int i){
             
-            String[] ships = {"this", "is", "temporal"};
+            String[] ships = {"Destroyer", "Escorteur", "Escorteur1"};
             
             switch (i){
                 case 0: new MatchActionMoveFrame("Se Deplacer", ships);
@@ -550,7 +549,7 @@ public class MatchViewFrame extends MainFrame {
             JLabel label = new JLabel("Select your ships");
             
             
-            setSize(new Dimension(300,150));
+            setSize(new Dimension(400,400));
             setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             setLayout(new GridBagLayout());
             setResizable(false);
@@ -579,13 +578,13 @@ public class MatchViewFrame extends MainFrame {
             gc.gridx=3;
             add(new JLabel("orient"),gc);
             
-            gc.gridx=1;
+            //gc.gridx=1;
             gc.gridy=1;
                     //Frame components
-            for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
+            for(i = 0; i<shipsPosition.length; i++,gc.gridy++)
             {
-                gc.gridy=1;
-                for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
+                gc.gridx=1;
+                for (j=0; j<shipsPosition[3].length; j++, gc.gridx++)
                 {
                     shipsPosition[i][j]= new JTextField(5);
                     add(shipsPosition[i][j],gc);
@@ -602,7 +601,7 @@ public class MatchViewFrame extends MainFrame {
         public MatchInitFrame(MatchViewFrame matchView)
         {
             this();
-            final MatchViewFrame view = matchView;
+            MatchViewFrame view = matchView;
             //validate Handling
             this.validate.addActionListener(new ActionListener() {
 

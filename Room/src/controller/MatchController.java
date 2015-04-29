@@ -3,8 +3,10 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import javax.swing.JOptionPane;
 
 import javax.swing.JOptionPane;
 
@@ -28,7 +30,6 @@ import dao.BoatDAO;
 import dao.BoatDAO.BoatStateNotSaveException;
 import dao.MatchDAO;
 import dao.MatchDAO.MatchNotExistsException;
-import dao.MatchDAO.MatchNotStartedException;
 import dao.MatchDAO.MatchStateNotSave;
 import dao.MatchDAO.ReadMatchException;
 import dao.jdbc.ActionDAO_JDBC;
@@ -54,7 +55,7 @@ public class MatchController {
 	private boolean isInitPhase;
 	private boolean isUserTurn;
 
-	private MatchViewFrame matchview;
+	private MatchViewFrame matchView;
 
 	public MatchController(Match match, User currentUser) {
 		this.match = match;
@@ -65,7 +66,7 @@ public class MatchController {
 	}
         
     public void setMatchView(MatchViewFrame matchView){
-        this.matchview=matchView;
+        this.matchView=matchView;
     }
 
 	/**
@@ -129,20 +130,33 @@ public class MatchController {
 
 	public void submitTurn() {
 		if (currentTurn.getActionIndex() == 0) {
-			// TODO Signaler à l'user qu'il doit jouer.
+			JOptionPane.showMessageDialog(matchView, "It is your turn!");
 		} else {
 			try {
 				turnConnection.commit();
 				match.addTurn(currentTurn);
 				turnConnection.close();
 				isUserTurn = false;
+				String s = "";
 
-				// TODO afficher le résultat des tir.
-				// (Passer en revue la liste des actions et si tir, voir si on a
-				// bien touché.
+				List<Action> actionsTurn = currentTurn.getActions();
+				for (Action a : actionsTurn) {
+					if (a.isShot()) {
+						ShotAction shot = (ShotAction) a;
+						
+						Boat b = shot.getTouchBoat();
+						if (b != null) {
+							s += "Your shot have touched the boat in" + b.getPosition();
+						}
+													
+					}
+				}
+				JOptionPane.showMessageDialog(matchView, s);
 
 			} catch (SQLException e) {
-				// TODO Afficher l'erreur à l'utilisateur.
+				JOptionPane.showMessageDialog(matchView,
+						"Problem connecting to database.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
@@ -203,7 +217,9 @@ public class MatchController {
 				moveAction.apply();
 
 				// TODO tester si les bateaux ne se superposent pas.
-
+				
+				
+				
 				boatDAO.updateBoat(turnConnection, false, boat);
 
 				// Si on arrive ici, il n'y a pas d'erreur :
@@ -215,16 +231,24 @@ public class MatchController {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				// TODO afficher l'erreur.
+
+				JOptionPane.showMessageDialog(matchView,
+						"Problem connecting to database.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
+
 			} catch (ActionNotCreatedExcetpion e) {
 				try {
 					turnConnection.rollback(savePoint);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				// TODO afficher l'erreur.
+
+				JOptionPane.showMessageDialog(matchView,
+						"Problem creating action.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
+
 			} catch (BoatStateNotSaveException e) {
 				moveAction.undo();
 				try {
@@ -232,7 +256,10 @@ public class MatchController {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				// TODO afficher l'erreur.
+				
+				JOptionPane.showMessageDialog(matchView,
+						"Action is not possible.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
@@ -264,7 +291,10 @@ public class MatchController {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			// TODO afficher l'erreur.
+			
+			JOptionPane.showMessageDialog(matchView,
+					"Problem connecting to database.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (ActionNotCreatedExcetpion e) {
 			try {
@@ -272,7 +302,9 @@ public class MatchController {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			// TODO afficher l'erreur.
+			JOptionPane.showMessageDialog(matchView,
+					"Invalid target.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (BoatStateNotSaveException e) {
 			action.undo();
@@ -281,7 +313,9 @@ public class MatchController {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			// TODO afficher l'erreur.
+			JOptionPane.showMessageDialog(matchView,
+					"Problem with boats' state.", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
