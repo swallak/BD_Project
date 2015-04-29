@@ -6,6 +6,8 @@ import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
@@ -90,6 +92,7 @@ public class MatchController {
 					startUserTurn();
 				}
 			}
+			JOptionPane.showMessageDialog(matchview, "Eggs are not supposed to be green.");
 			// TODO afficher les actions du joueurs adverse. (Peut être changer
 			// getCurrentTurn pour retourner le tour et pas le numéro du Tour.
 		} catch (SQLException e) {
