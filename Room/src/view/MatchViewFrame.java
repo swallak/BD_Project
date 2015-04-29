@@ -235,7 +235,7 @@ public class MatchViewFrame extends MainFrame {
         
         public void actionPopupWindow(int i){
             
-            String[] ships = {"Destroyer", "Escorteur", "Escorteur1"};
+            Boat[] ships = null; // TODO changer
             
             switch (i){
                 case 0: new MatchActionMoveFrame("Se Deplacer", ships);
@@ -333,12 +333,12 @@ public class MatchViewFrame extends MainFrame {
         
         private JTextField xPos = new JTextField("xPos");
         private JTextField yPos = new JTextField("yPos");
-        private JComboBox<String> ships;
+        private JComboBox<Boat> ships;
         private JButton validate = new JButton ("validate");
         //selected ship's name Ship's coordinate
-        String selectedShip;
+        Boat selectedShip;
         
-        public MatchActionFrame(String title, String[]ships)
+        public MatchActionFrame(String title, Boat[]ships)
         {
             super(title);
             setSize(new Dimension(300,150));
@@ -382,7 +382,7 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    MatchActionFrame.this.selectedShip=(String)MatchActionFrame.this.ships.getSelectedItem();
+                    MatchActionFrame.this.selectedShip=(Boat)MatchActionFrame.this.ships.getSelectedItem();
                    
                 }
             });
@@ -440,10 +440,10 @@ public class MatchViewFrame extends MainFrame {
             
         }
         
-        public String getSelectedShip(){
+        public Boat getSelectedShip(){
             return this.selectedShip;
         }
-        public JComboBox<String> getShips(){
+        public JComboBox<Boat> getShips(){
             return this.ships;
         }
         
@@ -466,7 +466,7 @@ public class MatchViewFrame extends MainFrame {
         
         JTextField typeMouvement = new JTextField();
        
-        public MatchActionMoveFrame(String title, String[] ships)
+        public MatchActionMoveFrame(String title, Boat[] ships)
         {
             super(title,ships);
             GridBagConstraints gc = new GridBagConstraints();
@@ -479,7 +479,7 @@ public class MatchViewFrame extends MainFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                    
-                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                	throw new UnsupportedOperationException("Not supported yet.");        //To change body of generated methods, choose Tools | Templates.
                 }
             });
             
@@ -496,14 +496,16 @@ public class MatchViewFrame extends MainFrame {
     
     public class MatchActionShootFrame extends MatchActionFrame{
         
-        public MatchActionShootFrame(String title, String[] ships)
+        public MatchActionShootFrame(String title, Boat[] ships)
         {
             super(title, ships);
             super.validate.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    
+                	MatchViewFrame.this.matchController.shootAction(MatchActionShootFrame.this.selectedShip, new Position(MatchActionShootFrame.this.getXPos(), MatchActionShootFrame.this.getYPos()));
+                	 //To change body of generated methods, choose Tools | Templates.
                 }
             });
         }
@@ -673,10 +675,7 @@ public class MatchViewFrame extends MainFrame {
 					}
                     MatchInitFrame.this.switchFrame();
                     
-                    
-                    
                     //throw new UnsupportedOperationException("Not supported yet.");
-
                     
                 }
             });
