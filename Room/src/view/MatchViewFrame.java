@@ -111,6 +111,10 @@ public class MatchViewFrame extends MainFrame {
 
             return this.toolBar;
         }
+        
+        public void displayBoat(ArrayList<Boat> arrayList) {
+    		grid.displayBoatList(arrayList);
+    	}
 
         public MatchViewPanel() {
 
@@ -661,5 +665,7 @@ public class MatchViewFrame extends MainFrame {
             
         }
     }
+
+	
 }
 

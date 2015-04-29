@@ -3,6 +3,7 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,8 @@ import dao.jdbc.BoatDAO_JDBC;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 import view.MatchViewFrame;
+import view.MatchViewFrame.MatchViewPanel;
+import view.ObservationViewPanel;
 
 public class MatchController {
 
@@ -182,7 +185,7 @@ public class MatchController {
 
 
 	}
-				// TODO refresh l'état des bateaux.
+	
 	// TODO rajouter en paramètre la vue concernée.
 	public void moveAction(Boat boat, MovementType type) {
 		MoveAction moveAction = null;
@@ -212,6 +215,8 @@ public class MatchController {
 				moveAction.apply();
 
 				// TODO tester si les bateaux ne se superposent pas.
+				
+				refreshView(matchView.getMatchViewPanel());
 
 				boatDAO.updateBoat(turnConnection, false, boat);
 
@@ -276,7 +281,7 @@ public class MatchController {
 			currentTurn.addAction(action);
 			actionCounter++;
 
-			// TODO refresh l'état des bateaux.
+			refreshView(matchView.getMatchViewPanel());
 
 		} catch (SQLException e) {
 			try {
@@ -395,6 +400,20 @@ public class MatchController {
     public String toString() {
 		return this.getFirstUser().getPseudo() + "vs"
 				+ this.getSecondUser().getPseudo();
+	}
+    
+    private void refreshView(MatchViewPanel panel) {
+    	if (this.isUserPlayerOne) {
+    		panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
+    				.values()));
+    	}
+    	else {
+    		panel.displayBoat(new ArrayList<Boat>(match.getPlayerTwoBoats()
+    				.values()));
+    	}
+    		
+    	
+		
 	}
 
 }
