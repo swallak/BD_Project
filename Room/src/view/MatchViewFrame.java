@@ -45,6 +45,7 @@ import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
 import model.game.Boat;
 import model.game.Boat.Orientation;
+import model.game.MoveAction.MovementType;
 import model.game.Position;
 import model.user.AbstractUser;
 
@@ -59,7 +60,7 @@ public class MatchViewFrame extends MainFrame {
     
     private final Dimension size = new Dimension (1000, 700);    
     
-    public MatchViewFrame(String title) {
+    private MatchViewFrame(String title) {
         super(title);
         
         new MatchInitFrame(this);
@@ -84,8 +85,9 @@ public class MatchViewFrame extends MainFrame {
     
     public MatchViewFrame(String title, MatchController matchConroller)
     {
-        super(title);
+        this(title);
         setMatchController(matchController);
+        matchController.setMatchView(this);
     }
     
     public void setMatchController(MatchController matchController)
@@ -138,6 +140,8 @@ public class MatchViewFrame extends MainFrame {
             toolBar.add(button);
             button = createButton("/icon/stop.png", "Abandon");
             toolBar.add(button);
+            button = createButton("/icon/submit.png","Submit Turn");
+            toolBar.add(button);
             
             
             //Placing component
@@ -181,7 +185,7 @@ public class MatchViewFrame extends MainFrame {
                     actionPopupWindow(0);
                 }
             });
-            
+            //second button
             button =(JButton)toolBar.getComponentAtIndex(1);
             button.addActionListener(new ActionListener() {
 
@@ -190,13 +194,31 @@ public class MatchViewFrame extends MainFrame {
                     actionPopupWindow(1);
                 }
             });
-            
+            //fourth Button
             button =(JButton)toolBar.getComponentAtIndex(3);
             button.addActionListener(new ActionListener() {
 
                 @Override
                    public void actionPerformed(ActionEvent e) {
                     actionPopupWindow(3);
+                }
+            });
+            //third button
+            button = (JButton)toolBar.getComponentAtIndex(3);
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                        matchController.refresh();
+                }
+            });
+            
+            button = (JButton)toolBar.getComponentAtIndex(4);
+            button.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                   matchController.submitTurn();
                 }
             });
             
@@ -435,20 +457,29 @@ public class MatchViewFrame extends MainFrame {
     
     public static class MatchActionMoveFrame extends MatchActionFrame{
         
-
+        JTextField typeMouvement = new JTextField();
        
         public MatchActionMoveFrame(String title, String[] ships)
         {
             super(title,ships);
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.gridx=3;
+            
+            add(typeMouvement,gc);
             
             super.validate.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                   
+                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
             
+        }
+        private  MovementType convertTypeMouvement(){
+            
+            return MovementType.fromString(this.typeMouvement.getText());
         }
         
         
@@ -494,7 +525,9 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        matchController.abandonMatch();
+                        setSwitchToFrame(MatchViewFrame.this);
+                        switchFrame();
                 }
             }
             );
