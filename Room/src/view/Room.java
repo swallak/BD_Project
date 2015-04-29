@@ -5,21 +5,13 @@
  */
 package view;
 
-import controller.LogInController;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import dao.jdbc.JDBCConnection;
-import view.MatchViewFrame.MatchActionMoveFrame;
 
 /**
  *
@@ -27,45 +19,48 @@ import view.MatchViewFrame.MatchActionMoveFrame;
  */
 public class Room {
 
-    public static void main(String[] args) {
-    	
-    	try {
+	public static final MainFrame SIGN_IN_FRAME = new SignInViewFrame("GameRoom-SignIn");
+	public static final MainFrame SIGN_UP_FRAME = new SignUpViewFrame("GameRoom-SignUp");
+	
+	public static void main(String[] args) {
+
+		try {
 			JDBCConnection.registerJDBDriver();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return;
 		}
-    	
-        final MainFrame SignInFrame = new SignInViewFrame("GameRoom-SignIn");
-        final MainFrame SignUpFrame = new SignUpViewFrame("GameRoom-SignUp");
-        
-        SwingUtilities.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
-                //Frames linking
-                SignUpFrame.setSwitchToFrame(SignInFrame);
-                SignInFrame.setSwitchToFrame(SignUpFrame);
-                SignInFrame.setSize(500, 500);
-                SignInFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                SignInFrame.setVisible(true);
-            }
-        });
+		
 
-       SwingUtilities.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
-                
-               // MatchViewFrame match = new MatchViewFrame("Test");
-               // match.setVisible(true);
-            }
+			@Override
+			public void run() {
+				// Frames linking
+				SIGN_UP_FRAME.setSwitchToFrame(SIGN_IN_FRAME);
+				SIGN_IN_FRAME.setSwitchToFrame(SIGN_UP_FRAME);
+				SIGN_IN_FRAME.setSize(300, 150);
+				SIGN_IN_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				SIGN_IN_FRAME.setVisible(true);
+			}
+		});
 
-        });
-    }
-    
-    private void linkFrames(/*Add params*/){
-        // To be completed
-    }
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+
+				// MatchViewFrame match = new MatchViewFrame("Test");
+				// match.setVisible(true);
+			}
+
+		});
+	}
+
+	@SuppressWarnings("unused")
+	private void linkFrames(/* add parameters */) {
+		// TODO
+	}
 
 }

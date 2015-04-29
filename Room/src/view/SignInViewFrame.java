@@ -8,19 +8,14 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import model.user.User;
 import controller.LogInController;
 import java.awt.Point;
-import javax.swing.JRootPane;
 
 /**
  *
@@ -28,34 +23,36 @@ import javax.swing.JRootPane;
  */
 public class SignInViewFrame extends MainFrame {
 
-    private Dimension size = new Dimension(500, 500);
-    public final static Point DEFAULT_LOCATION = new Point(50,50);
-    SignInViewPanel signIn = new SignInViewPanel();
-    
-    public SignInViewFrame(String title) {
+	private static final long serialVersionUID = 1L;
 
-        super(title);
+	private Dimension size = new Dimension(300, 150);
+	public final static Point DEFAULT_LOCATION = new Point(50, 50);
+	SignInViewPanel signIn = new SignInViewPanel();
 
+	public SignInViewFrame(String title) {
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(DEFAULT_LOCATION);
-        setResizable(false);
-        //Set Layout
-        setLayout(new BorderLayout());
-        setSize(size);
+		super(title);
 
-        //Create component
-        final SignInViewPanel signIn = new SignInViewPanel();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(DEFAULT_LOCATION);
+		setResizable(false);
+		// Set Layout
+		setLayout(new BorderLayout());
+		setSize(size);
 
-        //add component
-        Container container = getContentPane();
-        container.add(signIn, BorderLayout.CENTER);
-        //container.add(signUp, BorderLayout.CENTER,1);
+		// Create component
+		final SignInViewPanel signIn = new SignInViewPanel();
 
-        //Handle events
-                // Buttons action
-        final Point location = this.getLocation();
-        signIn.connectButton.addActionListener(new ActionListener() {
+		// add component
+		Container container = getContentPane();
+		container.add(signIn, BorderLayout.CENTER);
+		// container.add(signUp, BorderLayout.CENTER,1);
+
+		// Handle events
+		// Buttons action
+
+		// final Point location = this.getLocation();
+		signIn.connectButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -70,22 +67,21 @@ public class SignInViewFrame extends MainFrame {
 				switchFrame2();
 
 			}
-        });
+		});
 
-        signIn.createAccountButton.addActionListener(new ActionListener() {
+		signIn.createAccountButton.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	setSwitchToFrame(new SignUpViewFrame("Sign up"));
-                switchFrame();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setSwitchToFrame(Room.SIGN_UP_FRAME); //new SignUpViewFrame("Sign up")
+				switchFrame();
 
-            }
-        });
-    }
+			}
+		});
+	}
 
-    public SignInViewPanel getSignInViewPanel()
-    {
-        return this.signIn;
-    }
+	public SignInViewPanel getSignInViewPanel() {
+		return this.signIn;
+	}
 
 }

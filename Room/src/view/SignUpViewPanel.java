@@ -5,58 +5,49 @@
  */
 package view;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 /**
  *
  * @author swallak
  */
-public class SignUpViewPanel extends JPanel{
+public class SignUpViewPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 
-    
-    private final int  WIDTH = 10;
-    private final Dimension size = new Dimension(500, 500);
-    
-    
-    //Components
-    private final JLabel pseudoLabel = new JLabel ("Pseudo  : ");
-    private final JLabel birthdayLabel = new JLabel("Birthday (YYYY/MM/DD) : ");
-    private final JLabel lastNameLabel = new JLabel("Last Name : ");
-    private final JLabel firstNameLabel = new JLabel("First Name : ");
-    private final JLabel streetNameLabel = new JLabel("Street : ");
-    private final JLabel streetNumberLabel = new JLabel("Number :  ");
-    private final JLabel cityLabel = new JLabel("City : ");
-    private final JLabel zipcodeLabel = new JLabel("Zip Code : ");
-    private final JLabel mailLabel = new JLabel("Mail : ");
+	private final int WIDTH = 10;
 
-    protected final JTextField pseudoField = new JTextField (WIDTH);
-    protected final JTextField birthdayField = new JTextField(WIDTH);
-    protected final JTextField lastNameField = new JTextField(WIDTH);
-    protected final JTextField firstNameField = new JTextField(WIDTH);
-    protected final JTextField streetNameField = new JTextField(WIDTH);
-    protected final JTextField streetNumberField = new JTextField(WIDTH);
-    protected final JTextField cityField = new JTextField(WIDTH);
-    protected final JTextField zipcodeField = new JTextField(WIDTH);
-    protected final JTextField mailField = new JTextField(WIDTH);
-    protected final JButton createButton = new JButton("Create");
-    protected final JButton alreadyButton = new JButton("Already have an account?");
-    
+	// Components
+	private final JLabel pseudoLabel = new JLabel("Pseudo  : ");
+	private final JLabel birthdayLabel = new JLabel("Birthday (YYYY/MM/DD) : ");
+	private final JLabel lastNameLabel = new JLabel("Last Name : ");
+	private final JLabel firstNameLabel = new JLabel("First Name : ");
+	private final JLabel streetNameLabel = new JLabel("Street : ");
+	private final JLabel streetNumberLabel = new JLabel("Number :  ");
+	private final JLabel cityLabel = new JLabel("City : ");
+	private final JLabel zipcodeLabel = new JLabel("Zip Code : ");
+	private final JLabel mailLabel = new JLabel("Mail : ");
+
+	protected final JTextField pseudoField = new JTextField(WIDTH);
+	protected final JTextField birthdayField = new JTextField(WIDTH);
+	protected final JTextField lastNameField = new JTextField(WIDTH);
+	protected final JTextField firstNameField = new JTextField(WIDTH);
+	protected final JTextField streetNameField = new JTextField(WIDTH);
+	protected final JTextField streetNumberField = new JTextField(WIDTH);
+	protected final JTextField cityField = new JTextField(WIDTH);
+	protected final JTextField zipcodeField = new JTextField(WIDTH);
+	protected final JTextField mailField = new JTextField(WIDTH);
+	protected final JButton createButton = new JButton("Create");
+	protected final JButton alreadyButton = new JButton(
+			"Already have an account?");
+
 	public SignUpViewPanel() {
 
 		// Set Layout
@@ -146,60 +137,53 @@ public class SignUpViewPanel extends JPanel{
 		add(alreadyButton, gc);
 
 	}
-    public String getPseudo()
-    {
-        return pseudoField.getText();
-    }
-    public String getFirstName()
-    {
-        return firstNameField.getText();
-    }
-    public String getLastName()
-    {
-        return lastNameField.getText();
-        
-    }
-    public String getBirthday()
-    {
-        return this.birthdayField.getText();
-    }
-    
-    public String getStreetNumber()
-    {
-        return streetNumberField.getText();
-    }
-    
-    public String getStreetName()
-    {
-        return streetNameField.getText();
-    }
-    
-    public String getCity()
-    {
-        return cityField.getText();
-    }
-    
-    public String getZipCode()
-    {
-        return zipcodeField.getText();
-    }
-    
+
+	public String getPseudo() {
+		return pseudoField.getText();
+	}
+
+	public String getFirstName() {
+		return firstNameField.getText();
+	}
+
+	public String getLastName() {
+		return lastNameField.getText();
+
+	}
+
+	public String getBirthday() {
+		return this.birthdayField.getText();
+	}
+
+	public String getStreetNumber() {
+		return streetNumberField.getText();
+	}
+
+	public String getStreetName() {
+		return streetNameField.getText();
+	}
+
+	public String getCity() {
+		return cityField.getText();
+	}
+
+	public String getZipCode() {
+		return zipcodeField.getText();
+	}
+
 	public String getMail() {
 		return mailField.getText();
 	}
 
-    public void addLabel(String labelText, int column, int row)
-    {
-        GridBagLayout layout = (GridBagLayout)this.getLayout();
-        GridBagConstraints gc = layout.getConstraints(this);
-        
-        gc.gridx=column;
-        gc.gridy=row;
-        
-        this.add(new JLabel(labelText), gc);
-        return;
-    }
-            
-            
-    
+	public void addLabel(String labelText, int column, int row) {
+		GridBagLayout layout = (GridBagLayout) this.getLayout();
+		GridBagConstraints gc = layout.getConstraints(this);
+
+		gc.gridx = column;
+		gc.gridy = row;
+
+		this.add(new JLabel(labelText), gc);
+		return;
+	}
+
 }

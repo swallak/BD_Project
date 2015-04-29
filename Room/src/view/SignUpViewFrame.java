@@ -5,8 +5,6 @@
  */
 package view;
 
-import controller.LogInController;
-
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -14,9 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import controller.ApplicationController;
 import controller.SignUpController;
 
 import java.awt.Point;
@@ -27,59 +23,58 @@ import java.awt.Point;
  */
 public class SignUpViewFrame extends MainFrame {
 
-    private Dimension size = new Dimension(500, 500);
-    public final static Point DEFAULT_LOCATION = new Point(50,50);
-    
-    
-    private SignUpViewPanel signUp = new SignUpViewPanel();
-    private SignUpController controller;
-    
-    public SignUpViewFrame(String title) {
+	private static final long serialVersionUID = 1L;
 
-        super(title);
-        
-        controller = new SignUpController();
-        
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocation(DEFAULT_LOCATION);
-        setResizable(false);
-        setSize(size);
-        //Set Layout
-        setLayout(new BorderLayout());
+	private Dimension size = new Dimension(300, 300);
+	public final static Point DEFAULT_LOCATION = new Point(50, 50);
 
-        //add component
-        Container container = getContentPane();
-        container.add(signUp, BorderLayout.CENTER);
-        //container.add(signUp, BorderLayout.CENTER,1);
+	private SignUpViewPanel signUp = new SignUpViewPanel();
+	private SignUpController controller;
 
-        //Handle events
-        // Buttons action
-        signUp.createButton.addActionListener(new ActionListener() {
+	public SignUpViewFrame(String title) {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            		controller.createAccount(SignUpViewFrame.this);
-                       setSwitchToFrame2(new SignInViewFrame("SignIn"));
-                       switchFrame2();
-            }
+		super(title);
 
-        });
+		controller = new SignUpController();
 
-        signUp.alreadyButton.addActionListener(new ActionListener() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(DEFAULT_LOCATION);
+		setResizable(false);
+		setSize(size);
+		// Set Layout
+		setLayout(new BorderLayout());
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	setSwitchToFrame(new SignInViewFrame("Sign in"));
-                switchFrame();
+		// add component
+		Container container = getContentPane();
+		container.add(signUp, BorderLayout.CENTER);
+		// container.add(signUp, BorderLayout.CENTER,1);
 
-            }
-        });
-    }
-    
-    public SignUpViewPanel getSignUpViewPanel ()
-    {
-        return this.signUp;
-    }
+		// Handle events
+		// Buttons action
+		signUp.createButton.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.createAccount(SignUpViewFrame.this);
+				setSwitchToFrame2(Room.SIGN_IN_FRAME); // new SignInViewFrame("SignIn")
+				switchFrame2();
+			}
+
+		});
+
+		signUp.alreadyButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setSwitchToFrame(Room.SIGN_IN_FRAME); // new SignInViewFrame("Sign in")
+				switchFrame();
+
+			}
+		});
+	}
+
+	public SignUpViewPanel getSignUpViewPanel() {
+		return this.signUp;
+	}
 
 }
