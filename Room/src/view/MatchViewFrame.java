@@ -60,7 +60,7 @@ public class MatchViewFrame extends MainFrame {
     
     private final Dimension size = new Dimension (1000, 700);    
     
-    public MatchViewFrame(String title) {
+    private MatchViewFrame(String title) {
         super(title);
         
         new MatchInitFrame(this);
@@ -68,7 +68,6 @@ public class MatchViewFrame extends MainFrame {
         //Layout And size
         setLayout(new BorderLayout());
         setSize(size);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setResizable(false);
         setVisible(true);
         
@@ -79,7 +78,7 @@ public class MatchViewFrame extends MainFrame {
         //Creating Components
         
         matchViewPanel = new MatchViewPanel();
-        //Adding component
+        //Adding component//setExtendedState(JFrame.MAXIMIZED_BOTH);
         add(matchViewPanel, BorderLayout.CENTER);
         
     }
@@ -233,7 +232,7 @@ public class MatchViewFrame extends MainFrame {
         
         public void actionPopupWindow(int i){
             
-            String[] ships = {"this", "is", "temporal"};
+            String[] ships = {"Destroyer", "Escorteur", "Escorteur1"};
             
             switch (i){
                 case 0: new MatchActionMoveFrame("Se Deplacer", ships);
@@ -606,7 +605,7 @@ public class MatchViewFrame extends MainFrame {
         public MatchInitFrame(MatchViewFrame matchView)
         {
             this();
-            final MatchViewFrame view = matchView;
+            MatchViewFrame view = matchView;
             //validate Handling
             this.validate.addActionListener(new ActionListener() {
 

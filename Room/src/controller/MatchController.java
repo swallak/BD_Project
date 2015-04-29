@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import javax.swing.JOptionPane;
+
 import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
@@ -94,8 +96,20 @@ public class MatchController {
 					startUserTurn();
 				}
 			}
-			// TODO afficher les actions du joueurs adverse. (Peut être changer
-			// getCurrentTurn pour retourner le tour et pas le numéro du Tour.
+			if (!isInitPhase){
+				String actions = "Results of last turn: \n";
+				for (Action a: match.getHistoric().get(currentTurn.getNbTurn()-1).getActions()){
+					if(a.isShot()){
+						ShotAction shot = (ShotAction) a;
+						if(shot.getTouchBoat() != null){
+							actions = actions + "Your opponent hit your boat in the position: (" + 
+						Integer.toString(shot.getTouchBoat().getPosition().getX()) + "," +
+						Integer.toString(shot.getTouchBoat().getPosition().getY()) + (")\n");						
+						}
+					}
+				}
+				JOptionPane.showMessageDialog(matchView, actions);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ReadMatchException e) {
@@ -154,7 +168,9 @@ public class MatchController {
 				JOptionPane.showMessageDialog(matchView, s);
 
 			} catch (SQLException e) {
-				// TODO Afficher l'erreur à l'utilisateur.
+				JOptionPane.showMessageDialog(matchView,
+						"Problem connecting to database.", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				e.printStackTrace();
 			}
 		}
@@ -215,7 +231,7 @@ public class MatchController {
 				moveAction.apply();
 
 				// TODO tester si les bateaux ne se superposent pas.
-				
+
 				refreshView(matchView.getMatchViewPanel());
 
 				boatDAO.updateBoat(turnConnection, false, boat);
