@@ -29,6 +29,7 @@ import com.sun.security.auth.module.JndiLoginModule;
 import model.game.Match;
 import model.user.User;
 import controller.HomeController;
+import controller.MatchController;
 
 /**
  *
@@ -248,7 +249,8 @@ public class HomeViewFrame extends MainFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO switch sur le match jouable
+					setSwitchToFrame(new MatchViewFrame("Match", new MatchController(playableGamesList.getSelectedValue(), user)));
+	                switchFrame();
 				}
 			});
 			
