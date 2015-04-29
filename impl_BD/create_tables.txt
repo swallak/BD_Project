@@ -1,4 +1,4 @@
---commandes en une ligne
+--Commandes en une ligne
 CREATE TABLE Bateau(idBateau INT,idPartie INT,pseudo VARCHAR(255),taille INT,pivotX INT,pivotY INT,orientation VARCHAR(255),pointVie INT,CONSTRAINT Bateau_pk PRIMARY KEY (idBateau, idPartie),CONSTRAINT Partie_Bat_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie), CONSTRAINT Joueur_Bat_fk FOREIGN KEY(pseudo) REFERENCES Joueur(pseudo), CONSTRAINT Bateu_chk CHECK ((orientation='nord' OR orientation='sud' OR orientation='est' OR orientation='ouest') AND pointVie>=0 AND pivotX>=0 AND pivotX<10 AND pivotY>=0 AND pivotY<10 AND (taille=2 OR taille=3) AND (((Orientation = 'nord') and (pivotY + taille < 10)) or ((orientation= 'sud') and (pivotY-taille >= 0)) or ((orientation='est') and (pivotX+taille < 10)) or ((orientation='ouest') and (pivotX-taille >= 0)))));
 
 CREATE TABLE Joueur (pseudo VARCHAR(255),nom VARCHAR(255),prenom VARCHAR(255),mail VARCHAR(255),dateNaissance DATE,adrRue VARCHAR(255),adrNumero INT,adrCodePostal INT,adrVille VARCHAR(255),CONSTRAINT Joueur_pk PRIMARY KEY (pseudo),CONSTRAINT Joueur_chk CHECK(dateNaissance > '01-JAN-1900' AND adrNumero > 0 AND adrCodePostal > 0));
@@ -15,24 +15,7 @@ CREATE TABLE Vainqueurs(idPartie INT,pseudo VARCHAR(255),CONSTRAINT Vainqueurs_p
 
 CREATE TABLE JoueursParPartie(pseudo VARCHAR(255),idPartie INT,numJoueur INT,CONSTRAINT JoueursParPartie_pk PRIMARY KEY (idPartie, pseudo), CONSTRAINT NbJoueur_chk CHECK(numJoueur = 1 OR numJoueur = 2),CONSTRAINT JoueursDePartie_fk FOREIGN KEY (pseudo) REFERENCES Joueur(pseudo),CONSTRAINT PartieJoue_fk FOREIGN KEY (idPartie) REFERENCES Partie(idPartie));
 
-
---commandes de teste
-
---teste d'insertion dans Bateau
-INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (8, 1, 'xu', 2, 0, 0, 'nord', 2);
---teste d'insertion dans Joueur
-INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES ('xu', 'matheus', 'schuh', 'xu@gmail.com', '24-JAN-1994', 'caxias', 8, 350, 'barao');
---teste d'insertion dans Partie
-INSERT INTO Partie(idPartie, dateDemarrage) VALUES (1,'25-FEB-2015');
-
---teste qui essaie de bouger le bateau à une position invalide
-update Bateau set pivotY = 7 where idBateau = 8;
-
---clear le tableau Bateau 
-delete from Bateau
-
-
---commandes plus ligibles
+--Commandes plus ligibles
 CREATE TABLE Bateau(
   idBateau INT,
   idPartie INT,
