@@ -19,6 +19,7 @@ import javax.swing.JToolBar;
 
 import model.game.Boat;
 import model.game.Match;
+import view.MatchViewGrid.SupperposedBoatException;
 import controller.ObservationController;
 
 public class ObservationViewPanel extends JPanel{
@@ -165,7 +166,7 @@ public class ObservationViewPanel extends JPanel{
         
     }
     
-    public void displayBoat(List<Boat> boatsPlayerOne, List<Boat> boatsPlayerTwo) {
+    public void displayBoat(List<Boat> boatsPlayerOne, List<Boat> boatsPlayerTwo) throws SupperposedBoatException {
     		gridPlayer1.displayBoatList(boatsPlayerOne);
     		gridPlayer2.displayBoatList(boatsPlayerTwo);
     }
