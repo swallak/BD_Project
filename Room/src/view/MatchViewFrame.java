@@ -10,14 +10,11 @@ import dao.BoatDAO;
 import dao.MatchDAO;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -25,13 +22,9 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -39,7 +32,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -59,6 +51,7 @@ import model.user.AbstractUser;
  */
 public class MatchViewFrame extends MainFrame {
     
+ 
     public MatchController matchController;
     private MatchViewPanel matchViewPanel;
     
@@ -105,7 +98,11 @@ public class MatchViewFrame extends MainFrame {
 
     public class MatchViewPanel extends JPanel {
 
-        private JToolBar toolBar;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JToolBar toolBar;
         private MatchViewPanelPlayer firstUserLog;
         private MatchViewPanelPlayer secondUserLog;
         private MatchViewGrid grid;
@@ -293,7 +290,11 @@ public class MatchViewFrame extends MainFrame {
         
     public class MatchViewPanelPlayer extends JPanel {
 
-        private JTextArea playerLog = new JTextArea();
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JTextArea playerLog = new JTextArea();
         
         public MatchViewPanelPlayer(String userName)
         {
@@ -338,7 +339,11 @@ public class MatchViewFrame extends MainFrame {
     
     public static class MatchActionFrame extends MainFrame{
         
-        private JTextField xPos = new JTextField("xPos");
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private JTextField xPos = new JTextField("xPos");
         private JTextField yPos = new JTextField("yPos");
         private JComboBox<Boat> ships;
         private JButton validate = new JButton ("validate");
@@ -471,7 +476,11 @@ public class MatchViewFrame extends MainFrame {
     
     public static class MatchActionMoveFrame extends MatchActionFrame{
         
-        JTextField typeMouvement = new JTextField();
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JTextField typeMouvement = new JTextField();
        
         public MatchActionMoveFrame(String title, Boat[] ships)
         {
@@ -503,7 +512,12 @@ public class MatchViewFrame extends MainFrame {
     
     public class MatchActionShootFrame extends MatchActionFrame{
         
-        public MatchActionShootFrame(String title, Boat[] ships)
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public MatchActionShootFrame(String title, Boat[] ships)
         {
             super(title, ships);
             super.validate.addActionListener(new ActionListener() {
@@ -521,7 +535,11 @@ public class MatchViewFrame extends MainFrame {
     
     public class MatchActionAbandonFrame extends MainFrame{
         
-        JButton yesButton = new JButton("Yes");
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JButton yesButton = new JButton("Yes");
         public MatchActionAbandonFrame()
         {
             super("Surrender!");
@@ -553,7 +571,11 @@ public class MatchViewFrame extends MainFrame {
     
     public class MatchInitFrame extends MainFrame{
         
-        JButton validate = new JButton("Validate");
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		JButton validate = new JButton("Validate");
         JTextField[][] shipsPosition = new JTextField[3][3];
         JRadioButton optionnal= new JRadioButton();
         

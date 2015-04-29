@@ -5,7 +5,6 @@
  */
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -24,8 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
-import com.sun.security.auth.module.JndiLoginModule;
-
 import model.game.Match;
 import model.user.User;
 import controller.HomeController;
@@ -36,6 +33,10 @@ import controller.MatchController;
  * @author swallak
  */
 public class HomeViewFrame extends MainFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final int HEIGHT = 768;
 	private final int WIDTH = 1366;
 	private Dimension size = new Dimension(WIDTH, HEIGHT);
@@ -96,6 +97,10 @@ public class HomeViewFrame extends MainFrame {
 
 	public class HomeViewInfoPanel extends JPanel {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JLabel pseudoLabel = new JLabel("Pseudo: " + user.getPseudo());
 		private JLabel cityLabel = new JLabel("City: " + user.getAddrCity());
 		private JButton logoutButton = new JButton("Log out");
@@ -134,6 +139,10 @@ public class HomeViewFrame extends MainFrame {
 
 	public class HomeViewMainPanel extends JPanel {
 
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private JButton playButton = new JButton("Play");
 		private JButton watchButton = new JButton("Watch");
 		private JButton refreshButton = new JButton("Refresh");

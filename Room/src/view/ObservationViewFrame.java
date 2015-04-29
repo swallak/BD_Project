@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,7 +12,11 @@ import model.user.User;
 
 public class ObservationViewFrame extends MainFrame {
 
-    private ObservationViewPanel observationViewPanel;     
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private ObservationViewPanel observationViewPanel;     
     private Dimension size = new Dimension(1024, 768);
     protected User user;
     
