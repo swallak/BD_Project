@@ -32,4 +32,12 @@ public final class ShotAction extends Action {
 	public void setTouchBoat(Boat touchBoat) {
 		this.touchBoat = touchBoat;
 	}
+	
+	public boolean isShot() {
+		return true;
+	}
+	
+	public boolean isMove() {
+		return false;
+	}
 }
