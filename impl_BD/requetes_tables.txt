@@ -30,7 +30,40 @@ SELECT idPartie from JoueursParPartie
 
 -- Find the two players of a match
 
-SELECT pseudo from JoueursParPartie where IdPartie = x 
+SELECT pseudo from JoueursParPartie where IdPartie = x
+
+
+-- INSERTION
+
+-- Create new match :
+
+    First step :
+        INSERT INTO Partie (idPartie, dateDemarage) values (?,?);
+    Second step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+    Third step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+
+-- Create new boat
+
+		INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Create new player
+
+		INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+--TRANSACTIONS
+
+-- Move the boat
+
+		UPDATE Bateau SET pivotY = (oldPosition + 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
+-- Boat being hit
+		UPDATE Bateau SET pointVie = (oldPointVie - 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
+
 
 -- Get all observable matches header 
         --Partie without winner.
@@ -68,35 +101,13 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
         AND NOT EXISTS (SELECT * FROM Vainqueurs 
                         WHERE Vainqueurs.idPartie = Partie.idPartie)
 
--- INSERTION
+--Select all avaibles opponents
 
--- Create new match :
-
-    First step :
-        INSERT INTO Partie (idPartie, dateDemarage) values (?,?);
-    Second step :
-        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
-    Third step :
-        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
-
--- Create new boat
-
-		INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-
--- Create new player
-
-		INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-
---TRANSACTIONS
-
--- Move the boat
-
-		UPDATE Bateau SET pivotY = (oldPosition + 1) -- fait dans l'aplication
-		WHERE idBateau = ?;
-
--- Boat being hit
-		UPDATE Bateau SET pointVie = (oldPointVie - 1) -- fait dans l'aplication
-		WHERE idBateau = ?;
+				SELECT pseudo FROM JoueurParPartie WHERE pseudo != ? HAVING
+			 	COUNT(*) = (SELECT MIN(COUNT*) FROM JoueurParPartie WHERE pseudo
+			  != ? GROUP BY pseudo) GROUP BY pseudo UNION SELECT pseudo FROM
+			  Joueur WHERE NOT EXISTS(SELECT * FROM JoueurParPartie jp WHERE
+			  jp.pseudo = pseudo)
 
 
 
