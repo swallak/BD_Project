@@ -3,8 +3,10 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import java.util.List;
 
+import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
 import model.game.Forward;
@@ -23,7 +25,9 @@ import dao.ActionDAO.ActionNotCreatedExcetpion;
 import dao.BoatDAO;
 import dao.BoatDAO.BoatStateNotSaveException;
 import dao.MatchDAO;
+import dao.MatchDAO.MatchNotExistsException;
 import dao.MatchDAO.MatchNotStartedException;
+import dao.MatchDAO.MatchStateNotSave;
 import dao.MatchDAO.ReadMatchException;
 import dao.jdbc.ActionDAO_JDBC;
 import dao.jdbc.BoatDAO_JDBC;
@@ -47,8 +51,8 @@ public class MatchController {
 	private boolean isUserPlayerOne;
 	private boolean isInitPhase;
 	private boolean isUserTurn;
-        
-        private MatchViewFrame matchview;
+
+	private MatchViewFrame matchview;
 
 	public MatchController(Match match, User currentUser) {
 		this.match = match;
@@ -58,36 +62,9 @@ public class MatchController {
 			isUserPlayerOne = false;
 	}
         
-        public void setMatchView(MatchViewFrame matchView){
-            this.matchview=matchView;
-        }
-
-	public void initMatchInfo() {
-		Connection con = null;
-		try {
-			con = JDBCConnection.openConnection();
-			matchDAO.getCurrentMatchInfo(con, true, match);
-		} catch (ReadMatchException e) {
-			e.printStackTrace();
-		} catch (MatchNotStartedException e) {
-			// TODO Auto-generated catch block
-			isInitPhase = true;
-			// TODO Indiquer au panel qu'on est en phase d'initialisation/
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    public void setMatchView(MatchViewFrame matchView){
+        this.matchview=matchView;
+    }
 
 	/**
 	 * Clique sur le bouton refresh quand ce n'est pas à nous de jouer.
@@ -100,9 +77,18 @@ public class MatchController {
 			matchDAO.getCurrentMatchInfo(con, true, match);
 			match.setCurrentTurn(match.getHistoric().size());
 
-			if (oldTurn != match.getCurrentTurn()) {
-				isUserTurn = true;
-				startUserTurn();
+			if(match.getPlayerOneBoats().size() == 0 || match.getPlayerTwoBoats().size() == 0)
+			{
+				isInitPhase = true;
+				// TODO indiquer au panel que l'on est en init.
+			}
+			else if (match.getHistoric().size() == 0){
+				isUserTurn = isUserPlayerOne;
+			} else {
+				if (oldTurn != match.getCurrentTurn()) {
+					isUserTurn = true;
+					startUserTurn();
+				}
 			}
 			// TODO afficher les actions du joueurs adverse. (Peut être changer
 			// getCurrentTurn pour retourner le tour et pas le numéro du Tour.
@@ -110,9 +96,10 @@ public class MatchController {
 			e.printStackTrace();
 		} catch (ReadMatchException e) {
 			e.printStackTrace();
-		} catch (MatchNotStartedException e) {
+		} catch (MatchNotExistsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally {
 			if (con != null) {
 				try {
 					con.close();
@@ -157,10 +144,6 @@ public class MatchController {
 			}
 		}
 	}
-
-
-
-	
 
 	public void initMatch(List<Boat> boats)
 			throws BoatDAO.BoatNotCreatedException,
@@ -301,12 +284,69 @@ public class MatchController {
 	}
 
 	public void matchHasFinished() {
-		// TODO insérer le vainqueur dans la table correspondante.
+		Connection con = null;
+		
+		try {
+			con = JDBCConnection.openConnection();
+			try {
+				if (isUserPlayerOne) {
+					match.setWinner(getFirstUser());
+				}
+				else {
+					match.setWinner(getSecondUser());
+				}
+				matchDAO.addWinner(con, true, match);
+			} catch (MatchStateNotSave e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} catch (SQLException e) {
+			//  Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					//  Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void abandonMatch() {
-		// TODO insérer le joueur adverse dans la table vainqueur et quitter la
-		// partie.
+		Connection con = null;
+		
+		try {
+			con = JDBCConnection.openConnection();
+			try {
+				if (isUserPlayerOne) {
+					match.setWinner(getSecondUser());
+				}
+				else {
+					match.setWinner(getFirstUser());
+				}
+				matchDAO.addWinner(con, true, match);
+			} catch (MatchStateNotSave e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
 	}
 
 	public AbstractUser getFirstUser() {

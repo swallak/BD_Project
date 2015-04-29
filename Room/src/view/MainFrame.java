@@ -5,11 +5,9 @@
  */
 package view;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -23,7 +21,9 @@ import javax.swing.JRootPane;
  */
 public class MainFrame extends JFrame {
 
-    protected MainFrame switchToFrame;
+	private static final long serialVersionUID = 1L;
+	
+	protected MainFrame switchToFrame;
     protected MainFrame switchToFrame2;
 
     public MainFrame(String title) {

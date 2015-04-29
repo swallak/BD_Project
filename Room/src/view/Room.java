@@ -5,21 +5,13 @@
  */
 package view;
 
-import controller.LogInController;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
 import dao.jdbc.JDBCConnection;
-import view.MatchViewFrame.MatchActionMoveFrame;
 
 /**
  *
@@ -27,9 +19,12 @@ import view.MatchViewFrame.MatchActionMoveFrame;
  */
 public class Room {
 
-    public static void main(String[] args) {
-    	
-    	try {
+	public static final MainFrame SIGN_IN_FRAME = new SignInViewFrame("GameRoom-SignIn");
+	public static final MainFrame SIGN_UP_FRAME = new SignUpViewFrame("GameRoom-SignUp");
+	
+	public static void main(String[] args) {
+
+		try {
 			JDBCConnection.registerJDBDriver();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,5 +61,8 @@ public class Room {
     private void linkFrames(/*Add params*/){
         // To be completed
     }
-
 }
+
+		
+
+		

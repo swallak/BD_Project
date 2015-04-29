@@ -89,6 +89,14 @@ public class HomeViewFrame extends MainFrame {
 				switchFrame2();
 			}
 		});
+		
+		mainPanel.playButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setSwitchToFrame2(new MatchViewFrame("Match"));
+				switchFrame2();
+			}
+		});
 
 		controller.refresh(this);
 	}

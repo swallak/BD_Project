@@ -358,7 +358,7 @@ public class MatchDAO_JDBC extends MatchDAO {
 
 	@Override
 	public void getCurrentMatchInfo(Connection con, boolean withCommit,
-			Match match) throws ReadMatchException, MatchNotStartedException {
+			Match match) throws ReadMatchException, MatchNotExistsException {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -375,7 +375,7 @@ public class MatchDAO_JDBC extends MatchDAO {
 			rs = stmt.executeQuery();
 
 			if (!rs.next())
-				throw new MatchNotStartedException();
+				throw new MatchNotExistsException();
 
 			int currentTurn = rs.getInt(1);
 
