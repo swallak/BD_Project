@@ -54,7 +54,7 @@ public class MatchController {
 	private int actionCounter;
 	private Savepoint turnSavePoint;
 
-	private boolean isUserPlayerOne;
+	public boolean isUserPlayerOne;
 	private boolean isInitPhase;
 	private boolean isUserTurn;
 
@@ -200,8 +200,7 @@ public class MatchController {
 				}
 			}
 		}
-
-
+		this.refresh();
 	}
 	
 	

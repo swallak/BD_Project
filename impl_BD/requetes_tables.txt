@@ -79,6 +79,25 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
     Third step :
         INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
 
+-- Create new boat
+
+		INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Create new player
+
+		INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+--TRANSACTIONS
+
+-- Move the boat
+
+		UPDATE Bateau SET pivotY = (oldPosition + 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
+-- Boat being hit
+		UPDATE Bateau SET pointVie = (oldPointVie - 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
 
 --QUERIES DONE INSIDE THE CODE JAVA (DAO)
 

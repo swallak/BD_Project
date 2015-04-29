@@ -91,14 +91,6 @@ public class HomeViewFrame extends MainFrame {
 			}
 		});
 		
-		mainPanel.playButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setSwitchToFrame2(new MatchViewFrame("Match"));
-				switchFrame2();
-			}
-		});
-
 		controller.refresh(this);
 	}
 
@@ -249,6 +241,7 @@ public class HomeViewFrame extends MainFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					//System.out.print(playableGamesList.getSelectedValue());
 					setSwitchToFrame(new MatchViewFrame("Match", new MatchController(playableGamesList.getSelectedValue(), user)));
 	                switchFrame();
 				}
@@ -258,7 +251,7 @@ public class HomeViewFrame extends MainFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					controller.refresh(HomeViewFrame.this);;
+					controller.refresh(HomeViewFrame.this);
 				}
 			});
 			
