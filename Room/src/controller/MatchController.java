@@ -171,6 +171,7 @@ public class MatchController {
 			}
 		}
 
+
 	}
 				// TODO refresh l'état des bateaux.
 	// TODO rajouter en paramètre la vue concernée.
