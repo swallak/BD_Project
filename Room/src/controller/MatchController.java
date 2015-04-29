@@ -3,8 +3,10 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import java.util.List;
 
+import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
 import model.game.Forward;
@@ -24,6 +26,7 @@ import dao.BoatDAO;
 import dao.BoatDAO.BoatStateNotSaveException;
 import dao.MatchDAO;
 import dao.MatchDAO.MatchNotStartedException;
+import dao.MatchDAO.MatchStateNotSave;
 import dao.MatchDAO.ReadMatchException;
 import dao.jdbc.ActionDAO_JDBC;
 import dao.jdbc.BoatDAO_JDBC;
@@ -47,8 +50,8 @@ public class MatchController {
 	private boolean isUserPlayerOne;
 	private boolean isInitPhase;
 	private boolean isUserTurn;
-        
-        private MatchViewFrame matchview;
+
+	private MatchViewFrame matchview;
 
 	public MatchController(Match match, User currentUser) {
 		this.match = match;
@@ -58,9 +61,9 @@ public class MatchController {
 			isUserPlayerOne = false;
 	}
         
-        public void setMatchView(MatchViewFrame matchView){
-            this.matchview=matchView;
-        }
+    public void setMatchView(MatchViewFrame matchView){
+        this.matchview=matchView;
+    }
 
 	public void initMatchInfo() {
 		Connection con = null;
@@ -157,10 +160,6 @@ public class MatchController {
 			}
 		}
 	}
-
-
-
-	
 
 	public void initMatch(List<Boat> boats)
 			throws BoatDAO.BoatNotCreatedException,
@@ -304,8 +303,37 @@ public class MatchController {
 	}
 
 	public void abandonMatch() {
-		// TODO insérer le joueur adverse dans la table vainqueur et quitter la
-		// partie.
+		Connection con = null;
+		
+		try {
+			con = JDBCConnection.openConnection();
+			try {
+				if (isUserPlayerOne) {
+					match.setWinner(getSecondUser());
+				}
+				else {
+					match.setWinner(getFirstUser());
+				}
+				matchDAO.addWinner(con, true, match);
+			} catch (MatchStateNotSave e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		
 	}
 
 	public AbstractUser getFirstUser() {
