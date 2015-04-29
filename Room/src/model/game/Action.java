@@ -32,4 +32,7 @@ public abstract class Action implements Comparable<Action> {
 	public int getNumAction() {
 		return numAction;
 	}
+	
+	public abstract boolean isShot();
+	public abstract boolean isMove();
 }

@@ -584,7 +584,6 @@ public class MatchViewFrame extends MainFrame {
                     //Frame components
             for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
             {
-                gc.gridy=1;
                 for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
                 {
                     shipsPosition[i][j]= new JTextField(5);

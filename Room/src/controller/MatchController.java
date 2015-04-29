@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
 import model.game.Forward;
@@ -132,10 +134,21 @@ public class MatchController {
 				match.addTurn(currentTurn);
 				turnConnection.close();
 				isUserTurn = false;
+				String s = "";
 
-				// TODO afficher le résultat des tir.
-				// (Passer en revue la liste des actions et si tir, voir si on a
-				// bien touché.
+				List<Action> actionsTurn = currentTurn.getActions();
+				for (Action a : actionsTurn) {
+					if (a.isShot()) {
+						ShotAction shot = (ShotAction) a;
+						
+						Boat b = shot.getTouchBoat();
+						if (b != null) {
+							s += "Your shot have touched the boat in" + b.getPosition();
+						}
+													
+					}
+				}
+				JOptionPane.showMessageDialog(matchView, s);
 
 			} catch (SQLException e) {
 				// TODO Afficher l'erreur à l'utilisateur.
