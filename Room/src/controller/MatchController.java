@@ -299,7 +299,35 @@ public class MatchController {
 	}
 
 	public void matchHasFinished() {
-		// TODO insérer le vainqueur dans la table correspondante.
+		Connection con = null;
+		
+		try {
+			con = JDBCConnection.openConnection();
+			try {
+				if (isUserPlayerOne) {
+					match.setWinner(getFirstUser());
+				}
+				else {
+					match.setWinner(getSecondUser());
+				}
+				matchDAO.addWinner(con, true, match);
+			} catch (MatchStateNotSave e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			} 
+		} catch (SQLException e) {
+			//  Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					//  Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void abandonMatch() {
