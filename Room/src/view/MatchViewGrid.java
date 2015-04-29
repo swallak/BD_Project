@@ -12,6 +12,10 @@ import model.game.Boat;
 
 public class MatchViewGrid extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel[][] cells;
 	private boolean[][] isColorCell;
 

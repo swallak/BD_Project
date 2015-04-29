@@ -5,11 +5,7 @@ import java.sql.SQLException;
 import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import javax.swing.JOptionPane;
-import javax.swing.JOptionPane;
-
 import model.game.Action;
 import model.game.Backward;
 import model.game.Boat;
@@ -39,7 +35,6 @@ import dao.jdbc.MatchDAO_JDBC;
 import view.MatchViewFrame;
 import view.MatchViewFrame.MatchViewPanel;
 import view.MatchViewGrid.SupperposedBoatException;
-import view.ObservationViewPanel;
 
 public class MatchController {
 

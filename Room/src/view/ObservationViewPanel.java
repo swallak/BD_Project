@@ -24,6 +24,11 @@ import controller.ObservationController;
 
 public class ObservationViewPanel extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private ObservationController controller;
 	
 	private MatchViewGrid gridPlayer1;
