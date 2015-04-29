@@ -30,10 +30,87 @@ SELECT idPartie from JoueursParPartie
 
 -- Find the two players of a match
 
-SELECT pseudo from JoueursParPartie where IdPartie = x 
+SELECT pseudo from JoueursParPartie where IdPartie = x
 
--- Get all observable matches header 
-        --Partie without winner.
+
+-- INSERTION
+
+-- Create new match :
+
+    First step :
+        INSERT INTO Partie (idPartie, dateDemarage) values (?,?);
+    Second step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+    Third step :
+        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+
+-- Create new boat
+
+		INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+
+-- Create new player
+
+		INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+--TRANSACTIONS
+
+-- Move the boat
+
+		UPDATE Bateau SET pivotY = (oldPosition + 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
+-- Boat being hit
+		UPDATE Bateau SET pointVie = (oldPointVie - 1) -- fait dans l'aplication
+		WHERE idBateau = ?;
+
+
+--QUERIES DONE INSIDE THE CODE JAVA (DAO)
+
+--ActionDAO
+
+--createActionDeplacement
+  INSERT INTO ActionDeplacement (idPartie, tour, numAction,
+  typeDeplacement) values ( ?, ?, ?, ?, ?)
+
+--createActionTir
+  INSERT INTO ActionTir (idPartie, tour, numAction, cibleTirX,
+  cibleTirY ) values ( ?, ?, ?, ?, ?)
+
+--createActionCommun
+  INSERT INTO Action (idPartie, idBateau, tour, numAction) values( ?,
+  ?, ?, ?)
+
+--isTurnExist
+  SELECT MAX(a.tour) FROM Action a WHERE a.idPartie = ?
+
+--getMoveAction
+  SELECT a.numAction, a.bateau, aMove.typeDeplacement FROM Action a,
+  ActionDeplacement aMove WHERE Action.idPartie =
+  ActionDeplacement.idPartie AND Action.tour = ActionDeplacement.tour
+  AND Action.numAction = ActionDeplacement.numAction AND Action.tour =
+  ? AND Action.idPartie = ?
+
+--getShotActions
+  SELECT a.numAction, a.bateau, aShot.cibleTir_X, aShot.cibleTir_Y FROM
+	Action a, ActionTir aShot WHERE Action.idPartie = aShot.idPartie AND
+	Action.tour = aShot.tour AND Action.numAction = aShot.numAction AND
+	Action.tour = ? AND Action.idPartie = ?
+
+--BoatDAO
+
+--findBoatMap
+  SELECT * FROM Bateau WHERE idPartie = ? AND pseudo = ?
+
+--createBoatList
+  INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX,
+	pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
+--updateBoat
+  UPDATE Bateau SET pivotX = ?, pivotY = ?, hp = ?, orientation = ?
+  WHERE idBateau = ? AND idPartie = ? AND pseudo = ?
+
+-- MatchDAO
+				--Get all observable matches
         SELECT Partie.idPartie, Date, joueur1.pseudo as pseudo1, joueur2.pseudo as pseudo2
         FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
         WHERE joueur1.pseudo !> userPseudo
@@ -68,36 +145,15 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
         AND NOT EXISTS (SELECT * FROM Vainqueurs 
                         WHERE Vainqueurs.idPartie = Partie.idPartie)
 
--- INSERTION
 
--- Create new match :
+-- OpponentDAO
 
-    First step :
-        INSERT INTO Partie (idPartie, dateDemarage) values (?,?);
-    Second step :
-        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
-    Third step :
-        INSERT INTO JoueursPartie (pseudo, idPartie) values (?,?);
+--Select all avaibles opponents
 
--- Create new boat
-
-		INSERT INTO Bateau (idBateau, idPartie, pseudo, taille, pivotX, pivotY, orientation, pointVie) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-
--- Create new player
-
-		INSERT INTO Joueur(pseudo, nom, prenom, mail, dateNaissance, adrRue, adrNumero, adrCodePostal, adrVille) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
-
---TRANSACTIONS
-
--- Move the boat
-
-		UPDATE Bateau SET pivotY = (oldPosition + 1) -- fait dans l'aplication
-		WHERE idBateau = ?;
-
--- Boat being hit
-		UPDATE Bateau SET pointVie = (oldPointVie - 1) -- fait dans l'aplication
-		WHERE idBateau = ?;
-
-
+				SELECT pseudo FROM JoueurParPartie WHERE pseudo != ? HAVING
+			 	COUNT(*) = (SELECT MIN(COUNT*) FROM JoueurParPartie WHERE pseudo
+			  != ? GROUP BY pseudo) GROUP BY pseudo UNION SELECT pseudo FROM
+			  Joueur WHERE NOT EXISTS(SELECT * FROM JoueurParPartie jp WHERE
+			  jp.pseudo = pseudo)
 
 
