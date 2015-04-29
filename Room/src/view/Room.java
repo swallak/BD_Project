@@ -57,8 +57,7 @@ public class Room {
             @Override
             public void run() {
                 
-               // MatchViewFrame match = new MatchViewFrame("Test");
-               // match.setVisible(true);
+               
             }
 
         });
