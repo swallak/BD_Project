@@ -89,6 +89,7 @@ public class BoatDAO_JDBC extends BoatDAO {
 
 			for (Boat b : boats) {
 				stmt.setInt(1, b.getId());
+				System.out.print(b.getMatch());
 				stmt.setInt(2, b.getMatch().getId());
 				stmt.setString(3, b.getOwner().getPseudo());
 				stmt.setInt(4, b.getSize());

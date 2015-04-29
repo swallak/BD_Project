@@ -17,9 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import view.MatchViewGrid.SupperposedBoatException;
 import model.game.Boat;
 import model.game.Match;
-import view.MatchViewGrid.SupperposedBoatException;
 import controller.ObservationController;
 
 public class ObservationViewPanel extends JPanel{
