@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import model.game.Boat;
 import model.game.Match;
+import view.MatchViewGrid.SupperposedBoatException;
 import view.ObservationViewPanel;
 import dao.MatchDAO;
 import dao.MatchDAO.MatchNotExistsException;
-import dao.MatchDAO.MatchNotStartedException;
 import dao.MatchDAO.ReadMatchException;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
@@ -91,8 +91,13 @@ public class ObservationController {
 	}
 
 	private void refreshView(ObservationViewPanel panel) {
-		panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
-				.values()), new ArrayList<Boat>(match.getPlayerTwoBoats()
-				.values()));
+		try {
+			panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
+					.values()), new ArrayList<Boat>(match.getPlayerTwoBoats()
+					.values()));
+		} catch (SupperposedBoatException e) {
+			// Must never happend in Observation.
+			e.printStackTrace();
+		}
 	}
 }
