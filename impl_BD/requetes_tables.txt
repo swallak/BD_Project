@@ -64,52 +64,6 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
 		WHERE idBateau = ?;
 
 
-
--- Get all observable matches header 
-        --Partie without winner.
-        SELECT Partie.idPartie, Date, joueur1.pseudo as pseudo1, joueur2.pseudo as pseudo2
-        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
-        WHERE joueur1.pseudo !> userPseudo
-        AND joueur2.pseudo !> userPseudo
-        AND joueur1.idPartie = Partie.idPartie
-        AND joueur2.idPartie = Partie.idPartie
-        AND joueur1.numJoueur = 1
-        AND joueur2.numJoueur = 2
-        AND NOT EXISTS (SELECT * FROM Vainqueurs v  
-                        WHERE v.idPartie = Partie.idPartie) 
-
-        --Partie with winner
-        SELECT Partie.idPartie, Partie.Date, joueur1.pseudo as pseudo1,
-        joueur2.pseudo as pseudo2, Vainqueurs.pseudo
-        FROM JoueursPartie joueur1, JoueursPartie joueur2, Vainqueurs, Partie
-        WHERE joueur1.idPartie = Partie.idPartie
-        AND joueur2.idPartie = Partie.idPartie
-        AND Vainqueurs.idPartie = Partie.idPartie
-        AND joueur1.numJoueur = 1
-        AND joueur2.numJoueur = 2
-        
--- Get all playable matches header.
-
-        SELECT Partie.idPartie, Partie.dateDemarrage, joueur1.pseudo as pseudo1,
-        joueur2.pseudo as pseudo2
-        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
-        WHERE joueur1.idPartie = Partie.idPartie
-        AND joueur2.idPartie = Partie.idPartie and
-        AND joueur1.numJoueur = 1
-        AND joueur2.numJoueur = 2
-        AND (joueur1.pseudo = ? OR joueur2.pseudo = ?)
-        AND NOT EXISTS (SELECT * FROM Vainqueurs 
-                        WHERE Vainqueurs.idPartie = Partie.idPartie)
-
---Select all avaibles opponents
-
-				SELECT pseudo FROM JoueurParPartie WHERE pseudo != ? HAVING
-			 	COUNT(*) = (SELECT MIN(COUNT*) FROM JoueurParPartie WHERE pseudo
-			  != ? GROUP BY pseudo) GROUP BY pseudo UNION SELECT pseudo FROM
-			  Joueur WHERE NOT EXISTS(SELECT * FROM JoueurParPartie jp WHERE
-			  jp.pseudo = pseudo)
-
-
 --QUERIES DONE INSIDE THE CODE JAVA (DAO)
 
 --ActionDAO
@@ -154,5 +108,52 @@ SELECT pseudo from JoueursParPartie where IdPartie = x
 --updateBoat
   UPDATE Bateau SET pivotX = ?, pivotY = ?, hp = ?, orientation = ?
   WHERE idBateau = ? AND idPartie = ? AND pseudo = ?
+
+-- MatchDAO
+				--Get all observable matches
+        SELECT Partie.idPartie, Date, joueur1.pseudo as pseudo1, joueur2.pseudo as pseudo2
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
+        WHERE joueur1.pseudo !> userPseudo
+        AND joueur2.pseudo !> userPseudo
+        AND joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        AND NOT EXISTS (SELECT * FROM Vainqueurs v  
+                        WHERE v.idPartie = Partie.idPartie) 
+
+        --Partie with winner
+        SELECT Partie.idPartie, Partie.Date, joueur1.pseudo as pseudo1,
+        joueur2.pseudo as pseudo2, Vainqueurs.pseudo
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Vainqueurs, Partie
+        WHERE joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie
+        AND Vainqueurs.idPartie = Partie.idPartie
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        
+-- Get all playable matches header.
+
+        SELECT Partie.idPartie, Partie.dateDemarrage, joueur1.pseudo as pseudo1,
+        joueur2.pseudo as pseudo2
+        FROM JoueursPartie joueur1, JoueursPartie joueur2, Partie
+        WHERE joueur1.idPartie = Partie.idPartie
+        AND joueur2.idPartie = Partie.idPartie and
+        AND joueur1.numJoueur = 1
+        AND joueur2.numJoueur = 2
+        AND (joueur1.pseudo = ? OR joueur2.pseudo = ?)
+        AND NOT EXISTS (SELECT * FROM Vainqueurs 
+                        WHERE Vainqueurs.idPartie = Partie.idPartie)
+
+
+-- OpponentDAO
+
+--Select all avaibles opponents
+
+				SELECT pseudo FROM JoueurParPartie WHERE pseudo != ? HAVING
+			 	COUNT(*) = (SELECT MIN(COUNT*) FROM JoueurParPartie WHERE pseudo
+			  != ? GROUP BY pseudo) GROUP BY pseudo UNION SELECT pseudo FROM
+			  Joueur WHERE NOT EXISTS(SELECT * FROM JoueurParPartie jp WHERE
+			  jp.pseudo = pseudo)
 
 
