@@ -13,7 +13,7 @@ public abstract class MatchDAO {
 
 	public abstract void getCurrentMatchInfo(Connection con,
 			boolean withCommit, Match match) throws ReadMatchException,
-			MatchNotStartedException;
+			MatchNotExistsException;
 
 	public abstract List<Match> getPlayableMatchHeader(Connection con,
 			boolean withCommit, User currentUser);
@@ -39,7 +39,7 @@ public abstract class MatchDAO {
 	public class MatchStateNotSave extends Exception {
 		private static final long serialVersionUID = 3647389126664459701L;
 	}
-	
+
 	public class MatchNotStartedException extends Exception {
 		private static final long serialVersionUID = 1L;
 	}

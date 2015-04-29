@@ -7,6 +7,7 @@ import model.game.Boat;
 import model.game.Match;
 import view.ObservationViewPanel;
 import dao.MatchDAO;
+import dao.MatchDAO.MatchNotExistsException;
 import dao.MatchDAO.MatchNotStartedException;
 import dao.MatchDAO.ReadMatchException;
 import dao.jdbc.JDBCConnection;
@@ -41,7 +42,8 @@ public class ObservationController {
 				e.printStackTrace();
 			} catch (ReadMatchException e) {
 				e.printStackTrace();
-			} catch (MatchNotStartedException e) {
+			} catch (MatchNotExistsException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				if (con != null) {
@@ -73,7 +75,7 @@ public class ObservationController {
 			e.printStackTrace();
 		} catch (ReadMatchException e) {
 			e.printStackTrace();
-		} catch (MatchNotStartedException e) {
+		} catch (MatchNotExistsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
