@@ -616,6 +616,10 @@ public class MatchViewFrame extends MainFrame {
                 public void actionPerformed(ActionEvent e) {
                     List<Boat> boatList = new ArrayList<>();
                     MatchInitFrame.this.setSwitchToFrame(view);
+                    
+                    System.out.println("actionPerformed() : " + 
+                    		view.matchController.getMatch());
+                    
                     //Adding the destroyer
                     AbstractUser user;
                     if (view.matchController.isUserPlayerOne) {
@@ -661,7 +665,12 @@ public class MatchViewFrame extends MainFrame {
                         //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    view.matchViewPanel.grid.displayBoatList(boatList);
+                    try {
+						view.matchViewPanel.grid.displayBoatList(boatList);
+					} catch (SupperposedBoatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
                     MatchInitFrame.this.switchFrame();
                     
                     
