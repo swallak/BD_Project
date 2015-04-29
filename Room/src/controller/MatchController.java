@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
-
 import javax.swing.JOptionPane;
 
 import model.game.Action;
@@ -39,6 +38,7 @@ import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 import view.MatchViewFrame;
 import view.MatchViewFrame.MatchViewPanel;
+import view.MatchViewGrid.SupperposedBoatException;
 import view.ObservationViewPanel;
 
 public class MatchController {
@@ -230,9 +230,19 @@ public class MatchController {
 
 				moveAction.apply();
 
-				// TODO tester si les bateaux ne se superposent pas.
-
-				refreshView(matchView.getMatchViewPanel());
+				try {
+					refreshView(matchView.getMatchViewPanel());
+				} catch (SupperposedBoatException e) {
+					JOptionPane.showMessageDialog(matchView, "The ships were superposed"
+							+ ", you can't do that!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					moveAction.undo();
+					try {
+						turnConnection.rollback(savePoint);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
 
 				boatDAO.updateBoat(turnConnection, false, boat);
 
@@ -297,7 +307,12 @@ public class MatchController {
 			currentTurn.addAction(action);
 			actionCounter++;
 
-			refreshView(matchView.getMatchViewPanel());
+			try {
+				refreshView(matchView.getMatchViewPanel());
+			} catch (SupperposedBoatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} catch (SQLException e) {
 			try {
@@ -418,7 +433,7 @@ public class MatchController {
 				+ this.getSecondUser().getPseudo();
 	}
     
-    private void refreshView(MatchViewPanel panel) {
+    private void refreshView(MatchViewPanel panel) throws SupperposedBoatException {
     	if (this.isUserPlayerOne) {
     		panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
     				.values()));

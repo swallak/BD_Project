@@ -8,6 +8,7 @@ package view;
 import controller.MatchController;
 import dao.BoatDAO;
 import dao.MatchDAO;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.imageio.ImageIO;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -43,6 +45,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.ScrollPaneConstants;
+
+import view.MatchViewGrid.SupperposedBoatException;
 import model.game.Boat;
 import model.game.Boat.Orientation;
 import model.game.MoveAction.MovementType;
@@ -111,7 +115,7 @@ public class MatchViewFrame extends MainFrame {
             return this.toolBar;
         }
         
-        public void displayBoat(ArrayList<Boat> arrayList) {
+        public void displayBoat(ArrayList<Boat> arrayList) throws SupperposedBoatException {
     		grid.displayBoatList(arrayList);
     	}
 
