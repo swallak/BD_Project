@@ -29,6 +29,7 @@ import dao.jdbc.ActionDAO_JDBC;
 import dao.jdbc.BoatDAO_JDBC;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
+import view.MatchViewFrame;
 
 public class MatchController {
 
@@ -46,6 +47,8 @@ public class MatchController {
 	private boolean isUserPlayerOne;
 	private boolean isInitPhase;
 	private boolean isUserTurn;
+        
+        private MatchViewFrame matchview;
 
 	public MatchController(Match match, User currentUser) {
 		this.match = match;
@@ -54,6 +57,10 @@ public class MatchController {
 		else
 			isUserPlayerOne = false;
 	}
+        
+        public void setMatchView(MatchViewFrame matchView){
+            this.matchview=matchView;
+        }
 
 	public void initMatchInfo() {
 		Connection con = null;
@@ -151,11 +158,7 @@ public class MatchController {
 		}
 	}
 
-	public void initMatch() {
 
-		// choix et placement des bateau: initialisation du jeu
-		// matchview
-	}
 
 	
 
