@@ -49,7 +49,7 @@ public class MatchController {
 	private int actionCounter;
 	private Savepoint turnSavePoint;
 
-	private boolean isUserPlayerOne;
+	public boolean isUserPlayerOne;
 	private boolean isInitPhase;
 	private boolean isUserTurn;
 
@@ -181,8 +181,7 @@ public class MatchController {
 				}
 			}
 		}
-
-
+		this.refresh();
 	}
 				// TODO refresh l'état des bateaux.
 	// TODO rajouter en paramètre la vue concernée.

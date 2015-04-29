@@ -63,13 +63,13 @@ public class MatchViewFrame extends MainFrame {
     private MatchViewFrame(String title) {
         super(title);
         
-        new MatchInitFrame(this);
+        
         
         //Layout And size
         setLayout(new BorderLayout());
         setSize(size);
         setResizable(false);
-        setVisible(true);
+       
         
         //set Default closing operation
        
@@ -77,24 +77,23 @@ public class MatchViewFrame extends MainFrame {
 
         //Creating Components
         
-        matchViewPanel = new MatchViewPanel();
-        //Adding component//setExtendedState(JFrame.MAXIMIZED_BOTH);
-        add(matchViewPanel, BorderLayout.CENTER);
+
         
     }
     
-    public MatchViewFrame(String title, MatchController matchConroller)
+    public MatchViewFrame(String title, MatchController matchController)
     {
         this(title);
-        setMatchController(matchController);
+        this.matchController = matchController;
+
+        matchViewPanel = new MatchViewPanel(matchController);
+        //Adding component//setExtendedState(JFrame.MAXIMIZED_BOTH);
+        add(matchViewPanel, BorderLayout.CENTER);
         matchController.setMatchView(this);
+        new MatchInitFrame(this);
+        setVisible(true);
     }
-    
-    public void setMatchController(MatchController matchController)
-    {
-        this.matchController=matchController;
-    }
-    
+     
     public MatchViewPanel getMatchViewPanel()
     {
         return this.matchViewPanel;
@@ -111,7 +110,7 @@ public class MatchViewFrame extends MainFrame {
             return this.toolBar;
         }
 
-        public MatchViewPanel() {
+        private MatchViewPanel(MatchController matchController) {
 
             //setLayout
             Dimension size = new Dimension(1000,700);
@@ -134,11 +133,11 @@ public class MatchViewFrame extends MainFrame {
             
             JButton button = createButton("/icon/move.png", "Move Ship");
             toolBar.add(button);
-            button= createButton("/icon/box_closed.png","Fire with a Ship");
+            button= createButton("/icon/fire.png","Fire with a Ship");
             toolBar.add(button);
             button = createButton("/icon/refresh.png", "Refresh");
             toolBar.add(button);
-            button = createButton("/icon/stop.png", "Abandon");
+            button = createButton("/icon/giveup.png", "Abandon");
             toolBar.add(button);
             button = createButton("/icon/submit.png","Submit Turn");
             toolBar.add(button);
@@ -209,7 +208,7 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                        matchController.refresh();
+                        MatchViewFrame.this.matchController.refresh();
                 }
             });
             
@@ -218,7 +217,7 @@ public class MatchViewFrame extends MainFrame {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                   matchController.submitTurn();
+                	MatchViewFrame.this.matchController.submitTurn();
                 }
             });
             
@@ -298,7 +297,7 @@ public class MatchViewFrame extends MainFrame {
             
             
             this(user.getPseudo());
-            System.out.println("to complete");
+            //System.out.println("to complete");
         }
         public void addMsg(String logMsg)
         {
@@ -584,7 +583,7 @@ public class MatchViewFrame extends MainFrame {
             for(i = 0; i<shipsPosition.length; i++,gc.gridy++)
             {
                 gc.gridx=1;
-                for (j=0; j<shipsPosition[3].length; j++, gc.gridx++)
+                for (j=0; j<shipsPosition[i].length; j++, gc.gridx++)
                 {
                     shipsPosition[i][j]= new JTextField(5);
                     add(shipsPosition[i][j],gc);
@@ -601,7 +600,7 @@ public class MatchViewFrame extends MainFrame {
         public MatchInitFrame(MatchViewFrame matchView)
         {
             this();
-            MatchViewFrame view = matchView;
+            final MatchViewFrame view = matchView;
             //validate Handling
             this.validate.addActionListener(new ActionListener() {
 
@@ -610,32 +609,39 @@ public class MatchViewFrame extends MainFrame {
                     List<Boat> boatList = new ArrayList<>();
                     MatchInitFrame.this.setSwitchToFrame(view);
                     //Adding the destroyer
-                    Boat boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                    AbstractUser user;
+                    if (view.matchController.isUserPlayerOne) {
+                    	user = view.matchController.getFirstUser();
+                    } else {
+                    	user = view.matchController.getSecondUser();
+                    }
+                    
+                    Boat boat = new Boat(view.matchController.getMatch(), user
                             , 3, 3, Orientation.fromString(shipsPosition[0][2].getText())
                             , new Position(Integer.parseInt(shipsPosition[0][0].getText())
-                                    , Integer.parseInt(shipsPosition[0][0].getText())));
+                                    , Integer.parseInt(shipsPosition[0][1].getText())));
                     boatList.add(boat);
                     
                     //Adding the exorteur
-                    boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                    boat = new Boat(view.matchController.getMatch(), user
                             , 2, 2, Orientation.fromString(shipsPosition[1][2].getText())
                             , new Position(Integer.parseInt(shipsPosition[1][0].getText())
-                                    , Integer.parseInt(shipsPosition[1][0].getText())));
+                                    , Integer.parseInt(shipsPosition[1][1].getText())));
                     boatList.add(boat);
                     
                     //Adding the second optionnal destroyyer
                     
                     if(optionnal.isSelected())
                     {
-                        boat = new Boat(matchController.getMatch(), matchController.getFirstUser()
+                        boat = new Boat(view.matchController.getMatch(), user
                             , 2, 2, Orientation.fromString(shipsPosition[2][2].getText())
                             , new Position(Integer.parseInt(shipsPosition[2][0].getText())
-                                    , Integer.parseInt(shipsPosition[2][0].getText())));
+                                    , Integer.parseInt(shipsPosition[2][1].getText())));
                     boatList.add(boat);
                     }
                     try {
                         //call the controller
-                        matchController.initMatch(boatList);
+                        view.matchController.initMatch(boatList);
                     } catch (BoatDAO.BoatNotCreatedException ex) {
                         //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
                        MatchInitFrame.this.popErrorDialog("Data entered is not correct");
@@ -647,7 +653,7 @@ public class MatchViewFrame extends MainFrame {
                         //Logger.getLogger(MatchViewFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     
-                    matchView.matchViewPanel.grid.displayBoatList(boatList);
+                    view.matchViewPanel.grid.displayBoatList(boatList);
                     MatchInitFrame.this.switchFrame();
                     
                     
