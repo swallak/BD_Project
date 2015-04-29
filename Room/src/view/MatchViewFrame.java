@@ -550,7 +550,7 @@ public class MatchViewFrame extends MainFrame {
             JLabel label = new JLabel("Select your ships");
             
             
-            setSize(new Dimension(300,150));
+            setSize(new Dimension(400,400));
             setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             setLayout(new GridBagLayout());
             setResizable(false);
@@ -579,12 +579,13 @@ public class MatchViewFrame extends MainFrame {
             gc.gridx=3;
             add(new JLabel("orient"),gc);
             
-            gc.gridx=1;
+            //gc.gridx=1;
             gc.gridy=1;
                     //Frame components
-            for(i = 0; i<shipsPosition.length; i++,gc.gridx++)
+            for(i = 0; i<shipsPosition.length; i++,gc.gridy++)
             {
-                for (j=0; j<shipsPosition[3].length; j++, gc.gridy++)
+                gc.gridx=1;
+                for (j=0; j<shipsPosition[3].length; j++, gc.gridx++)
                 {
                     shipsPosition[i][j]= new JTextField(5);
                     add(shipsPosition[i][j],gc);
