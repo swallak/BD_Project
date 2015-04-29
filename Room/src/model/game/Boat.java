@@ -28,6 +28,7 @@ public class Boat {
 	public Boat(Match match, AbstractUser owner, int size, int hp,
 			Orientation orientation, Position position, int id) {
 		this.id = id;
+		this.match = match;
 		this.size = size;
 		this.hp = hp;
 		this.orientation = orientation;
