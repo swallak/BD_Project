@@ -59,7 +59,7 @@ import model.user.AbstractUser;
  */
 public class MatchViewFrame extends MainFrame {
     
-    private MatchController matchController;
+    public MatchController matchController;
     private MatchViewPanel matchViewPanel;
     
     private final Dimension size = new Dimension (1000, 700);    
@@ -235,7 +235,14 @@ public class MatchViewFrame extends MainFrame {
         
         public void actionPopupWindow(int i){
             
-            Boat[] ships = null; // TODO changer
+            Boat[] ships = null;
+            if(MatchViewFrame.this.matchController.isUserPlayerOne)
+                ships = (Boat[])MatchViewFrame.this.matchController.getMatch().getPlayerOneBoats().values().toArray();
+
+            else
+                ships = (Boat[])MatchViewFrame.this.matchController.getMatch().getPlayerTwoBoats().values().toArray();
+
+                   // TODO changer
             
             switch (i){
                 case 0: new MatchActionMoveFrame("Se Deplacer", ships);
@@ -505,7 +512,8 @@ public class MatchViewFrame extends MainFrame {
                 public void actionPerformed(ActionEvent e) {
                     
                 	MatchViewFrame.this.matchController.shootAction(MatchActionShootFrame.this.selectedShip, new Position(MatchActionShootFrame.this.getXPos(), MatchActionShootFrame.this.getYPos()));
-                	 //To change body of generated methods, choose Tools | Templates.
+                	   setSwitchToFrame(MatchViewFrame.this);
+                              switchFrame(); //To change body of generated methods, choose Tools | Templates.
                 }
             });
         }
