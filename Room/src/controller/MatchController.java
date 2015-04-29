@@ -93,9 +93,20 @@ public class MatchController {
 					startUserTurn();
 				}
 			}
-			JOptionPane.showMessageDialog(matchview, "Eggs are not supposed to be green.");
-			// TODO afficher les actions du joueurs adverse. (Peut être changer
-			// getCurrentTurn pour retourner le tour et pas le numéro du Tour.
+			if (!isInitPhase){
+				String actions = "Results of last turn: \n";
+				for (Action a: match.getHistoric().get(currentTurn.getNbTurn()-1).getActions()){
+					if(a.isShot()){
+						ShotAction shot = (ShotAction) a;
+						if(shot.getTouchBoat() != null){
+							actions = actions + "Your opponent hit your boat in the position: (" + 
+						Integer.toString(shot.getTouchBoat().getPosition().getX()) + "," +
+						Integer.toString(shot.getTouchBoat().getPosition().getY()) + (")\n");						
+						}
+					}
+				}
+				JOptionPane.showMessageDialog(matchView, actions);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ReadMatchException e) {
