@@ -3,9 +3,11 @@ package controller;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.JOptionPane;
 
 import model.game.Action;
@@ -35,6 +37,9 @@ import dao.jdbc.BoatDAO_JDBC;
 import dao.jdbc.JDBCConnection;
 import dao.jdbc.MatchDAO_JDBC;
 import view.MatchViewFrame;
+import view.MatchViewFrame.MatchViewPanel;
+import view.MatchViewGrid.SupperposedBoatException;
+import view.ObservationViewPanel;
 
 public class MatchController {
 
@@ -81,7 +86,7 @@ public class MatchController {
 			if(match.getPlayerOneBoats().size() == 0 || match.getPlayerTwoBoats().size() == 0)
 			{
 				isInitPhase = true;
-				// TODO indiquer au panel que l'on est en init.
+				JOptionPane.showMessageDialog(matchView, "Let's play a game?");
 			}
 			else if (match.getHistoric().size() == 0){
 				isUserTurn = isUserPlayerOne;
@@ -91,14 +96,28 @@ public class MatchController {
 					startUserTurn();
 				}
 			}
-			// TODO afficher les actions du joueurs adverse. (Peut être changer
-			// getCurrentTurn pour retourner le tour et pas le numéro du Tour.
+			if (!isInitPhase){
+				String actions = "Results of last turn: \n";
+				for (Action a: match.getHistoric().get(currentTurn.getNbTurn()-1).getActions()){
+					if(a.isShot()){
+						ShotAction shot = (ShotAction) a;
+						if(shot.getTouchBoat() != null){
+							actions = actions + "Your opponent hit your boat in the position: (" + 
+						Integer.toString(shot.getTouchBoat().getPosition().getX()) + "," +
+						Integer.toString(shot.getTouchBoat().getPosition().getY()) + (")\n");						
+						}
+					}
+				}
+				JOptionPane.showMessageDialog(matchView, actions);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ReadMatchException e) {
 			e.printStackTrace();
 		} catch (MatchNotExistsException e) {
-			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(matchView,
+					"The Match doesn't exist!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}finally {
 			if (con != null) {
@@ -183,8 +202,8 @@ public class MatchController {
 		}
 		this.refresh();
 	}
-				// TODO refresh l'état des bateaux.
-	// TODO rajouter en paramètre la vue concernée.
+	
+	
 	public void moveAction(Boat boat, MovementType type) {
 		MoveAction moveAction = null;
 		Savepoint savePoint = null;
@@ -212,10 +231,20 @@ public class MatchController {
 
 				moveAction.apply();
 
-				// TODO tester si les bateaux ne se superposent pas.
-				
-				
-				
+				try {
+					refreshView(matchView.getMatchViewPanel());
+				} catch (SupperposedBoatException e) {
+					JOptionPane.showMessageDialog(matchView, "The ships were superposed"
+							+ ", you can't do that!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					moveAction.undo();
+					try {
+						turnConnection.rollback(savePoint);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+
 				boatDAO.updateBoat(turnConnection, false, boat);
 
 				// Si on arrive ici, il n'y a pas d'erreur :
@@ -261,7 +290,7 @@ public class MatchController {
 		}
 	}
 
-	// TODO rajouter la vue concerné en paramètre.
+	
 	public void shootAction(Boat boat, Position target) {
 		ShotAction action = new ShotAction(currentTurn, boat, actionCounter,
 				target);
@@ -279,7 +308,12 @@ public class MatchController {
 			currentTurn.addAction(action);
 			actionCounter++;
 
-			// TODO refresh l'état des bateaux.
+			try {
+				refreshView(matchView.getMatchViewPanel());
+			} catch (SupperposedBoatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} catch (SQLException e) {
 			try {
@@ -398,6 +432,20 @@ public class MatchController {
     public String toString() {
 		return this.getFirstUser().getPseudo() + "vs"
 				+ this.getSecondUser().getPseudo();
+	}
+    
+    private void refreshView(MatchViewPanel panel) throws SupperposedBoatException {
+    	if (this.isUserPlayerOne) {
+    		panel.displayBoat(new ArrayList<Boat>(match.getPlayerOneBoats()
+    				.values()));
+    	}
+    	else {
+    		panel.displayBoat(new ArrayList<Boat>(match.getPlayerTwoBoats()
+    				.values()));
+    	}
+    		
+    	
+		
 	}
 
 }

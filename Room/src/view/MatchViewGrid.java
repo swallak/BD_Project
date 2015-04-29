@@ -13,6 +13,7 @@ import model.game.Boat;
 public class MatchViewGrid extends JPanel {
 
 	private JPanel[][] cells;
+	private boolean[][] isColorCell;
 
 	private final static Color EMPTY_CELL_COLOR = Color.BLUE;
 
@@ -27,6 +28,7 @@ public class MatchViewGrid extends JPanel {
 		this.rows = rows;
 
 		cells = new JPanel[rows][columns];
+		isColorCell = new boolean[rows][columns];
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
@@ -61,10 +63,19 @@ public class MatchViewGrid extends JPanel {
 	public void changeColor(int row, int column, Color color) {
 		cells[row][column].setBackground(color);
 	}
+	
+	public void colorBoat(int row, int column, Color color ) throws SupperposedBoatException{
+		changeColor(row, column, color);
+		if(isColorCell[row][column] != false) {
+			throw new SupperposedBoatException();
+		}
+		isColorCell[row][column] = true;
+	}
 
-	public void displayBoatList(List<Boat> boats) {
+	public void displayBoatList(List<Boat> boats) throws SupperposedBoatException {
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
+				isColorCell[i][j] = false;
 				changeColor(i, j, EMPTY_CELL_COLOR);
 			}
 		}
@@ -74,23 +85,23 @@ public class MatchViewGrid extends JPanel {
 				Color color = getBoatColor(b);
 				int pivotX = b.getPosition().getX();
 				int pivotY = rows - b.getPosition().getY();
-				changeColor(pivotX, pivotY, color);
+				colorBoat(pivotX, pivotY, color);
 				switch (b.getOrientation()) {
 				case BOTTOM:
-					for (int y = 1; y <= b.getSize(); y++)
-						changeColor(pivotY + y, pivotX, color);
+					for (int y = 1; y <= b.getSize(); y++) 
+						colorBoat(pivotY + y, pivotX, color);
 					break;
 				case LEFT:
 					for (int x = 1; x <= b.getSize(); x++)
-						changeColor(pivotY, pivotX - x, color);
+						colorBoat(pivotY, pivotX - x, color);
 					break;
 				case RIGHT:
 					for (int x = 1; x <= b.getSize(); x++)
-						changeColor(pivotY, pivotX + x, color);
+						colorBoat(pivotY, pivotX + x, color);
 					break;
 				case TOP:
 					for (int y = 1; y <= b.getSize(); y++)
-						changeColor(pivotY - y, pivotX, color);
+						colorBoat(pivotY - y, pivotX, color);
 					break;
 				default:
 					break;
@@ -105,5 +116,10 @@ public class MatchViewGrid extends JPanel {
 		if(b.getSize() == 3)
 			return COLOR_BOAT_SIZE_3[b.getHp()];
 		return Color.GREEN;
+	}
+	
+	public class SupperposedBoatException extends Exception {
+		private static final long serialVersionUID = 5048780869740436814L;
+		
 	}
 }
